@@ -70,6 +70,3 @@ class Slide:
         except ValueError:
             return False
         return True
-
-
-help(IntegerRange.__set__)
