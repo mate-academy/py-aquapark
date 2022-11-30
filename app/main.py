@@ -20,8 +20,7 @@ class IntegerRange:
                 value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError
-        else:
-            setattr(instance, self.protected_name, value)
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -66,6 +65,7 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(visitor.age, visitor.height, visitor.weight)
-            return True
         except ValueError:
             return False
+        else:
+            return True
