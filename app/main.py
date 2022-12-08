@@ -9,15 +9,15 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: object, name: str) -> None:
-        self._protected_name = "_" + name
+        self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: object) -> int:
-        return getattr(instance, self._protected_name)
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError("Out of range")
-        setattr(instance, self._protected_name, value)
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
