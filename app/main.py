@@ -16,8 +16,8 @@ class IntegerRange:
     def __set__(self, instance: object, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, True)
-        else:
-            setattr(instance, self.protected_name, False)
+        setattr(instance, self.protected_name, False)
+
 
 
 class Visitor:
