@@ -8,7 +8,6 @@ class IntegerRange:
         self.min_amount = min_amount
 
     def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
     def __get__(self, value: int, owner: SlideLimitationValidator) -> getattr:
@@ -50,7 +49,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: classmethod) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
