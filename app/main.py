@@ -70,7 +70,11 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        person = self.limitation_class(age=visitor.age, weight=visitor.weight, height=visitor.height)
+        person = self.limitation_class(
+            age=visitor.age,
+            weight=visitor.weight,
+            height=visitor.height,
+        )
         return all(
             [
                 person.age is not None,
