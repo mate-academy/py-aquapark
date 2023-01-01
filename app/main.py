@@ -81,5 +81,4 @@ class Slide:
         )
         if tiket.age and tiket.height and tiket.weight:
             return True
-        else:
-            return False
+        return False
