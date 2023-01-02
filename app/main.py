@@ -19,10 +19,15 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: callable, value: int) -> None:
-        if not (self.min_amount <= value <= self.max_amount):
-            setattr(instance, self.protected_name, False)
+        if self.min_amount <= value <= self.max_amount:
+            setattr(instance, self.protected_name, value)
         else:
-            setattr(instance, self.protected_name, True)
+            setattr(
+                instance,
+                self.protected_name,
+                f"Need {self.public_name} in range from {self.min_amount} "
+                f"to {self.max_amount}"
+            )
 
 
 class Visitor:
@@ -79,6 +84,8 @@ class Slide:
             height=visitor.height,
             weight=visitor.weight
         )
-        if tiket.age and tiket.height and tiket.weight:
+        if isinstance(tiket.age, int) and\
+                isinstance(tiket.height, int) and\
+                isinstance(tiket.weight, int):
             return True
         return False
