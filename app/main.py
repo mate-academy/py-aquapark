@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC
+from typing import Union
 
 
 class IntegerRange:
@@ -55,30 +56,20 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: Union[AdultSlideLimitationValidator,
+                                    ChildrenSlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        if self.limitation_class == AdultSlideLimitationValidator:
-            slide_valid_obj = AdultSlideLimitationValidator(
-                visitor.age,
-                visitor.weight,
-                visitor.height
-            )
-            if slide_valid_obj.age != -1 and \
-                    slide_valid_obj.weight != -1 and \
-                    slide_valid_obj.height != -1:
-                return True
-        if self.limitation_class == ChildrenSlideLimitationValidator:
-            slide_valid_obj = ChildrenSlideLimitationValidator(
-                visitor.age,
-                visitor.weight,
-                visitor.height
-            )
-            if slide_valid_obj.age != -1 and \
-                    slide_valid_obj.weight != -1 and \
-                    slide_valid_obj.height != -1:
-                return True
+        slide_valid_obj = self.limitation_class(
+            visitor.age,
+            visitor.weight,
+            visitor.height
+        )
+        if slide_valid_obj.age != -1 and \
+                slide_valid_obj.weight != -1 and \
+                slide_valid_obj.height != -1:
+            return True
         return False
