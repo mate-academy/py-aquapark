@@ -12,22 +12,17 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: str, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
     def __get__(self, instance: callable, owner: callable) -> None:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: callable, value: int) -> None:
-        if self.min_amount <= value <= self.max_amount:
+        if self.min_amount <= value <= self.max_amount \
+                and isinstance(value, int):
             setattr(instance, self.protected_name, value)
         else:
-            setattr(
-                instance,
-                self.protected_name,
-                f"Need {self.public_name} in range from {self.min_amount} "
-                f"to {self.max_amount}"
-            )
+            raise ValueError
 
 
 class Visitor:
@@ -79,13 +74,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> callable:
-        tiket = self.limitation_class(
-            age=visitor.age,
-            height=visitor.height,
-            weight=visitor.weight
-        )
-        if isinstance(tiket.age, int) and\
-                isinstance(tiket.height, int) and\
-                isinstance(tiket.weight, int):
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                height=visitor.height,
+                weight=visitor.weight
+            )
             return True
-        return False
+        except ValueError:
+            return False
