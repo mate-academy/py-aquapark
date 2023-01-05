@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 
 
@@ -6,14 +7,16 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: any, name: str) -> None:
         self.private_name = "_" + name
 
-    def __get__(self, obj: type, objtype: type = None) -> None:
+    def __get__(self, obj: any, objtype: any = None) -> None:
         value = getattr(obj, self.private_name)
         return value
 
-    def __set__(self, obj: type, value: int) -> None:
+    def __set__(self, obj: any, value: any) -> None:
+        if not isinstance(value, int):
+            raise TypeError("Value must be integer!")
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
                 f"Quantity should not be less than {self.min_amount}"
@@ -74,7 +77,7 @@ class Slide:
                 visitor.weight,
                 visitor.height
             )
-        except ValueError:
+        except ValueError or TypeError:
             result.append(False)
         else:
             result.append(True)
