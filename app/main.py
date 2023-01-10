@@ -13,7 +13,7 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if value not in range(self.min_amount, self.max_amount + 1):
+        if not self.min_amount <= value <= self.max_amount:
             raise ValueError
 
         setattr(instance, self.protected_name, value)
