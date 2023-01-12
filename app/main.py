@@ -17,7 +17,6 @@ class IntegerRange:
         setattr(instance, self.protected_name, value)
 
     def __set_name__(self, owner: object, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
 
