@@ -24,13 +24,6 @@ class IntegerRange:
 
         setattr(instance, self.protected_name, value)
 
-    def validate(self, value: int) -> bool:
-        if isinstance(value, int) is False:
-            return False
-        if self.max_amount < value or value < self.min_amount:
-            return False
-        return True
-
 
 class Visitor:
 
@@ -84,6 +77,6 @@ class Slide:
                 visitor.height,
                 visitor.weight
             )
-        except ValueError or TypeError:
+        except (ValueError, TypeError):
             return False
         return True
