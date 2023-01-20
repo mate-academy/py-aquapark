@@ -1,4 +1,3 @@
-from __future__ import annotations
 from abc import ABC
 from typing import Callable
 
@@ -11,14 +10,16 @@ class IntegerRange:
     def __set_name__(self, owner: object, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: object) -> None:
+    def __get__(self,
+                instance: object,
+                owner: Callable) -> None:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if not isinstance(value, int):
-            raise TypeError("Grade should be integer")
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError("Error")
+            raise ValueError(f"Value should not be less than"
+                             f" {self.min_amount} and greater"
+                             f" than {self.max_amount}")
         setattr(instance, self.protected_name, value)
 
 
