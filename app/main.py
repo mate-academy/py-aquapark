@@ -12,7 +12,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: object,
-                owner: Callable) -> None:
+                owner: Callable) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
@@ -61,4 +61,5 @@ class Slide:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
         except ValueError:
             return False
-        return True
+        else:
+            return True
