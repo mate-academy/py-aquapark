@@ -15,11 +15,10 @@ class IntegerRange:
 
     def __set__(self, instance: str, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise \
-                ValueError(
-                    f"Grade should not be less than {self.min_amount} "
-                    f"and greater than {self.max_amount}"
-                )
+            raise ValueError(
+                f"Grade should not be less than {self.min_amount} "
+                f"and greater than {self.max_amount}"
+            )
         setattr(instance, self.protected_name, value)
 
 
@@ -54,27 +53,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
 
 
 class Slide:
