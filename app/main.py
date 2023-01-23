@@ -17,7 +17,7 @@ class IntegerRange:
         if self.min_amount < value < self.max_amount:
             setattr(obj, self.private_name, value)
         else:
-            setattr(obj, self.private_name, "")
+            raise ValueError
 
 
 class Visitor:
@@ -54,31 +54,27 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name, limitation_class: SlideLimitationValidator) -> None:
+    def __init__(self, name, limitation_class) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        self.limitation_class.age = visitor.age
-        self.limitation_class.height = visitor.height
-        self.limitation_class.weight = visitor.weight
-        return all(
-            (
-                1 if self.limitation_class.age else 0,
-                1 if self.limitation_class.height else 0,
-                1 if self.limitation_class.weight else 0,
-            )
-        )
+        try:
+            self.limitation_class(age=visitor.age, height=visitor.height, weight=visitor.weight)
+        except ValueError:
+            return False
+        return True
 
 
-v = Visitor("Taras", age=17, weight=67, height=175)
-
-Child = ChildrenSlideLimitationValidator(age=5, weight=30, height=100)
-print(Child.__dict__)
-
-Adult = AdultSlideLimitationValidator(age=20, weight=100, height=180)
-print(Adult.__dict__)
-slide1 = Slide("Horka", Adult)
-slide2 = Slide("Horka", Child)
-print(slide1.can_access(v))
-print(slide2.can_access(v))
+#
+# v = Visitor("Taras", age=17, weight=67, height=175)
+#
+# Child = ChildrenSlideLimitationValidator(age=5, weight=30, height=100)
+# print(Child.__dict__)
+#
+# Adult = AdultSlideLimitationValidator(age=20, weight=100, height=180)
+# print(Adult.__dict__)
+# slide1 = Slide("Horka", Adult)
+# slide2 = Slide("Horka", Child)
+# print(slide1.can_access(v))
+# print(slide2.can_access(v))
