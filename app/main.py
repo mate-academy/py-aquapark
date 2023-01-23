@@ -21,12 +21,13 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self,
-                 name: str,
-                 age: int,
-                 weight: int,
-                 height: int
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -53,10 +54,14 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str,
-                 limitation_class: Union[ChildrenSlideLimitationValidator,
-                                         AdultSlideLimitationValidator]
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: Union[
+                ChildrenSlideLimitationValidator,
+                AdultSlideLimitationValidator
+            ]
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
