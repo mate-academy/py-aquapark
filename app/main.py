@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Union
+from typing import Type
 
 
 class IntegerRange:
@@ -16,7 +16,8 @@ class IntegerRange:
 
     def __set__(self, instance: callable, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError
+            raise ValueError(f"The value must be in the range of "
+                             f"{self.min_amount} to {self.max_amount}")
         setattr(instance, self._protected_name, value)
 
 
@@ -57,10 +58,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: Union[
-                ChildrenSlideLimitationValidator,
-                AdultSlideLimitationValidator
-            ]
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
