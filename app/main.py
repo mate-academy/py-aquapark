@@ -8,19 +8,19 @@ class IntegerRange:
         self.min_amount = min_amount
 
     def __set_name__(self, owner: Visitor, name) -> str:
-        self.name = name
+        self._protected_name = "_" + name
 
     def __get__(self, instance, owner):
-        return getattr(instance, self.name)
+        return getattr(instance, self._protected_name)
 
     def __set__(self, instance: Visitor, value: int) -> None:
         if self.max_amount < value or value < self.min_amount:
-            raise ValueError(f"{self.name} has_access "
+            raise ValueError(f"{self._protected_name} has_access "
                              f"for visitor with such parameters:"
                              f" (age: {instance.age},weight: {instance.weight}"
                              f"height: {instance.height}. ")
         else:
-            setattr(instance, self.name, value)
+            setattr(instance, self._protected_name, value)
 
 class Visitor:
     def __init__(self, name: str, age: int, weight: int, height: int):
@@ -44,9 +44,9 @@ class SlideLimitationValidator(ABC):
 class ChildrenSlideLimitationValidator(
 SlideLimitationValidator
 ):
-    age = IntegerRange(4, 14)
-    height = IntegerRange(80, 120)
-    weight = IntegerRange(20, 50)
+    _age = IntegerRange(4, 14)
+    _height = IntegerRange(80, 120)
+    _weight = IntegerRange(20, 50)
 
     # def __init__(self, age: int, weight: int, height: int) -> None:
     #     super().__init__(age, weight, height)
@@ -54,9 +54,9 @@ SlideLimitationValidator
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(14, 60)
-    height = IntegerRange(120, 220)
-    weight = IntegerRange(50, 120)
+    _age = IntegerRange(14, 60)
+    _height = IntegerRange(120, 220)
+    _weight = IntegerRange(50, 120)
     #
     # def __init__(self, age: int, weight: int, height: int) -> None:
     #     super().__init__(age, weight, height)
@@ -74,10 +74,11 @@ class Slide:
     def can_access(self, visitor: Visitor):
         # self.limitation_class = SlideLimitationValidator
         try:
-            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            self.limitation_class(age=visitor.age, height=visitor.height, weight=visitor.weight)
+            # return True
+        except ValueError:
+            print("some error")
+            return False
+        return True
 
-        except Exception as e:
-            print(e)
-            #     ValueError:
-            # print("unknown error")
 
