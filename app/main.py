@@ -48,38 +48,36 @@ SlideLimitationValidator
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-        self.age = age
-        self.weight = weight
-        self.height = height
+    # def __init__(self, age: int, weight: int, height: int) -> None:
+    #     super().__init__(age, weight, height)
+
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
+    #
+    # def __init__(self, age: int, weight: int, height: int) -> None:
+    #     super().__init__(age, weight, height)
 
 
 
 class Slide:
     def __init__(
-            self, name: str, limitation_class: SlideLimitationValidator
+            self, name: str, limitation_class: type[SlideLimitationValidator]
 
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor):
-        limitation_class = SlideLimitationValidator(visitor.age, visitor.height, visitor.weight )
+        # self.limitation_class = SlideLimitationValidator
         try:
-            if visitor != limitation_class:
-                return False
-            elif visitor == limitation_class:
-                return True
-        except ValueError:
-            print("unknown error")
+            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+
+        except Exception as e:
+            print(e)
+            #     ValueError:
+            # print("unknown error")
 
