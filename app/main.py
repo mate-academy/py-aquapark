@@ -4,8 +4,8 @@ from abc import ABC
 
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
-        self.max_amount = max_amount
-        self.min_amount = min_amount
+        self.max_amount = min_amount
+        self.min_amount = max_amount
 
     def __set_name__(self, owner: Visitor, name) -> str:
         self._name = "_" + name
