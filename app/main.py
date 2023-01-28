@@ -3,7 +3,7 @@ from abc import ABC
 
 
 class IntegerRange:
-    def __init__(self, max_amount: int, min_amount: int) -> None:
+    def __init__(self, min_amount: int, max_amount: int) -> None:
         self.max_amount = max_amount
         self.min_amount = min_amount
 
@@ -14,11 +14,8 @@ class IntegerRange:
         return getattr(instance, self._name)
 
     def __set__(self, instance: Visitor, value: int) -> None:
-        if self.max_amount <= value or value <= self.min_amount:
-            raise ValueError(f"{self._name} has_access "
-                             f"for visitor with such parameters:"
-                             f" (age: {instance.age},weight: {instance.weight}"
-                             f"height: {instance.height}. ")
+        if self.max_amount < value or value < self.min_amount:
+            raise ValueError
         else:
             setattr(instance, self._name, value)
 class Visitor:
