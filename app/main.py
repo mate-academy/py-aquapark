@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class IntegerRange:
@@ -14,8 +14,12 @@ class IntegerRange:
         return getattr(instance, self.name)
 
     def __set__(self, instance: Visitor, value: int) -> None:
-        if not self.max_amount < value or value < self.min_amount:
-
+        if self.max_amount < value or value < self.min_amount:
+            raise ValueError(f"{self.name} has_access "
+                             f"for visitor with such parameters:"
+                             f" (age: {instance.age},weight: {instance.weight}"
+                             f"height: {instance.height}. ")
+        else:
             setattr(instance, self.name, value)
 
 class Visitor:
@@ -70,9 +74,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor):
-        limitation_class = SlideLimitationValidator(visitor.age, visitor.height, visitor.weight)
-        if visitor != limitation_class:
-            return False
-        elif visitor == limitation_class:
-            return True
+        limitation_class = SlideLimitationValidator(visitor.age, visitor.height, visitor.weight )
+        try:
+            if visitor != limitation_class:
+                return False
+            elif visitor == limitation_class:
+                return True
+        except ValueError:
+            print("unknown error")
 
