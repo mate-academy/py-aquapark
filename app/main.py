@@ -11,11 +11,11 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
-        setattr(
-            instance,
-            self.protected_name,
-            self.min_amount <= value <= self.max_amount
-        )
+        if not isinstance(value, int):
+            raise TypeError
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError
+        setattr(instance, self.protected_name, value)
 
     def __get__(
             self,
@@ -62,9 +62,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        check = self.limitation_class(
-            age=visitor.age,
-            weight=visitor.weight,
-            height=visitor.height
-        )
-        return all([check.age, check.weight, check.height])
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                weight=visitor.weight,
+                height=visitor.height
+            )
+        except (ValueError, TypeError):
+            return False
+        return True
