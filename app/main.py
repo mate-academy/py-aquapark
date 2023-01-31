@@ -10,32 +10,29 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
+            owner: object,
             name: str
     ) -> None:
         self.protect_name = "_" + name
 
     def __get__(
             self,
-            instance: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
-            owner: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator
+            instance: object,
+            owner: object
     ) -> int:
         return getattr(instance, self.protect_name)
 
     def __set__(
             self,
-            instance: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
+            instance: object,
             value: int
     ) -> None:
-        if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.protect_name, value)
-        else:
-            value = 0
-            setattr(instance, self.protect_name, value)
+        if isinstance(self.min_amount, int) \
+                and isinstance(self.max_amount, int):
+            if self.min_amount <= value <= self.max_amount:
+                setattr(instance, self.protect_name, value)
+            else:
+                raise ValueError("ValueError")
 
 
 class Visitor:
@@ -74,37 +71,28 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator
+            limitation_class: SlideLimitationValidator
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
 
-        if self.limitation_class.__name__ ==\
-                "ChildrenSlideLimitationValidator":
-            validator_dict = ChildrenSlideLimitationValidator(
-                visitor.age,
-                visitor.height,
-                visitor.weight
-            )
-            if validator_dict.age > 0\
-                    and validator_dict.weight > 0\
-                    and validator_dict.height > 0:
-                return True
-            else:
+        if self.limitation_class.__name__\
+                == "ChildrenSlideLimitationValidator":
+            try:
+                ChildrenSlideLimitationValidator(
+                    visitor.age, visitor.height, visitor.weight
+                )
+            except ValueError:
                 return False
+            return True
 
         if self.limitation_class.__name__ == "AdultSlideLimitationValidator":
-            validator_dict = AdultSlideLimitationValidator(
-                visitor.age,
-                visitor.height,
-                visitor.weight
-            )
-            if validator_dict.age > 0\
-                    and validator_dict.weight > 0\
-                    and validator_dict.height > 0:
-                return True
-            else:
+            try:
+                AdultSlideLimitationValidator(
+                    visitor.age, visitor.height, visitor.weight
+                )
+            except ValueError:
                 return False
+            return True
