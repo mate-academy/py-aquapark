@@ -27,12 +27,10 @@ class IntegerRange:
             instance: object,
             value: int
     ) -> None:
-        if isinstance(self.min_amount, int) \
-                and isinstance(self.max_amount, int):
-            if self.min_amount <= value <= self.max_amount:
-                setattr(instance, self.protect_name, value)
-            else:
-                raise ValueError("ValueError")
+        if self.min_amount <= value <= self.max_amount:
+            setattr(instance, self.protect_name, value)
+        else:
+            raise ValueError("ValueError")
 
 
 class Visitor:
