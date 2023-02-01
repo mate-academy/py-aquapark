@@ -3,22 +3,23 @@ from abc import ABC
 
 
 class IntegerRange:
+
     def __init__(self, min_amount: int, max_amount: int) -> None:
-        self.max_amount = max_amount
         self.min_amount = min_amount
+        self.max_amount = max_amount
 
-    def __set_name__(self, owner: Any, name: str) -> None:
-        self.public_name = name
-        self.private_name = "_" + name
+    def __set_name__(self, owner: object, name: str) -> None:
+        self.protected_name = "_" + name
 
-    def __get__(self, obj: Any, objtype: Any = None) -> Any:
-        return getattr(obj, self.private_name)
+    def __get__(self, instance: object, owner: object) -> None:
+        return getattr(instance, self.protected_name)
 
-    def __set__(self, obj: Any, value: Any) -> None:
-        if self.min_amount <= value <= self.max_amount:
-            setattr(obj, self.private_name, value)
-        else:
+    def __set__(self, instance: object, value: int) -> None:
+        if not isinstance(value, int):
+            raise TypeError
+        if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
