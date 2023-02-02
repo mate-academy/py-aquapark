@@ -15,9 +15,11 @@ class IntegerRange:
     def __set__(self, instance: object, value) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
-                f"Grade should not be less than {self.min_amount}"
+                f"Grade of {self.protected_name} "
+                f"should not be less than {self.min_amount}"
                 f" and greater than {self.max_amount}"
             )
+
         setattr(instance, self.protected_name, value)
 
 
@@ -48,9 +50,9 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(4, 13)
-    weight = IntegerRange(20, 49)
-    height = IntegerRange(80, 119)
+    age = IntegerRange(4, 14)
+    weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
     def __init__(
             self,
@@ -62,9 +64,9 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(14, 59)
-    weight = IntegerRange(50, 119)
-    height = IntegerRange(120, 219)
+    age = IntegerRange(14, 60)
+    weight = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
 
     def __init__(
             self,
@@ -79,15 +81,28 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, visitor: Visitor) -> bool:
-        return visitor
+    def can_access(self, visitor: Visitor):
+        try:
+            self.limitation_class(visitor.age,
+                                  visitor.weight,
+                                  visitor.height
+                                  )
+        except:
+            return False
+        else:
+            return True
 
 
-baby_slide = Slide("baby", ChildrenSlideLimitationValidator)
-visitor = Visitor("User", 17, 175, 67)
-baby_slide.can_access(visitor)
+
+# baby_slide = Slide("baby", ChildrenSlideLimitationValidator)
+# print(baby_slide.__dict__)
+# visitor = Visitor("User", 13, 30, 100)
+# print(baby_slide.can_access(visitor))
+# #
+# person = ChildrenSlideLimitationValidator(13, 40, 110)
+# print(person.age, person.weight, person.height)
