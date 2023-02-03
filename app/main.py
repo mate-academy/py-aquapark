@@ -7,7 +7,7 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, obj_type: ABC, name: str) -> None:
-        self.protected_name = name
+        self.protected_name = "_" + name
 
     def __get__(self, obj: ABC, obj_type: ABC) -> None:
         return getattr(obj, self.protected_name)
@@ -15,6 +15,7 @@ class IntegerRange:
     def __set__(self, obj: ABC, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
+        setattr(obj, self.protected_name, value)
 
 
 class Visitor:
