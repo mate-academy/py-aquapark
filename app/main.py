@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Callable, Any
+from typing import Type, Any
 
 
 class IntegerRange:
@@ -54,7 +54,7 @@ class Slide:
     def __init__(
         self,
         name: str,
-        limitation_class: Callable
+        limitation_class: Type
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
