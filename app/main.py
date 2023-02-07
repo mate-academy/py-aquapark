@@ -7,10 +7,9 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.protected_name, value)
-        else:
+        if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
+            setattr(instance, self._protected_name, value)
 
     def __set_name__(self, owner: type[object], name: str) -> None:
         self.protected_name = "_" + name
