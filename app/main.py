@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 
 
@@ -6,13 +7,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, instance: None, name: str) -> None:
+    def __set_name__(self, owner: IntegerRange, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: None, objtype: None) -> None:
+    def __get__(self, instance: object, owner: IntegerRange) -> None:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: None, value: int) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError
         if not self.min_amount <= value <= self.max_amount:
