@@ -20,11 +20,11 @@ class IntegerRange:
                 other: SlideLimitationValidator,
                 value: int or str) -> None:
         if type(value) != int:
-            raise TypeError("Quantity should be integer.")
+            raise TypeError("Quantity should be integer")
         if value < self.min_amount or value > self.max_amount:
             raise ValueError(
                 f"Quantity should not be less than {self.min_amount}"
-                f" and greater than {self.max_amount}.")
+                f" and greater than {self.max_amount}")
         setattr(other, self.protected_name, value)
 
 
