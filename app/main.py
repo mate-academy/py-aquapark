@@ -67,5 +67,5 @@ class Slide:
             self.limitation_class(instance.age, instance.weight,
                                   instance.height)
             return True
-        except Exception:
+        except (TypeError, ValueError):
             return False
