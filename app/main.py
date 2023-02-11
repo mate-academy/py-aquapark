@@ -19,7 +19,7 @@ class IntegerRange:
     def __set__(self,
                 other: SlideLimitationValidator,
                 value: int or str) -> None:
-        if isinstance(value, int):
+        if not isinstance(value, int):
             raise TypeError
         if value < self.min_amount or value > self.max_amount:
             raise ValueError
