@@ -7,10 +7,12 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: object, name: str) -> None:
+    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
+        print(owner)
         self.private_name = "_" + name
 
-    def __get__(self, instance: SlideLimitationValidator, owner: object) -> int:
+    def __get__(self, instance: SlideLimitationValidator,
+                owner: object = None) -> int:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
