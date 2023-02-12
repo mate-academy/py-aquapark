@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 
 
@@ -9,10 +10,10 @@ class IntegerRange:
     def __set_name__(self, owner: object, name: str) -> None:
         self.private_name = "_" + name
 
-    def __get__(self, instance: object, owner: object) -> int:
+    def __get__(self, instance: SlideLimitationValidator, owner: object) -> int:
         return getattr(instance, self.private_name)
 
-    def __set__(self, instance: object, value: int) -> None:
+    def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError
         if not (self.min_amount <= value <= self.max_amount):
