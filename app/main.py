@@ -29,8 +29,7 @@ class IntegerRange:
     ) -> None:
         if self.min_amount <= value <= self.max_amount:
             return setattr(instance, self.protected_name, value)
-        else:
-            raise ValueError("Incorrect value")
+        raise ValueError("Incorrect value")
 
 
 class Visitor:
