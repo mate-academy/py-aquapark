@@ -29,10 +29,8 @@ class IntegerRange:
     ) -> None:
         if self.min_amount <= value <= self.max_amount:
             return setattr(instance, self.protected_name, value)
-        # else:
-        #     raise ValueError(
-        #         f"{self.public_name} should be >= "
-        #         f"{self.min_amount} and <= {self.max_amount}")
+        else:
+            raise ValueError("Incorrect value")
 
 
 class Visitor:
@@ -87,17 +85,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, other: Visitor) -> bool:
-        if self.limitation_class == ChildrenSlideLimitationValidator:
-            self.limitation_class = ChildrenSlideLimitationValidator(
-                other.age,
-                other.weight,
-                other.height
-            )
-        else:
-            self.limitation_class = AdultSlideLimitationValidator(
-                other.age,
-                other.weight,
-                other.height
-            )
-
-        return True if len(self.limitation_class.__dict__) == 3 else False
+        try:
+            self.limitation_class(other.age, other.weight, other.height)
+            return True
+        except ValueError:
+            return False
