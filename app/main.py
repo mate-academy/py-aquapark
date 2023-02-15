@@ -9,7 +9,7 @@ class IntegerRange:
 
     def __set_name__(
         self,
-        owner: SlideLimitationValidator,
+        owner: type[object],
         name: str
     ) -> None:
         self.public_name = name
@@ -17,8 +17,8 @@ class IntegerRange:
 
     def __get__(
         self,
-        instance: SlideLimitationValidator,
-        owner: SlideLimitationValidator
+        instance: object,
+        owner: type[object]
     ) -> int:
         return getattr(instance, self.private_name)
 
