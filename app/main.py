@@ -72,4 +72,3 @@ class Slide:
             return True
         except ValueError:
             return False
-
