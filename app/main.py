@@ -60,5 +60,4 @@ class Slide:
             )
         except ValueError:
             return False
-        else:
-            return True
+        return True
