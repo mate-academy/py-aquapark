@@ -23,7 +23,8 @@ class IntegerRange:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
-        assert self.min_amount <= value <= self.max_amount
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError(f"{self.public_name} checks were not passed!")
         setattr(instance, self.private_name, value)
 
 
@@ -66,6 +67,6 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
-        except AssertionError:
+        except ValueError:
             return False
         return True
