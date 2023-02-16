@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class IntegerRange:
@@ -38,9 +38,16 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    @abstractmethod
     def is_valid(self, visitor: Visitor) -> bool:
-        pass
+        value = [
+            self.age.min_amount <= visitor.age,
+            visitor.age <= self.age.max_amount,
+            self.weight.min_amount <= visitor.weight,
+            visitor.weight <= self.weight.max_amount,
+            self.height.min_amount <= visitor.height,
+            visitor.height <= self.height.max_amount
+        ]
+        return all(value)
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -52,17 +59,6 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
             height=IntegerRange(80, 120)
         )
 
-    def is_valid(self, visitor: Visitor) -> bool:
-        value = [
-            self.age.min_amount <= visitor.age,
-            visitor.age <= self.age.max_amount,
-            self.weight.min_amount <= visitor.weight,
-            visitor.weight <= self.weight.max_amount,
-            self.height.min_amount <= visitor.height,
-            visitor.height <= self.height.max_amount
-        ]
-        return all(value)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
 
@@ -72,17 +68,6 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
             weight=IntegerRange(50, 120),
             height=IntegerRange(120, 220)
         )
-
-    def is_valid(self, visitor: Visitor) -> bool:
-        value = [
-            self.age.min_amount <= visitor.age,
-            visitor.age <= self.age.max_amount,
-            self.weight.min_amount <= visitor.weight,
-            visitor.weight <= self.weight.max_amount,
-            self.height.min_amount <= visitor.height,
-            visitor.height <= self.height.max_amount
-        ]
-        return all(value)
 
 
 class Slide:
