@@ -38,23 +38,20 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
+    def check_access(self) -> bool:
+        return all([self.age, self.weight, self.height])
+
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def check_access(self) -> bool:
-        return all([self.age, self.weight, self.height])
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def check_access(self) -> bool:
-        return all([self.age, self.weight, self.height])
 
 
 class Slide:
