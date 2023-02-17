@@ -16,7 +16,11 @@ class IntegerRange:
 
     def __set__(self, instance: Any, value: Any) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError(f"{self.name} can't be greater than {self.max_amount} and smaller than {self.min_amount}")
+            raise ValueError(f""
+                             f"{self.name} can't be greater than "
+                             f"{self.max_amount} "
+                             f"and smaller than {self.min_amount}"
+                             )
         setattr(instance, self.protected_name, value)
 
 
@@ -63,4 +67,3 @@ class Slide:
             return False
         else:
             return True
-
