@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Type
 from abc import ABC
 
 
@@ -34,7 +35,10 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    pass
+    def __init__(self, age: int, weight: int, height: int) -> None:
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -52,20 +56,16 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: SlideLimitationValidator()) -> None:
+                 limitation_class: Type[SlideLimitationValidator]) -> None:
         self.name = name
-        self.limitation_class = limitation_class()
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class.age = visitor.age
-            self.limitation_class.weight = visitor.weight
-            self.limitation_class.height = visitor.height
-        except TypeError as t:
-            print(f"Error in validation: {t}")
-            return False
-        except ValueError as v:
-            print(f"Error in validation: {v}")
-            return False
-        else:
+            self.limitation_class(age=visitor.age,
+                                  weight=visitor.weight,
+                                  height=visitor.height)
             return True
+        except (TypeError, ValueError) as e:
+            print(f"Error in validation: {e}")
+            return False
