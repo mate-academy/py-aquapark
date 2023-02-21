@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Callable
 
 
 class SlideLimitationValidator(ABC):
@@ -31,8 +30,8 @@ class IntegerRange:
                 f"{self.min_amount} "
                 f"and greater than {self.max_amount}"
             )
-        else:
-            setattr(instance, self.protected_name, value)
+
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -70,7 +69,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 class Slide:
 
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(
+        self,
+        name: str,
+        limitation_class: type[SlideLimitationValidator]
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
