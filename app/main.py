@@ -7,21 +7,24 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
+    def __set_name__(self, owner: object, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, obj: SlideLimitationValidator, type_: int = None) -> int:
-        return getattr(obj, self.protected_name)
+    def __get__(self, instance: object, owner: object) -> int:
+        return getattr(instance, self.protected_name)
 
-    def __set__(self, obj: SlideLimitationValidator, value: int) -> None:
-        if value not in range(self.min_amount, self.max_amount + 1):
-            raise ValueError("Outside range")
-        setattr(obj, self.protected_name, value)
+    def __set__(self, instance: object, value: int) -> None:
+        if not (self.min_amount <= value <= self.max_amount):
+            raise ValueError(
+                f"Value must be from {self.min_amount} "
+                f"to {self.max_amount}"
+            )
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
     def __init__(self, name: str, age: int, weight: int, height: int) -> None:
-        self.__name = name
+        self.name = name
         self.age = age
         self.weight = weight
         self.height = height
@@ -50,14 +53,18 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: type(SlideLimitationValidator)
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+            self.limitation_class(
+                age=visitor.age,
+                weight=visitor.weight,
+                height=visitor.height
+            )
             return True
         except ValueError:
             return False
