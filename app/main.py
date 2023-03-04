@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Any, Callable
+from typing import Any
 
 
 class IntegerRange:
@@ -48,12 +48,15 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, other: Visitor) -> bool:
-        self.name = other.name
         try:
             self.limitation_class(other.age, other.weight, other.height)
             return True
