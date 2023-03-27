@@ -22,8 +22,7 @@ class IntegerRange:
                 instance: object,
                 value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError("Sorry, such dimensions are "
-                             "not permissible")
+            raise ValueError("Sorry, such dimensions are not permissible")
         setattr(instance, self.protected_name, value)
 
 
