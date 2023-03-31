@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Callable
 
 
 class IntegerRange:
@@ -44,21 +43,19 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     weight = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     weight = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
 
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
