@@ -1,5 +1,4 @@
 from __future__ import annotations
-from typing import Callable
 from abc import ABC
 
 
@@ -11,12 +10,15 @@ class IntegerRange:
     def __set_name__(self, owner: IntegerRange, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Callable, owner: Callable) -> str:
+    def __get__(self, instance: IntegerRange) -> str:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Callable, value: int) -> None:
+    def __set__(self, instance: IntegerRange, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError
+            raise ValueError(
+                f"Quantity should not be less than "
+                f"{self.min_amount} and greater than {self.max_amount}."
+            )
         setattr(instance, self.protected_name, value)
 
 
@@ -48,7 +50,8 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(self, name: str,
+                 limitation_class: type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
