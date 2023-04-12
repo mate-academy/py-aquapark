@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Type
 
 
 class IntegerRange:
@@ -54,14 +55,14 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: type(SlideLimitationValidator)
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
         except ValueError:
             return False
