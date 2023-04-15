@@ -1,5 +1,6 @@
+from __future__ import annotations
 from abc import ABC
-from typing import Type, Any
+from typing import Type
 
 
 class IntegerRange:
@@ -14,10 +15,10 @@ class IntegerRange:
     def __set_name__(self, owner: str, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Any, owner: str) -> str:
+    def __get__(self, instance: SlideLimitationValidator, owner: str) -> str:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any, value: Any) -> None:
+    def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
                 f"Quantity should not be less than "
