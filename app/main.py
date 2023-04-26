@@ -9,7 +9,7 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: type(SlideLimitationValidator),
+            owner: "SlideLimitationValidator",
             name: str
     ) -> None:
         self.public_name = name
@@ -17,12 +17,12 @@ class IntegerRange:
 
     def __get__(
             self,
-            obj: type(SlideLimitationValidator),
+            obj: "SlideLimitationValidator",
             owner: None
     ) -> None:
         return getattr(obj, self.protected_name)
 
-    def __set__(self, obj: type(SlideLimitationValidator), value: int) -> None:
+    def __set__(self, obj: "SlideLimitationValidator", value: int) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError(
                 f"Quantity should not be less than {self.min_amount} "
@@ -62,7 +62,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: type(SlideLimitationValidator)
+            limitation_class: "SlideLimitationValidator"
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
