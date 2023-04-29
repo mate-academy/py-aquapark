@@ -14,7 +14,7 @@ class IntegerRange:
     def __get__(self,
                 instance: Callable,
                 owner: Callable) -> Union[int, float]:
-           return getattr(instance, self.protected_name)
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Callable, value: Union[int, float]) -> bool:
         if not (self.min_amount <= value <= self.max_amount):
