@@ -1,6 +1,4 @@
 from abc import ABC
-from typing import Callable
-from typing import Union
 
 
 class IntegerRange:
@@ -8,15 +6,19 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Callable, name: str) -> None:
+    def __set_name__(self,
+                     owner: "SlideLimitationValidator",
+                     name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(self,
-                instance: Callable,
-                owner: Callable) -> Union[int, float]:
+                instance: "SlideLimitationValidator",
+                owner: "SlideLimitationValidator") -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Callable, value: Union[int, float]) -> bool:
+    def __set__(self,
+                instance: "SlideLimitationValidator",
+                value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError()
         setattr(instance, self.protected_name, value)
@@ -50,7 +52,8 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(self, name: str,
+                 limitation_class: type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
