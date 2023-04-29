@@ -7,17 +7,17 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self,
-                     owner: type[SlideLimitationValidator],
+                     owner: type["SlideLimitationValidator"],
                      name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(self,
-                instance: type[SlideLimitationValidator],
-                owner: type[SlideLimitationValidator]) -> int:
+                instance: type["SlideLimitationValidator"],
+                owner: type["SlideLimitationValidator"]) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
-                instance: type[SlideLimitationValidator],
+                instance: type["SlideLimitationValidator"],
                 value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Value should not be "
