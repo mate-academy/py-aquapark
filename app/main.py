@@ -7,13 +7,17 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance, owner):
-        return instance
+        return getattr(instance, self.name)
 
     def __set__(self, instance, value):
-        return instance
+        if self.min_amount <= value <= self.max_amount:
+            setattr(instance, self.name, value)
+        else:
+            raise ValueError(f"Value {value} is out of range "
+                             f"from {self.min_amount} to {self.max_amount}")
 
     def __set_name__(self, owner, name):
-        return name
+        self.name = name
 
 
 
@@ -37,3 +41,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 class Slide:
     pass
+
+
+tteesstt = IntegerRange(1,100)
+tteesstt.__set__(IntegerRange,101)
