@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 
 
@@ -6,13 +7,15 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
         self._protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: type) -> int:
+    def __get__(self,
+                instance: SlideLimitationValidator,
+                owner: SlideLimitationValidator) -> int:
         return getattr(instance, self._protected_name)
 
-    def __set__(self, instance: object, value: int) -> None:
+    def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"{value} not in range "
                              f"{self.min_amount} -> "
