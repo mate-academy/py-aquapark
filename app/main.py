@@ -16,7 +16,7 @@ class IntegerRange:
                 instance: SlideLimitationValidator,
                 value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            raise TypeError
+            raise ValueError
         setattr(instance, self.protected, value)
 
     def __set_name__(self,
@@ -76,7 +76,7 @@ class Slide:
                 height=visitor.height,
                 weight=visitor.weight
             )
-        except TypeError:
+        except ValueError:
             return False
         else:
             return True
