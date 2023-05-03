@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from typing import Type
 
 
 class IntegerRange:
@@ -7,13 +8,19 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: object, owner: type) -> IntegerRange:
+    def __get__(self,
+                instance: SlideLimitationValidator,
+                owner: Type[SlideLimitationValidator]) -> IntegerRange:
         return getattr(instance, self.protected)
 
-    def __set__(self, instance: object, value: int) -> None:
+    def __set__(self,
+                instance: SlideLimitationValidator,
+                value: int) -> None:
         setattr(instance, self.protected, value)
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self,
+                     owner: Type[SlideLimitationValidator],
+                     name: str) -> None:
         self.protected = "_" + name
 
 
