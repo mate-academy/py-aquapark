@@ -13,7 +13,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: SlideLimitationValidator) -> int | float:
+                owner: type[SlideLimitationValidator]) -> int | float:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
@@ -77,3 +77,9 @@ class Slide:
         except ValueError:
             return False
         return True
+
+
+visitor = Visitor("Arsen", 30, 100, 180)
+slide = Slide("Check Adult", AdultSlideLimitationValidator)
+result = slide.can_access(visitor)
+print(result)
