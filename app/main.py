@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Type
 from abc import ABC
 
 
@@ -8,14 +9,14 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self,
-                     owner: type[SlideLimitationValidator],
+                     owner: Type[SlideLimitationValidator],
                      name: str) -> None:
         self.name = name
         self.protected_name = f"_{name}"
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: type[SlideLimitationValidator]) -> int | float:
+                owner: Type[SlideLimitationValidator]) -> int | float:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
@@ -65,7 +66,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: type[SlideLimitationValidator]) -> None:
+                 limitation_class: Type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
