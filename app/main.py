@@ -1,11 +1,12 @@
 from abc import ABC
+from typing import Type
 
 
 class SlideLimitationValidator(ABC):
     def __init__(self,
                  age: int,
-                 weight: (int, float),
-                 height: (int, float)) -> None:
+                 weight: int | float,
+                 height: int | float) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -19,20 +20,20 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self,
-                     owner: SlideLimitationValidator,
+                     owner: Type[SlideLimitationValidator],
                      name: str) -> None:
         self.name = name
         self.protected_name = f"_{name}"
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: SlideLimitationValidator) -> None:
+                owner: Type[SlideLimitationValidator]) -> int|float:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
                 instance: SlideLimitationValidator,
-                value: (int, float)) -> (int, float):
-        if not isinstance(value, (int, float)):
+                value: int|float) -> None:
+        if not isinstance(value, int|float):
             raise TypeError("Value should be number")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(
@@ -69,7 +70,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: type[SlideLimitationValidator]) -> None:
+                 limitation_class: Type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
