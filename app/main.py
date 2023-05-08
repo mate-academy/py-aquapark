@@ -27,13 +27,13 @@ class IntegerRange:
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: Type[SlideLimitationValidator]) -> int|float:
+                owner: Type[SlideLimitationValidator]) -> int | float:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
                 instance: SlideLimitationValidator,
-                value: int|float) -> None:
-        if not isinstance(value, int|float):
+                value: int | float) -> None:
+        if not isinstance(value, int | float):
             raise TypeError("Value should be number")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(
