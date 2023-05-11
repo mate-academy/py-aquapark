@@ -1,5 +1,5 @@
+from __future__ import annotations
 from abc import ABC
-from typing import Any, Type
 
 
 class IntegerRange:
@@ -7,13 +7,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Type[Any], name: str) -> None:
+    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Any, owner: Type[Any]) -> None:
+    def __get__(self,
+                instance: SlideLimitationValidator,
+                owner: SlideLimitationValidator) -> None:
         getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any, value: int) -> None:
+    def __set__(self,
+                instance: SlideLimitationValidator,
+                value: int) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError
         setattr(instance, self.protected_name, value)
@@ -47,16 +51,19 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str,
-                 limitation_class: Type[SlideLimitationValidator]
+    def __init__(self,
+                 name: str,
+                 limitation_class: type(SlideLimitationValidator)
                  ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            self.limitation_class(
+                visitor.age,
+                visitor.height,
+                visitor.weight)
         except ValueError:
             return False
-        else:
-            return True
+        return True
