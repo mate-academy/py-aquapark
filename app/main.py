@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC
+from typing import Type
 
 
 class IntegerRange:
@@ -53,7 +54,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: type[SlideLimitationValidator]
+                 limitation_class: Type[SlideLimitationValidator]
                  ) -> None:
         self.name = name
         self.limitation_class = limitation_class
