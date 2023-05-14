@@ -1,4 +1,4 @@
-from abc import ABC, ABCMeta
+from abc import ABC
 from typing import Type
 
 
@@ -9,7 +9,7 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: ABCMeta,
+            owner: type["SlideLimitationValidator"],
             name: str
     ) -> None:
         self.protected_name = "_" + name
@@ -17,13 +17,13 @@ class IntegerRange:
     def __get__(
             self,
             instance: "SlideLimitationValidator",
-            owner: ABCMeta
+            owner: type["SlideLimitationValidator"]
     ) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(
             self,
-            instance: "AdultSlideLimitationValidator",
+            instance: "SlideLimitationValidator",
             value: int
     ) -> None:
         if isinstance(value, int):
