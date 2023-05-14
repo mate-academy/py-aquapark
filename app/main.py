@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Type
+from typing import Union, Type
 
 
 class IntegerRange:
@@ -7,19 +7,30 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Type, name: str) -> None:
+    def __set_name__(
+            self,
+            owner: Union["SlideLimitationValidator", "Visitor"],
+            name: str
+    ) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Type, owner: Type) -> int:
+    def __get__(
+            self,
+            instance: Union["SlideLimitationValidator", "Visitor"],
+            owner: Union["SlideLimitationValidator", "Visitor"]
+    ) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Type, value: int) -> None:
+    def __set__(
+            self,
+            instance: Union["SlideLimitationValidator", "Visitor"],
+            value: int
+    ) -> None:
         if isinstance(value, int):
             if self.min_amount <= value <= self.max_amount:
                 setattr(instance, self.protected_name, value)
                 return
-            else:
-                raise ValueError
+            raise ValueError
 
 
 class Visitor:
