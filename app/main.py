@@ -30,7 +30,7 @@ class IntegerRange:
             if self.min_amount <= value <= self.max_amount:
                 setattr(instance, self.protected_name, value)
                 return
-            raise ValueError
+       raise ValueError
 
 
 class Visitor:
