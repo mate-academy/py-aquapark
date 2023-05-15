@@ -25,13 +25,13 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __get__(self,
-                instance: Type[SlideLimitationValidator],
+                instance: SlideLimitationValidator,
                 owner: Type[Any]
                 ) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
-                instance: Type[SlideLimitationValidator],
+                instance: SlideLimitationValidator,
                 value: int,
                 ) -> None:
         if not (self.min_amount <= value <= self.max_amount):
