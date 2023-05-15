@@ -26,7 +26,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: Type[Any]
+                owner: Any
                 ) -> int:
         return getattr(instance, self.protected_name)
 
@@ -69,7 +69,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: SlideLimitationValidator,
+                 limitation_class: Type[SlideLimitationValidator],
                  ) -> None:
 
         self.name = name
