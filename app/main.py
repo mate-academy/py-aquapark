@@ -7,12 +7,15 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: Any, owner: Any) -> Any:
+    def __get__(self, instance: Any, owner: Any) -> int:
         return getattr(instance, "_" + self.name)
 
     def __set__(self, instance: Any, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            return
+            raise ValueError(
+                "Value must be between "
+                f"{self.min_amount} and {self.max_amount}."
+            )
         setattr(instance, "_" + self.name, value)
 
     def __set_name__(self, owner: str, name: str) -> None:
@@ -76,4 +79,8 @@ class Slide:
         self.limitation = limitation_class()
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation.can_access(visitor)
+        try:
+            return self.limitation.can_access(visitor)
+        except ValueError as e:
+            print(f"Access denied to {self.name}: {str(e)}")
+            return False
