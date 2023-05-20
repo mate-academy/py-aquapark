@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Type
+from typing import Type
 
 
 class SlideLimitationValidator(ABC):
@@ -16,7 +16,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: Type[SlideLimitationValidator],
-                owner: Type[Any]) -> int:
+                owner: Type[SlideLimitationValidator]) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
@@ -29,7 +29,9 @@ class IntegerRange:
                              f"and {self.max_amount}")
         setattr(instance, self.protected_name, value)
 
-    def __set_name__(self, owner: Type[Any], name: str) -> None:
+    def __set_name__(self,
+                     owner: Type[SlideLimitationValidator],
+                     name: str) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
@@ -68,10 +70,3 @@ class Slide:
             return False
         else:
             return True
-
-
-# v = Visitor("Boba", 13, 360, 60)
-# s = Slide("Mega", AdultSlideLimitationValidator)
-# s.limitation_class.__init__( v.age, v.height, v.weight)
-# print(s.limitation_class.__dict__)
-# # print(s.__dict__["limitation_class"].__dict__)
