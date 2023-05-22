@@ -32,14 +32,14 @@ class IntegerRange:
 
     def __get__(
             self,
-            instance: Type[SlideLimitationValidator],
+            instance: SlideLimitationValidator,
             owner: Type[SlideLimitationValidator]
     ) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(
             self,
-            instance: Type[SlideLimitationValidator],
+            instance: SlideLimitationValidator,
             value: int
     ) -> None:
         if not self.min_value <= value <= self.max_value:
