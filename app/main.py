@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any
+from typing import Any, Type
 
 
 class IntegerRange:
@@ -10,7 +10,7 @@ class IntegerRange:
     def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, obj: Any, objtype: Any = None) -> int:
+    def __get__(self, obj: Any, objtype: type) -> int:
         return getattr(obj, self.protected_name)
 
     def __set__(self, obj: Any, value: int) -> None:
@@ -43,22 +43,16 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age=age, weight=weight, height=height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
 
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-
 
 class Slide:
     def __init__(
-            self, name: str, limitation_class: SlideLimitationValidator
+            self, name: str, limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
