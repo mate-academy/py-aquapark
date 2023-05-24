@@ -1,34 +1,42 @@
 from abc import ABC
+from typing import Type, Any
 
 
 class IntegerRange:
-    def __init__(self, min_amount, max_amount):
+    def __init__(self,
+                 min_amount: int,
+                 max_amount: int
+                 ) -> None:
+
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner, name):
+    def __set_name__(self,
+                     owner: Type[object],
+                     name: str
+                     ) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance, owner):
+    def __get__(self,
+                instance: object,
+                owner: Type[object]) -> Any:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance, value):
-        print('- - -')
-
+    def __set__(self, instance: object,
+                value: Any) -> Any:
         if self.min_amount <= value <= self.max_amount:
-            print('- - -')
-
             setattr(instance, self.protected_name, value)
 
 
 class Visitor:
+    def __init__(self,
+                 name: str,
+                 age: int,
+                 weight: int,
+                 height: int
+                 ) -> None:
 
-    # age = IntegerRange(4, 14)
-    # height = IntegerRange(80, 120)
-    # weight = IntegerRange(20, 50)
-
-    def __init__(self, name, age, weight, height):
         self.name = name
         self.age = age
         self.weight = weight
@@ -36,7 +44,15 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    pass
+    def __init__(self,
+                 age: int,
+                 height: int,
+                 weight: int
+                 ) -> None:
+
+        self.age = age
+        self.height = height
+        self.weight = weight
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -44,42 +60,25 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(self):
-        self._age = 0
-        self._height = 0
-        self._weight = 0
-
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    pass
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
-    def __init__(self, name, limitation_class):
+    def __init__(self,
+                 name: str,
+                 limitation_class: Type[object]
+                 ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, visitor: Visitor):
-        for attr_name, attr_value in vars(visitor).items():
-            # print(attr_name)
-            if hasattr(self.limitation_class, attr_name):
-
-
-
-baby_slide = Slide(name="Baby Slide", limitation_class=ChildrenSlideLimitationValidator)
-
-age = 17
-height = 175
-weight = 67
-
-visitor = Visitor(name="User", age=age, height=height, weight=weight)
-
-print(baby_slide.can_access(visitor))
-
-# # print(vars(visitor).items())
-# # print(ChildrenSlideLimitationValidator.__dict__)
-# lim = ChildrenSlideLimitationValidator()
-# # attr = "weight"
-# # print(lim.__dict__)
-# # print(hasattr(lim, "age"))
+    def can_access(self, visitor: Visitor) -> bool:
+        instance = self.limitation_class(
+            age=visitor.age,
+            height=visitor.height,
+            weight=visitor.weight
+        )
+        return len(instance.__dict__) == 3
