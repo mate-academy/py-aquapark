@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Type, Any
+from typing import Any, Type
 
 
 class IntegerRange:
@@ -27,6 +27,8 @@ class IntegerRange:
                 value: Any) -> Any:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
+        else:
+            raise ValueError
 
 
 class Visitor:
@@ -36,7 +38,6 @@ class Visitor:
                  weight: int,
                  height: int
                  ) -> None:
-
         self.name = name
         self.age = age
         self.weight = weight
@@ -49,7 +50,6 @@ class SlideLimitationValidator(ABC):
                  height: int,
                  weight: int
                  ) -> None:
-
         self.age = age
         self.height = height
         self.weight = weight
@@ -76,9 +76,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        instance = self.limitation_class(
-            age=visitor.age,
-            height=visitor.height,
-            weight=visitor.weight
-        )
-        return len(instance.__dict__) == 3
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                height=visitor.height,
+                weight=visitor.weight
+            )
+            return True
+        except ValueError:
+            return False
