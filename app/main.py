@@ -1,30 +1,20 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
-class Validator(ABC):
-
-    def __set_name__(self, owner: object, name: str) -> None:
-        self.protected_name = "_" + name
-
-    def __get__(self, obj: object, obj_type: object = None) -> None:
-        return getattr(obj, self.protected_name)
-
-    def __set__(self, obj: object, value: int | float) -> None:
-        self.validate(value)
-        setattr(obj, self.protected_name, value)
-
-    @abstractmethod
-    def validate(self, value: int | float) -> None:
-        pass
-
-
-class IntegerRange(Validator):
+class IntegerRange:
 
     def __init__(self, min_amount: int = None, max_amount: int = None) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def validate(self, value: int | float) -> None:
+    def __set_name__(self, owner: object, name: str) -> None:
+        self.name = name
+        self.protected_name = "_" + name
+
+    def __get__(self, obj: object) -> None:
+        return getattr(obj, self.protected_name)
+
+    def __set__(self, obj: object, value: int | float) -> None:
         if not isinstance(value, int | float):
             raise TypeError("Quantity should be int or float.")
 
@@ -32,7 +22,7 @@ class IntegerRange(Validator):
             raise ValueError(
                 f"Quantity should not be less than {self.min_amount}"
                 f"and greater than {self.max_amount}.")
-    pass
+        setattr(obj, self.protected_name, value)
 
 
 class Visitor:
