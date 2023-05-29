@@ -15,13 +15,7 @@ class IntegerRange:
         return getattr(obj, self.protected_name)
 
     def __set__(self, obj: object, value: int | float) -> None:
-        if not isinstance(value, int | float):
-            raise TypeError("Quantity should be int or float.")
 
-        if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError(
-                f"Quantity should not be less than {self.min_amount}"
-                f"and greater than {self.max_amount}.")
         setattr(obj, self.protected_name, value)
 
 
