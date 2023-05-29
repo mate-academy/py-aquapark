@@ -6,19 +6,23 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: int, name: str) -> str:
-        pass
+    def __set_name__(self, owner: int, value: int) -> str:
+        self.value = value
 
     def __get__(self, instance: int, owner: str) -> None:
-        pass
+        return instance.owner
 
-    def __set__(self, instance: str, value: int) -> str:
-        pass
+    def __set__(self, instance: str) -> str:
+        if self.min_amount <= self.value <= self.max_amount:
+            return True
+        else:
+            return False
 
 
 class Visitor:
     def __init__(
-            self, age: int, height: int, weight: int, name: str = ""
+            self, age: int, height: int, weight: int,
+            name: str = ""
     ) -> None:
         self.age = age
         self.height = height
@@ -31,12 +35,6 @@ class SlideLimitationValidator(ABC):
         self.age = age
         self.height = height
         self.weight = weight
-
-    def has_access(self, value: int) -> str:
-        if self.min_amount <= value <= self.max_amount:
-            has_access = True
-        param = (self.age, self.height, self.weight, {has_access}, {id})
-        return param
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator, IntegerRange):
