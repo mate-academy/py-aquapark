@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Type
+from typing import Any
 
 
 class IntegerRange:
@@ -11,10 +12,10 @@ class IntegerRange:
         self.public_name = name
         self.private_name = "_" + name
 
-    def __get__(self, instance: None, owner: None) -> None:
+    def __get__(self, instance: Any, owner: None) -> None:
         return getattr(instance, self.private_name)
 
-    def __set__(self, instance: None, value: int) -> None:
+    def __set__(self, instance: Any, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError("Should be int")
         if not (self.min_amount <= value <= self.max_amount):
