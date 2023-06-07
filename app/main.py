@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any
 
 
 class IntegerRange:
@@ -9,38 +9,27 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: Union[
-                "ChildrenSlideLimitationValidator",
-                "AdultSlideLimitationValidator"
-            ],
+            owner: "SlideLimitationValidator",
             name: str
     ) -> None:
         self.protected_name = f"_{name}"
 
     def __get__(
             self,
-            instance: Union[
-                "ChildrenSlideLimitationValidator",
-                "AdultSlideLimitationValidator"
-            ],
+            instance: "SlideLimitationValidator",
             owner: Any
     ) -> bool:
         return getattr(instance, self.protected_name)
 
     def __set__(
             self,
-            instance: Union[
-                "ChildrenSlideLimitationValidator",
-                "AdultSlideLimitationValidator"
-            ],
+            instance: "SlideLimitationValidator",
             value: int
     ) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            value = False
+            setattr(instance, self.protected_name, False)
         else:
-            value = True
-
-        setattr(instance, self.protected_name, value)
+            setattr(instance, self.protected_name, True)
 
 
 class Visitor:
@@ -95,10 +84,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: Union[
-                "ChildrenSlideLimitationValidator",
-                "AdultSlideLimitationValidator"
-            ]
+            limitation_class: "SlideLimitationValidator"
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
