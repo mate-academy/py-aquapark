@@ -16,7 +16,7 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
-        if not (self.min_amount <= value <= self.max_amount):
+        if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"Age should be between {self.min_amount} "
                              f"and {self.max_amount}")
         setattr(instance, self.protected_name, value)
