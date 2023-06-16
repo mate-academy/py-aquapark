@@ -9,13 +9,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: object, name: str) -> None:
+    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(
             self,
             instance: SlideLimitationValidator,
-            owner: object
+            owner: SlideLimitationValidator
     ) -> Any:
         return getattr(instance, self.protected_name)
 
@@ -69,6 +69,8 @@ class Slide:
         limitation_validator = self.limitation_class(visitor.age,
                                                      visitor.weight,
                                                      visitor.height)
-        return hasattr(limitation_validator, "age") and \
-            hasattr(limitation_validator, "weight") and \
-            hasattr(limitation_validator, "height")
+        return (
+            hasattr(limitation_validator, "age")
+            and hasattr(limitation_validator, "weight")
+            and hasattr(limitation_validator, "height")
+        )
