@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class IntegerRange:
-    def __init__(self, min_amount, max_amount) -> None:
+    def __init__(self, min_amount, max_amount):
         self.min_amount = min_amount
         self.max_amount = max_amount
 
