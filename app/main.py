@@ -66,9 +66,11 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        limitation_validator = self.limitation_class(visitor.age,
-                                                     visitor.weight,
-                                                     visitor.height)
+        limitation_validator = self.limitation_class(
+            visitor.age,
+            visitor.weight,
+            visitor.height
+        )
         return (
             hasattr(limitation_validator, "age")
             and hasattr(limitation_validator, "weight")
