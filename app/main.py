@@ -7,7 +7,9 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Type["SlideLimitationValidator"], name: str) -> None:
+    def __set_name__(self,
+                     owner: Type["SlideLimitationValidator"],
+                     name: str) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
@@ -16,7 +18,9 @@ class IntegerRange:
                 owner: Type["SlideLimitationValidator"]) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Type["SlideLimitationValidator"], value: int) -> None:
+    def __set__(self,
+                instance: Type["SlideLimitationValidator"],
+                value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise TypeError(f"{self.public_name} must be in range "
                             f"{self.min_amount}..{self.max_amount}!")
