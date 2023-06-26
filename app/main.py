@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Callable
+from typing import Any
 
 
 class IntegerRange:
@@ -8,16 +8,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Callable, name: str) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Callable, owner: Callable) -> Any:
+    def __get__(self, instance: object, owner: type) -> Any:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Callable, value: Any) -> None:
-        if value in range(self.min_amount, self.max_amount + 1):
-            setattr(instance, self.protected_name, value)
+    def __set__(self, instance: object, value: Any) -> None:
+        if value not in range(self.min_amount, self.max_amount + 1):
+            raise Exception
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -60,15 +61,18 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: type
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, instance: Visitor) -> bool:
-        return len(
+    def can_access(self, instance: object) -> bool:
+        try:
             self.limitation_class(
                 instance.age,
                 instance.weight,
                 instance.height
-            ).__dict__) == 3
+            )
+            return True
+        except Exception:
+            return False
