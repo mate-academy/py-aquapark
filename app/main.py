@@ -23,7 +23,7 @@ class IntegerRange:
                 instance: "SlideLimitationValidator",
                 value: int) -> None:
         if not isinstance(value, int):
-            raise TypeError
+            raise TypeError(f"Should be integer, not a {type(value)}!")
         setattr(
             instance,
             self.status_access,
