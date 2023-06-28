@@ -25,13 +25,7 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(
-            self,
-            name: str,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
+    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -39,38 +33,20 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
+    def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
         self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
     age = IntegerRange(min_amount=4, max_amount=14)
     weight = IntegerRange(min_amount=20, max_amount=50)
     height = IntegerRange(min_amount=80, max_amount=120)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
+
     age = IntegerRange(min_amount=14, max_amount=60)
     weight = IntegerRange(min_amount=50, max_amount=120)
     height = IntegerRange(min_amount=120, max_amount=220)
