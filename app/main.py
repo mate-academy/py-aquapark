@@ -1,5 +1,19 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Any, Type
+from typing import Type, Optional
+
+
+class SlideLimitationValidator(ABC):
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int,
+    ) -> None:
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class IntegerRange:
@@ -13,7 +27,7 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: Any,
+            owner: SlideLimitationValidator,
             name: str
     ) -> None:
         self.public_name = name
@@ -21,16 +35,16 @@ class IntegerRange:
 
     def __get__(
             self,
-            obj: Any,
-            obj_type: Any = None
-    ) -> Any:
+            obj: SlideLimitationValidator,
+            obj_type: Optional[SlideLimitationValidator]
+    ) -> IntegerRange:
         value = getattr(obj, self.protected_name)
 
         return value
 
     def __set__(
             self,
-            obj: Any,
+            obj: SlideLimitationValidator,
             value: int
     ) -> None:
         setattr(obj, self.protected_name, self.validate(value))
@@ -59,18 +73,6 @@ class Visitor:
             height: int,
     ) -> None:
         self.name = name
-        self.age = age
-        self.weight = weight
-        self.height = height
-
-
-class SlideLimitationValidator(ABC):
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int,
-    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
