@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-from abc import ABC, abstractmethod
-from typing import Type
-=======
 from __future__ import annotations
 
 from abc import ABC
@@ -65,7 +61,6 @@ class IntegerRange:
             )
 
         return value
->>>>>>> 6546f13 (Rewrote the code.)
 
 
 class Visitor:
@@ -82,54 +77,6 @@ class Visitor:
         self.height = height
 
 
-<<<<<<< HEAD
-class SlideLimitationValidator(ABC):
-    @abstractmethod
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        self.age = age
-        self.weight = weight
-        self.height = weight
-
-    @abstractmethod
-    def get_access(self) -> bool:
-        pass
-
-
-class IntegerRange:
-
-    def __init__(self, min_amount: int, max_amount: int) -> None:
-        self.min_amount = min_amount
-        self.max_amount = max_amount
-        self.status_access = None
-
-    def __set_name__(self,
-                     owner: Type[SlideLimitationValidator],
-                     name: str) -> None:
-        self.status_access = "_" + name
-
-    def __get__(self,
-                instance: Type[SlideLimitationValidator],
-                owner: Type[SlideLimitationValidator]
-                ) -> bool:
-        return getattr(instance, self.status_access)
-
-    def __set__(self,
-                instance: Type[SlideLimitationValidator],
-                value: int) -> None:
-        if not isinstance(value, int):
-            raise TypeError(
-                f"{self.status_access} should be integer,"
-                f" not a {type(value)}!"
-            )
-        setattr(
-            instance,
-            self.status_access,
-            self.min_amount <= value <= self.max_amount
-        )
-
-
-=======
->>>>>>> 6546f13 (Rewrote the code.)
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
@@ -146,23 +93,11 @@ class Slide:
     def __init__(
             self,
             name: str,
-<<<<<<< HEAD
-            limitation_class: Type[SlideLimitationValidator]
-=======
             limitation_class: Type[SlideLimitationValidator],
->>>>>>> 6546f13 (Rewrote the code.)
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
-<<<<<<< HEAD
-    def can_access(self, visitor: Type[Visitor]) -> bool:
-        return self.limitation_class(
-            age=visitor.age,
-            weight=visitor.weight,
-            height=visitor.height
-        ).get_access()
-=======
     def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(
@@ -174,4 +109,3 @@ class Slide:
 
         except ValueError:
             return False
->>>>>>> 6546f13 (Rewrote the code.)
