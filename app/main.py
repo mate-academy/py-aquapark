@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class IntegerRange:
@@ -6,16 +7,16 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: None, owner: None) -> dict:
+    def __get__(self, instance: Any, owner: Any) -> dict:
         return instance.__dict__[self.name]
 
-    def __set__(self, instance: None, value: int) -> None:
+    def __set__(self, instance: Any, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"{self.name} must be between"
                              f" {self.min_amount} and {self.max_amount}")
         instance.__dict__[self.name] = value
 
-    def __set_name__(self, owner: None, name: str) -> None:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.name = name
 
 
