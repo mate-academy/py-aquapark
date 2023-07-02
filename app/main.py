@@ -6,7 +6,7 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: type[object], name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type[object]) -> int:
