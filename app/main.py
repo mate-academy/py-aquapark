@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Optional
 
 
 class IntegerRange:
@@ -6,13 +7,19 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self,
+                     owner: "SlideLimitationValidator",
+                     name: str) -> None:
         self.private_name = "_" + name
 
-    def __get__(self, instance: object, owner: type) -> None:
+    def __get__(self,
+                instance: "SlideLimitationValidator",
+                owner: Optional["SlideLimitationValidator"]) -> None:
         getattr(instance, self.private_name)
 
-    def __set__(self, instance: object, value: int) -> None:
+    def __set__(self,
+                instance: "SlideLimitationValidator",
+                value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
         setattr(instance, self.private_name, value)
