@@ -10,7 +10,7 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: Any, name: str) -> None:
-        self.public_nane = name
+        self.public_name = name
         self.protected_name = "_" + name
 
     def __get__(self, instance: Any, owner: Any) -> None:
