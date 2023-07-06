@@ -10,30 +10,28 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: Type[ChildrenSlideLimitationValidator
-                        | AdultSlideLimitationValidator],
+            owner: Type[SlideLimitationValidator],
             name: str) -> None:
         self.public_name = "_" + name
 
     def __get__(
             self,
-            instance: (ChildrenSlideLimitationValidator
-                       | AdultSlideLimitationValidator),
-            owner: Type[ChildrenSlideLimitationValidator
-                        | AdultSlideLimitationValidator],
+            instance: SlideLimitationValidator,
+            owner: Type[SlideLimitationValidator],
     ) -> int:
         return getattr(instance, self.public_name)
 
     def __set__(
             self,
-            instance: (ChildrenSlideLimitationValidator
-                       | AdultSlideLimitationValidator),
+            instance: SlideLimitationValidator,
             value: int
     ) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.public_name, value)
         else:
-            setattr(instance, self.public_name, None)
+            raise ValueError(f"{self.public_name} "
+                             f"should not be less than {self.min_amount} "
+                             f"and greater than {self.max_amount}")
 
 
 class Visitor:
@@ -74,16 +72,13 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        limitation = self.limitation_class(
-            age=visitor.age,
-            height=visitor.height,
-            weight=visitor.weight
-        )
-        if all(
-                [limitation.age,
-                 limitation.height,
-                 limitation.weight]
-        ):
-            return True
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                height=visitor.height,
+                weight=visitor.weight
+            )
+        except ValueError:
+            return False
 
-        return False
+        return True
