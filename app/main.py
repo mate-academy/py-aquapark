@@ -4,18 +4,34 @@ from typing import Type
 
 
 class IntegerRange:
-    def __init__(self, min_amount: int, max_amount: int) -> None:
+    def __init__(
+            self,
+            min_amount: int,
+            max_amount: int
+    ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Visitor, name: str) -> None:
+    def __set_name__(
+            self,
+            owner: Type[SlideLimitationValidator],
+            name: str
+    ) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: Visitor) -> int:
+    def __get__(
+            self,
+            instance: Type[IntegerRange],
+            owner: Type[SlideLimitationValidator]
+    ) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: object, value: int) -> None:
+    def __set__(
+            self,
+            instance: Type[IntegerRange],
+            value: int
+    ) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"{self.public_name} must be between "
                              f"{self.min_amount} and {self.max_amount}!")
@@ -70,7 +86,10 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, visitor: Visitor) -> bool:
+    def can_access(
+            self,
+            visitor: Visitor
+    ) -> bool:
         try:
             self.limitation_class(
                 visitor.age,
