@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Type
 
 
 class IntegerRange:
@@ -8,28 +7,18 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(
-            self,
-            owner: Type[ChildrenSlideLimitationValidator
-                        | AdultSlideLimitationValidator],
-            name: str
-    ) -> None:
+    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
         self.private_name = "_" + name
 
     def __get__(self,
-                instance: Type[ChildrenSlideLimitationValidator
-                               | AdultSlideLimitationValidator],
-                owner: (ChildrenSlideLimitationValidator
-                        | AdultSlideLimitationValidator) = None) -> int:
+                instance: SlideLimitationValidator,
+                owner: SlideLimitationValidator = None) -> int:
         return getattr(instance, self.private_name)
 
-    def __set__(self,
-                instance: Type[ChildrenSlideLimitationValidator
-                               | AdultSlideLimitationValidator],
-                value: int) -> None:
+    def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.private_name, 0)
-            return
+            raise ValueError
+
         setattr(instance, self.private_name, value)
 
 
@@ -61,19 +50,16 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(
-            self,
-            name: str,
-            limitation_class: Type[ChildrenSlideLimitationValidator
-                                   | AdultSlideLimitationValidator]
-    ) -> None:
+    def __init__(self,
+                 name: str,
+                 limitation_class: SlideLimitationValidator) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        validate = self.limitation_class(
-            age=visitor.age, height=visitor.height, weight=visitor.weight
-        )
-        if all((validate.age, validate.height, validate.weight)):
-            return True
-        return False
+        try:
+            return self.limitation_class(
+                age=visitor.age, height=visitor.height, weight=visitor.weight
+            ) is not None
+        except ValueError:
+            return False
