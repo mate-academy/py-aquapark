@@ -12,7 +12,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: SlideLimitationValidator,
-                owner: SlideLimitationValidator = None) -> int:
+                owner: SlideLimitationValidator | None = None) -> int:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
@@ -58,8 +58,10 @@ class Slide:
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            return self.limitation_class(
+            self.limitation_class(
                 age=visitor.age, height=visitor.height, weight=visitor.weight
-            ) is not None
+            )
         except ValueError:
             return False
+        else:
+            return True
