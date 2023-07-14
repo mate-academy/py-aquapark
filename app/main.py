@@ -18,7 +18,7 @@ class IntegerRange:
     def __get__(
             self,
             obj: SlideLimitationValidator,
-            object_type: type | None = None
+            object_type: type(SlideLimitationValidator) | None = None
     ) -> int:
         return getattr(obj, self._name)
 
