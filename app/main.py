@@ -3,20 +3,29 @@ from typing import Any
 
 
 class IntegerRange:
-    def __init__(self, min_amount: int, max_amount: int) -> None:
+    def __init__(
+            self,
+            min_amount: int,
+            max_amount: int
+    ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
+        self._name = ""
 
     def __set_name__(self, owner: object, name: str) -> None:
-        self.protected_name = "_" + name
+        self._name = "_" + name
 
-    def __get__(self, obj: object, object_type: type | None = None) -> Any:
-        return getattr(obj, self.protected_name)
+    def __get__(
+            self,
+            obj: object,
+            object_type: type | None = None
+    ) -> Any:
+        return getattr(obj, self._name)
 
     def __set__(self, obj: object, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError
-        setattr(obj, self.protected_name, value)
+        setattr(obj, self._name, value)
 
 
 class Visitor:
@@ -58,10 +67,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self,
-                 name: str,
-                 limitation_class: [SlideLimitationValidator]
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: [SlideLimitationValidator]
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
