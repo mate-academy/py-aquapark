@@ -8,7 +8,7 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: None, owner: None) -> str:
-        return instance.__dict__[self.name]
+        return getattr(instance, self.name)
 
     def __set__(self, instance: None, value: int) -> None:
         if not isinstance(value, int):
@@ -16,7 +16,7 @@ class IntegerRange:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError((f"Value must be in the range"
                               f" [{self.min_amount}, {self.max_amount}]."))
-        instance.__dict__[self.name] = value
+        setattr(instance, self.name, value)
 
     def __set_name__(self, owner: None, name: str) -> None:
         self.name = name
