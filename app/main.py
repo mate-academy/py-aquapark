@@ -51,11 +51,14 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
+    age_range = (4, 14)
+    height_range = (80, 120)
+    weight_range = (20, 50)
+
     def __init__(self) -> None:
-        age_range = (4, 14)
-        height_range = (80, 120)
-        weight_range = (20, 50)
-        super().__init__(age_range, height_range, weight_range)
+        super().__init__(ChildrenSlideLimitationValidator.age_range,
+                         ChildrenSlideLimitationValidator.height_range,
+                         ChildrenSlideLimitationValidator.weight_range)
 
     def validate(self, visitor: Visitor) -> bool:
         return (
@@ -90,7 +93,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: type
     ) -> None:
         self.name = name
         self.limitation_validator = limitation_class()
