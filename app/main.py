@@ -6,17 +6,22 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance, owner):
-        pass
+    def __get__(self, instance, owner) -> bool:
+        if self.min_amount < instance < self.max_amount:
+            return True
+        else:
+            return False
 
     def __set__(self, instance, value):
-        pass
+        self.min_amount = instance.min_amount
+        self.max_amount = instance.max_amount
 
     def __set_name__(self, owner, name):
-        pass
+        self.name = owner.name
 
 
 class Visitor:
+
     def __init__(self, name: str, age: int, weight: int, height: int) -> None:
         self.name = name
         self.age = age
@@ -25,6 +30,7 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
+
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
@@ -32,6 +38,10 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
+    age_range = IntegerRange(4, 14)
+    weight_range = IntegerRange(80, 120)
+    height_range = IntegerRange(20, 50)
+
     def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
         if 4 <= age <= 14:
@@ -43,6 +53,10 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
+    age_range = IntegerRange(14, 60)
+    weight_range = IntegerRange(120, 220)
+    height_range = IntegerRange(50, 120)
+
     def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
         if 14 <= age <= 60:
@@ -55,8 +69,23 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 class Slide:
     def __init__(self, name: str, limitation_class: SlideLimitationValidator) -> None:
-        pass
+        self.name = name
+        self.limitation_class = limitation_class
+
+    def can_access(self, visitor: Visitor) -> str:
+
+        return "has_access"
 
 
-def can_access(visitor: Visitor) -> bool:
-    return True
+age = 17
+height = 175
+weight = 67
+
+baby_slide = Slide(
+        name="Baby Slide", limitation_class=ChildrenSlideLimitationValidator
+    )
+visitor = Visitor(name="User", age=age, height=height, weight=weight)
+
+baby_slide.can_access(visitor) # == has_access
+
+ttt = 0
