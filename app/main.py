@@ -50,7 +50,7 @@ class SlideLimitationValidator(ABC):
         pass
 
 
-class ChildrenSlideLimitationValidator(SlideLimitationValidator):
+class ChildrenSlideLimitationValidator(SlideLimitationValidator, ABC):
     age_range = (4, 14)
     height_range = (80, 120)
     weight_range = (20, 50)
