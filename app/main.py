@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Type
 from abc import ABC
 
 
@@ -9,17 +10,19 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: SlideLimitationValidator,
-                owner: type[SlideLimitationValidator]) -> int:
+                owner: Type[SlideLimitationValidator]) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
 
-        if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.protected_name, value)
-        else:
-            setattr(instance, self.protected_name, False)
+        if not (self.min_amount <= value <= self.max_amount):
+            raise ValueError(f"Value should "
+                             f"not be less than {self.min_amount} "
+                             f"and greater than {self.max_amount}.")
 
-    def __set_name__(self, owner: type[SlideLimitationValidator],
+        setattr(instance, self.protected_name, value)
+
+    def __set_name__(self, owner: SlideLimitationValidator,
                      name: str) -> None:
         self.protected_name = "_" + name
 
@@ -54,16 +57,17 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 class Slide:
     def __init__(self, name: str,
-                 limitation_class: type[SlideLimitationValidator]) -> None:
+                 limitation_class: Type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
 
-        validator = self.limitation_class(
-            age=visitor.age,
-            weight=visitor.weight,
-            height=visitor.height)
-
-        return (bool(validator.age) and bool(validator.weight)
-                and bool(validator.height))
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                weight=visitor.weight,
+                height=visitor.height)
+        except ValueError:
+            return False
+        return True
