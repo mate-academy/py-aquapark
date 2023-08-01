@@ -8,30 +8,20 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: Any, owner: Any) -> bool:
-        if self.name == "age":
-            if not self.min_amount <= instance.age <= self.max_amount:
-                raise ValueError(f"age {instance.age} out of range")
-        if self.name == "weight":
-            if not self.min_amount <= instance.weight <= self.max_amount:
-                raise ValueError(f"weight {instance.weight} out of range")
-        if self.name == "height":
-            if not self.min_amount <= instance.height <= self.max_amount:
-                raise ValueError(f"height {instance.height} out of height")
+        if not (self.min_amount
+                <= instance.__dict__[self.name]
+                <= self.max_amount):
+            raise ValueError(f"{self.name} "
+                             f"{instance.__dict__[self.name]} "
+                             f"out of range")
         return True
 
     def __set_name__(self, owner: Any, name: str) -> None:
         self.name = name.split("_")[0]
 
     def __set__(self, instance: Any, value: int) -> None:
-        if self.name == "age":
-            if self.min_amount <= value <= self.max_amount:
-                instance.age = value
-        if self.name == "weight":
-            if self.min_amount <= value <= self.max_amount:
-                instance.weight = value
-        if self.name == "height":
-            if self.min_amount <= value <= self.max_amount:
-                instance.height = value
+        if self.min_amount <= value <= self.max_amount:
+            instance.__dict__[self.name] = value
 
 
 class SlideLimitationValidator(ABC):
