@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Any
 
 
 class IntegerRange:
@@ -10,7 +9,7 @@ class IntegerRange:
     def __get__(
             self,
             instance: "SlideLimitationValidator",
-            owner: Any
+            owner: "SlideLimitationValidator"
     ) -> bool:
         if not (self.min_amount
                 <= instance.__dict__[self.name]
