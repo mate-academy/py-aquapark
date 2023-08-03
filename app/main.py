@@ -7,7 +7,11 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: Any, owner: Any) -> bool:
+    def __get__(
+            self,
+            instance: "SlideLimitationValidator",
+            owner: Any
+    ) -> bool:
         if not (self.min_amount
                 <= instance.__dict__[self.name]
                 <= self.max_amount):
@@ -16,10 +20,18 @@ class IntegerRange:
                              f"out of range")
         return True
 
-    def __set_name__(self, owner: Any, name: str) -> None:
+    def __set_name__(
+            self,
+            owner: "SlideLimitationValidator",
+            name: str
+    ) -> None:
         self.name = name.split("_")[0]
 
-    def __set__(self, instance: Any, value: int) -> None:
+    def __set__(
+            self,
+            instance: "SlideLimitationValidator",
+            value: int
+    ) -> None:
         if self.min_amount <= value <= self.max_amount:
             instance.__dict__[self.name] = value
 
