@@ -17,8 +17,8 @@ class IntegerRange:
     def __set__(self, instance: Visitor, value: int) -> None:
         if not (self.min_amount <= value <= self.max_value):
             setattr(instance, self.protected_name, False)
-            return
-        setattr(instance, self.protected_name, True)
+        else:
+            setattr(instance, self.protected_name, True)
 
 
 class Visitor:
@@ -65,3 +65,13 @@ class Slide:
             visitor.weight
         )
         return all((limitation.age, limitation.height, limitation.weight))
+
+
+adult_slide = Slide(
+    name="Adult Slide", limitation_class=AdultSlideLimitationValidator
+)
+age = 60
+height = 220
+weight = 120
+visitor = Visitor(name="User", age=age, height=height, weight=weight)
+print(adult_slide.can_access(visitor))
