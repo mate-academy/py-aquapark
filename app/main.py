@@ -27,10 +27,6 @@ class IntegerRange:
 
 
 class Visitor:
-    age = IntegerRange(0, 150)
-    weight = IntegerRange(0, 300)
-    height = IntegerRange(0, 300)
-
     def __init__(self, name: str, age: int, weight: int, height: int) -> None:
         self.name = name
         self.age = age
