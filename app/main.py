@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 
-from typing import Any, Callable
+from typing import Any
 
 
 class IntegerRange:
@@ -11,7 +11,7 @@ class IntegerRange:
         self.max_amount = max_amount
         self.name = None
 
-    def __get__(self, instance: Visitor, owner: Any) -> dict:
+    def __get__(self, instance: Visitor, owner: type) -> str:
         return instance.__dict__[self.name]
 
     def __set__(self, instance: Visitor, value: int) -> None:
@@ -22,7 +22,7 @@ class IntegerRange:
             )
         instance.__dict__[self.name] = value
 
-    def __set_name__(self, owner: Any, name: str) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.name = name
 
 
@@ -79,7 +79,9 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: int, limitation_class: Callable) -> None:
+    def __init__(
+        self, name: int, limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class()
 
