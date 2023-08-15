@@ -58,14 +58,16 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
         )
 
     def validate(self, visitor: Visitor) -> bool:
-        return (
-            self.age.min_amount <= visitor.age <= self.age.max_amount
-            and self.weight.min_amount
-            <= visitor.weight
-            <= self.weight.max_amount
-            and self.height.min_amount
-            <= visitor.height
-            <= self.height.max_amount
+        return all(
+            [
+                self.age.min_amount <= visitor.age <= self.age.max_amount,
+                self.weight.min_amount
+                <= visitor.weight
+                <= self.weight.max_amount,
+                self.height.min_amount
+                <= visitor.height
+                <= self.height.max_amount,
+            ]
         )
 
 
@@ -78,14 +80,16 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
         )
 
     def validate(self, visitor: Visitor) -> bool:
-        return (
-            self.age.min_amount <= visitor.age <= self.age.max_amount
-            and self.weight.min_amount
-            <= visitor.weight
-            <= self.weight.max_amount
-            and self.height.min_amount
-            <= visitor.height
-            <= self.height.max_amount
+        return all(
+            [
+                self.age.min_amount <= visitor.age <= self.age.max_amount,
+                self.weight.min_amount
+                <= visitor.weight
+                <= self.weight.max_amount,
+                self.height.min_amount
+                <= visitor.height
+                <= self.height.max_amount,
+            ]
         )
 
 
