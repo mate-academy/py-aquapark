@@ -26,7 +26,6 @@ class IntegerRange:
             )
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
 
