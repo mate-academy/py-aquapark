@@ -2,18 +2,18 @@ from abc import ABC, abstractmethod
 
 
 class IntegerRange:
-    def __init__(self, max_amount: int, min_amount: int) -> None:
+    def __init__(self, max_amount: int, min_amount: int) -> int:
         self.name = None
         self.max_amount = max_amount
         self.min_amount = min_amount
 
-    def __get__(self, instance: None, owner: None) -> None:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, f"_{self.name}")
 
-    def __set_name__(self, owner: None, name: None) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.name = name
 
-    def __set__(self, instance: None, value: int) -> None:
+    def __set__(self, instance: object, value: type) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, f"_{self.name}", value)
         else:
@@ -41,18 +41,18 @@ class SlideLimitationValidator(ABC):
         pass
 
 
-class ChildrenSlideLimitationValidator(SlideLimitationValidator, ABC):
+class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def can_use_slide(self) -> bool:
-        if 4 <= self.age <= 14 and 80 <= self.height\
-                <= 120 and 20 <= self.weight <= 50:
+        if (4 <= self.age <= 14) and (80 <= self.height <= 120) and \
+                (20 <= self.weight <= 50):
             return True
         return False
 
 
-class AdultSlideLimitationValidator(SlideLimitationValidator, ABC):
+class AdultSlideLimitationValidator(SlideLimitationValidator):
     def can_use_slide(self) -> bool:
-        if 14 <= self.age <= 60 and 220 >= self.height \
-                >= 120 >= self.weight >= 50:
+        if (14 <= self.age <= 60) and (220 >= self.height >= 120) and \
+                (120 >= self.weight >= 50):
             return True
         return False
 
