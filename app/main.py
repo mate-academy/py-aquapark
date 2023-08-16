@@ -7,6 +7,9 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
+    def __contains__(self, value: int) -> object:
+        return self.min_amount <= value <= self.max_amount
+
     def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
         self.public_name = name
@@ -15,7 +18,7 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
-        if value < self.min_amount or value > self.max_amount:
+        if value not in self:
             raise ValueError(
                 f"Your {self.public_name} out of range!"
             )
