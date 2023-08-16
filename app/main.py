@@ -8,7 +8,6 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: object, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: object) -> int:
@@ -73,9 +72,9 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(
-                age=visitor.age,
-                height=visitor.height,
-                weight=visitor.weight
+                visitor.age,
+                visitor.height,
+                visitor.weight
             )
         except ValueError:
             return False
