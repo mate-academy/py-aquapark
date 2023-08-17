@@ -8,7 +8,6 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
     def __get__(self, instance: SlideLimitationValidator, owner: type) -> int:
@@ -30,32 +29,22 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        self.age = IntegerRange(age.min_amount, age.max_amount)
-        self.weight = IntegerRange(weight.min_amount, weight.max_amount)
-        self.height = IntegerRange(height.min_amount, height.max_amount)
-
-
-class ChildrenSlideLimitationValidator:
-    age = IntegerRange(4, 14)
-    height = IntegerRange(80, 120)
-    weight = IntegerRange(20, 50)
-
     def __init__(self, age: int, height: int, weight: int) -> None:
         self.age = age
         self.height = height
         self.weight = weight
 
 
-class AdultSlideLimitationValidator:
-    age = IntegerRange(14, 60)
-    height = IntegerRange(120, 220)
-    weight = IntegerRange(50, 120)
+class ChildrenSlideLimitationValidator(SlideLimitationValidator):
+    age = IntegerRange(min_amount=4, max_amount=14)
+    height = IntegerRange(min_amount=80, max_amount=120)
+    weight = IntegerRange(min_amount=20, max_amount=50)
 
-    def __init__(self, age: int, height: int, weight: int) -> None:
-        self.age = age
-        self.height = height
-        self.weight = weight
+
+class AdultSlideLimitationValidator(SlideLimitationValidator):
+    age = IntegerRange(min_amount=14, max_amount=60)
+    height = IntegerRange(min_amount=120, max_amount=220)
+    weight = IntegerRange(min_amount=50, max_amount=120)
 
 
 class Slide:
