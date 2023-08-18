@@ -1,23 +1,20 @@
 from abc import ABC
-from typing import Generic, Type, TypeVar
-
-Instance = TypeVar("Instance")
-Value = TypeVar("Value")
+from typing import Type
 
 
-class IntegerRange(Generic[Instance, Value]):
+class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
-        self.min_amount: int = min_amount
-        self.max_amount: int = max_amount
+        self.min_amount = min_amount
+        self.max_amount = max_amount
 
-    def __set_name__(self, _: Instance, name: str) -> None:
-        self.public_name: str = name
-        self.protected_name: str = "_" + name
+    def __set_name__(self, _: object, name: str) -> None:
+        self.public_name = name
+        self.protected_name = "_" + name
 
-    def __get__(self, instance: Instance, _: Type[Instance]) -> Value:
+    def __get__(self, instance: object, _: type) -> float:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Instance, value: Value) -> None:
+    def __set__(self, instance: object, value: float) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError(
                 f"{self.public_name} has to be in the range "
@@ -30,10 +27,10 @@ class Visitor:
     def __init__(
         self, name: str, age: int, weight: float, height: float
     ) -> None:
-        self.name: str = name
-        self.age: int = age
-        self.weight: float = weight
-        self.height: float = height
+        self.name = name
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class SlideLimitationValidator(ABC):
@@ -59,10 +56,8 @@ class Slide:
     def __init__(
         self, name: str, limitation_class: Type[SlideLimitationValidator]
     ) -> None:
-        self.name: str = name
-        self.limitation_class: Type[
-            SlideLimitationValidator
-        ] = limitation_class
+        self.name = name
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
