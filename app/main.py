@@ -14,7 +14,7 @@ class IntegerRange:
         getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if self.min_amount > value or self.max_amount < value:
+        if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"Quantity should not be "
                              f"less than {self.min_amount} "
                              f"and greater than {self.max_amount}.")
@@ -44,24 +44,12 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    # def validate(self) -> bool:
-    #     return True if (
-    #             4 <= self.age <= 14
-    #             and 80 <= self.height <= 120
-    #             and 20 <= self.weight <= 50
-    #     ) else False
     age = IntegerRange(min_amount=4, max_amount=14)
     height = IntegerRange(min_amount=80, max_amount=120)
     weight = IntegerRange(min_amount=20, max_amount=50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    # def validate(self) -> bool:
-    #     return True if (
-    #             14 <= self.age <= 60
-    #             and 120 <= self.height <= 220
-    #             and 50 <= self.weight <= 120
-    #     ) else False
     age = IntegerRange(min_amount=14, max_amount=60)
     height = IntegerRange(min_amount=120, max_amount=220)
     weight = IntegerRange(min_amount=50, max_amount=120)
