@@ -14,6 +14,7 @@ class IntegerRange:
 
     def __set_name__(self, owner: type, name: str) -> None:
         self.protected_name = "_" + name
+        self.public_name = name
 
     def __get__(self, instance: Visitor, owner: type) -> int:
         return getattr(instance, self.protected_name)
@@ -22,7 +23,10 @@ class IntegerRange:
         if self.min_value <= value <= self.max_value:
             setattr(instance, self.protected_name, value)
         else:
-            raise ValueError("You do not fit")
+            raise ValueError(
+                f"For this slide your {self.public_name}"
+                f" must be in range of {self.min_value} and {self.max_value}"
+            )
 
 
 class Visitor:
