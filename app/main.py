@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Any
 
 
 class IntegerRange:
@@ -12,10 +13,10 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: any, name: str) -> None:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.private_name = "_" + name
 
-    def __get__(self, instance: object, owner: any) -> float:
+    def __get__(self, instance: object, owner: Any) -> float:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: float) -> float | None:
