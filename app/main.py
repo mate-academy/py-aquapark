@@ -12,19 +12,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: object, name: str) -> None:
+    def __set_name__(self, owner: any, name: str) -> None:
         self.private_name = "_" + name
-        print(owner)
 
-    def __get__(self, instance: object, owner: object) -> float:
+    def __get__(self, instance: object, owner: any) -> float:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: float) -> float | None:
         if self.min_amount <= value <= self.max_amount:
             return setattr(instance, self.private_name, value)
-        print(f"Value must be"
+        raise ValueError(f"Value must be"
               f"{self.min_amount}...{self.max_amount}")
-        return setattr(instance, self.private_name, None)
 
 
 class Visitor:
@@ -32,9 +30,9 @@ class Visitor:
     def __init__(
             self,
             name: str,
-            age: int | None,
-            weight: float | None,
-            height: float | None) -> None:
+            age: int,
+            weight: float,
+            height: float) -> None:
 
         self.name = name
         self.age = age
@@ -47,9 +45,9 @@ class SlideLimitationValidator(ABC):
     def __init__(
             self,
             name: str,
-            age: int | None,
-            weight: float | None,
-            height: float | None) -> None:
+            age: int,
+            weight: float,
+            height: float) -> None:
 
         self.name = name
         self.age = age
@@ -76,22 +74,18 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: AdultSlideLimitationValidator
-            | ChildrenSlideLimitationValidator
+            limitation_class: SlideLimitationValidator
     ) -> None:
 
         self.limitation_class = limitation_class
         self.name = name
 
     def can_access(self, visitor: Visitor) -> bool:
-        instance = self.limitation_class(visitor.name,
-                                         visitor.age,
-                                         visitor.weight,
-                                         visitor.height)
-
-        if (instance.age
-                is None or instance.height
-                is None or instance.weight
-                is None):
+        try:
+            instance = self.limitation_class(visitor.name,
+                                             visitor.age,
+                                             visitor.weight,
+                                             visitor.height)
+            return True if instance else False
+        except ValueError:
             return False
-        return True
