@@ -6,13 +6,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, instance, name: str) -> None: # noqa
+    def __set_name__(self, instance: object, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance, owner) -> int: # noqa
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance, value: int) -> None: # noqa
+    def __set__(self, instance: object, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
         setattr(instance, self.protected_name, value)
