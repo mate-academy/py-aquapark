@@ -23,7 +23,7 @@ class IntegerRange:
         if self.min_amount <= value <= self.max_amount:
             return setattr(instance, self.private_name, value)
         raise ValueError(f"Value must be"
-              f"{self.min_amount}...{self.max_amount}")
+                         f"{self.min_amount}...{self.max_amount}")
 
 
 class Visitor:
@@ -33,7 +33,8 @@ class Visitor:
             name: str,
             age: int,
             weight: float,
-            height: float) -> None:
+            height: float
+    ) -> None:
 
         self.name = name
         self.age = age
@@ -48,7 +49,8 @@ class SlideLimitationValidator(ABC):
             name: str,
             age: int,
             weight: float,
-            height: float) -> None:
+            height: float
+    ) -> None:
 
         self.name = name
         self.age = age
@@ -83,10 +85,10 @@ class Slide:
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            instance = self.limitation_class(visitor.name,
-                                             visitor.age,
-                                             visitor.weight,
-                                             visitor.height)
-            return True if instance else False
+            self.limitation_class(visitor.name,
+                                  visitor.age,
+                                  visitor.weight,
+                                  visitor.height)
+            return True
         except ValueError:
             return False
