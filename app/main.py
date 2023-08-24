@@ -19,7 +19,10 @@ class IntegerRange:
         if value in range(self.min_amount, self.max_amount + 1):
             setattr(instance, self.protected_name, True)
         else:
-            setattr(instance, self.protected_name, False)
+            raise ValueError(
+                f"{self.public_name} should not be less than "
+                f"{self.min_amount} and greater than {self.max_amount}"
+            )
 
 
 class Visitor:
@@ -50,14 +53,15 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Any) -> None:
+    def __init__(self, name: str, limitation_class: type) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, instance: Visitor) -> bool:
-        limits = self.limitation_class(
-            instance.age, instance.weight, instance.height
-        )
-        if limits.age and limits.weight and limits.height:
+        try:
+            self.limitation_class(
+                instance.age, instance.weight, instance.height
+            )
             return True
-        return False
+        except ValueError:
+            return False
