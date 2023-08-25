@@ -28,7 +28,7 @@ def test_child_slide(age: int, height: int, weight: int, has_access: bool) -> No
     )
     visitor = Visitor(name="User", age=age, height=height, weight=weight)
     assert (
-        baby_slide.can_access(visitor) == has_access
+            baby_slide.can_access(visitor) == has_access
     ), (
         f"Baby-slide 'can_access' method should return '{has_access}' for visitor with such parameters: (age: {age}, "
         f"weight: {weight}, height: {height}). But actual result is {baby_slide.can_access(visitor)}"
@@ -55,7 +55,7 @@ def test_adult_slide(age: int, height: int, weight: int, has_access: bool) -> No
     )
     visitor = Visitor(name="User", age=age, height=height, weight=weight)
     assert (
-        adult_slide.can_access(visitor) == has_access
+            adult_slide.can_access(visitor) == has_access
     ), (
         f"Adult-slide 'can_access' method should return '{has_access}' for visitor with such parameters: (age: {age}, "
         f"weight: {weight}, height: {height}). But actual result is {adult_slide.can_access(visitor)}"
