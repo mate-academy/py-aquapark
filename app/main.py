@@ -17,7 +17,7 @@ class IntegerRange:
 
     def __set__(self, instance: SlideLimitationValidator, value: Any) -> None:
         if value in range(self.min_amount, self.max_amount + 1):
-            setattr(instance, self.protected_name, True)
+            setattr(instance, self.protected_name, value)
         else:
             raise ValueError(
                 f"{self.public_name} should not be less than "
