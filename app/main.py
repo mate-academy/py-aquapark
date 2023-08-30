@@ -7,15 +7,18 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.name = "_" + name
+        self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> None:
-        return getattr(instance, self.name)
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError
-        setattr(instance, self.name, value)
+            raise ValueError(f"Value must be between"
+                             f" {self.min_amount} and "
+                             f"{self.max_amount}"
+                             )
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
