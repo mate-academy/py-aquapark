@@ -18,7 +18,8 @@ class IntegerRange:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError(
                 f"{self.public_name} has to be in range from "
-                f"{self.min_amount} to {self.max_amount}."
+                f"{self.min_amount} to "
+                f"{self.max_amount}."
             )
         setattr(instance, self.protected_name, value)
 
