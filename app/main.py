@@ -10,17 +10,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance: object, owner: object) -> None:
         return instance.__dict__[self.name]
 
-    def __set__(self, instance, value: int) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"{self.name} must "
                              f"be between {self.min_amount} "
                              f"and {self.max_amount}.")
         instance.__dict__[self.name] = value
 
-    def __set_name__(self, owner, name):
+    def __set_name__(self, owner: object, name: str) -> None:
         self.name = name
 
 
