@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class IntegerRange:
     def __init__(
             self,
@@ -22,6 +23,7 @@ class IntegerRange:
     def __set_name__(self, owner, name):
         self.name = name
 
+
 class Visitor:
     def __init__(
             self,
@@ -34,6 +36,7 @@ class Visitor:
         self.age = age
         self.weight = weight
         self.height = height
+
 
 class SlideLimitationValidator(ABC):
     def __init__(
@@ -50,6 +53,7 @@ class SlideLimitationValidator(ABC):
     def validate(self, visitor: Visitor) -> bool:
         pass
 
+
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
         age_range = IntegerRange(4, 14)
@@ -59,13 +63,14 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
     def validate(self, visitor: Visitor) -> bool:
         return (
-            self.age_range.min_amount
-            <= visitor.age <= self.age_range.max_amount
-            and self.height_range.min_amount
-            <= visitor.height <= self.height_range.max_amount
-            and self.weight_range.min_amount
-            <= visitor.weight <= self.weight_range.max_amount
+                self.age_range.min_amount
+                <= visitor.age <= self.age_range.max_amount
+                and self.height_range.min_amount
+                <= visitor.height <= self.height_range.max_amount
+                and self.weight_range.min_amount
+                <= visitor.weight <= self.weight_range.max_amount
         )
+
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
@@ -76,13 +81,14 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
     def validate(self, visitor: Visitor) -> bool:
         return (
-            self.age_range.min_amount
-            <= visitor.age <= self.age_range.max_amount
-            and self.height_range.min_amount
-            <= visitor.height <= self.height_range.max_amount
-            and self.weight_range.min_amount
-            <= visitor.weight <= self.weight_range.max_amount
+                self.age_range.min_amount
+                <= visitor.age <= self.age_range.max_amount
+                and self.height_range.min_amount
+                <= visitor.height <= self.height_range.max_amount
+                and self.weight_range.min_amount
+                <= visitor.weight <= self.weight_range.max_amount
         )
+
 
 class Slide:
     def __init__(
