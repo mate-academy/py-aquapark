@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Type
 
 
 class IntegerRange:
@@ -13,8 +14,9 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: callable, value: int) -> None:
-        if value in range(self.min_amount, self.max_amount + 1):
-            setattr(instance, self.protected_name, value)
+        if value not in range(self.min_amount, self.max_amount + 1):
+            raise ValueError
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -47,13 +49,14 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: SlideLimitationValidator
+                 limitation_class: Type[SlideLimitationValidator]
                  ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, client: Visitor) -> bool:
-        return len(self.limitation_class(
-            client.age,
-            client.height,
-            client.weight).__dict__) == len(client.__dict__) - 1
+        try:
+            self.limitation_class(client.age, client.height, client.weight)
+            return True
+        except ValueError:
+            return False
