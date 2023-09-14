@@ -58,7 +58,7 @@ class Slide:
                 visitor.age,
                 visitor.weight,
                 visitor.height
-                )
+            )
         except ValueError:
             return False
         return True
