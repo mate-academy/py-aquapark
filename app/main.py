@@ -1,20 +1,35 @@
 from __future__ import annotations
-from typing import Callable
 from abc import ABC
 
 
 class IntegerRange:
-    def __init__(self, min_value: int, max_value: int) -> None:
+    def __init__(
+            self,
+            min_value: int,
+            max_value: int
+    ) -> None:
         self.min_value = min_value
         self.max_value = max_value
 
-    def __set_name__(self, owner: SlideLimitationValidator, name: str) -> None:
+    def __set_name__(
+            self,
+            owner: SlideLimitationValidator,
+            name: str
+    ) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Callable, objtype: None = None) -> bool:
+    def __get__(
+            self,
+            instance: IntegerRange,
+            owner: SlideLimitationValidator
+    ) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Callable, value: int) -> None:
+    def __set__(
+            self,
+            instance: IntegerRange,
+            value: int
+    ) -> None:
         if value not in range(self.min_value, self.max_value + 1):
             raise ValueError(
                 f"parameter: {self.protected_name} = {value}"
@@ -25,7 +40,13 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -33,7 +54,12 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int, height: int) -> None:
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -52,7 +78,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: Callable) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
