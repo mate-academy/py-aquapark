@@ -16,7 +16,11 @@ class IntegerRange:
 
     def __set__(self, instance: Callable, value: int) -> None:
         if value not in range(self.min_value, self.max_value + 1):
-            raise ValueError
+            raise ValueError(
+                f"parameter: {self.protected_name} = {value}"
+                f" out of acceptable range:"
+                f" {self.min_value} - {self.max_value}"
+            )
         setattr(instance, self.protected_name, value)
 
 
@@ -59,6 +63,7 @@ class Slide:
                 visitor.weight,
                 visitor.height
             )
-        except ValueError:
+        except ValueError as e:
+            print(f"visitor: {visitor.name} ", e)
             return False
         return True
