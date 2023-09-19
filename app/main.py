@@ -8,10 +8,10 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: object, owner: object) -> int:
-        return instance.__dict__[self.name]
+        return instance.name
 
     def __set__(self, instance: object, value: int) -> None:
-        instance.__dict__[self.name] = value
+        instance.name = value
 
     def __set_name__(self, owner: object, name: str) -> None:
         self.name = name
@@ -43,16 +43,18 @@ class SlideLimitationValidator(ABC):
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(age=IntegerRange(4, 14),
-                         weight=IntegerRange(20, 50),
-                         height=IntegerRange(80, 120))
+        super().__init__(
+            age=IntegerRange(4, 14),
+            weight=IntegerRange(20, 50),
+            height=IntegerRange(80, 120))
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(age=IntegerRange(14, 60),
-                         weight=IntegerRange(50, 120),
-                         height=IntegerRange(120, 220))
+        super().__init__(
+            age=IntegerRange(14, 60),
+            weight=IntegerRange(50, 120),
+            height=IntegerRange(120, 220))
 
 
 class Slide:
