@@ -11,7 +11,7 @@ class IntegerRange:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Any, owner: Any) -> int:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
