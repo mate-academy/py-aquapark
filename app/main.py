@@ -72,7 +72,7 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         validator = self.limitation_class(visitor.age, visitor.weight, visitor.height)
         return (
-                validator.age.min_amount <= visitor.age <= validator.age.max_amount
-                and validator.height.min_amount <= visitor.height <= validator.height_range.max_amount
+                validator.age_range.min_amount <= visitor.age <= validator.age_range.max_amount
+                and validator.height_range.min_amount <= visitor.height <= validator.height_range.max_amount
                 and validator.weight_range.min_amount <= visitor.weight <= validator.weight_range.max_amount
         )
