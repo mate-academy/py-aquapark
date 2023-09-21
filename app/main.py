@@ -1,5 +1,14 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Any
+from typing import Type
+
+
+class SlideLimitationValidator(ABC):
+    def __init__(self, age: int, weight: int, height: int) -> None:
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class IntegerRange:
@@ -7,13 +16,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: Type[SlideLimitationValidator], name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: type) -> object:
+    def __get__(self, instance: Type[IntegerRange], owner: Type[SlideLimitationValidator]) -> object:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: object, value: Any) -> None:
+    def __set__(self, instance: Type[SlideLimitationValidator], value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Value should not be less than "
                              f"{self.min_amount} and "
@@ -30,13 +39,6 @@ class Visitor:
             height: int
     ) -> None:
         self.name = name
-        self.age = age
-        self.weight = weight
-        self.height = height
-
-
-class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
         self.height = height
