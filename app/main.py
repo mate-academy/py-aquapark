@@ -50,15 +50,15 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age_range = IntegerRange(4, 14)
-    height_range = IntegerRange(80, 120)
-    weight_range = IntegerRange(20, 50)
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age_range = IntegerRange(14, 60)
-    height_range = IntegerRange(120, 220)
-    weight_range = IntegerRange(50, 120)
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
@@ -70,9 +70,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        validator = self.limitation_class(visitor.age, visitor.weight, visitor.height)
-        return (
-                validator.age_range.min_amount <= visitor.age <= validator.age_range.max_amount
-                and validator.height_range.min_amount <= visitor.height <= validator.height_range.max_amount
-                and validator.weight_range.min_amount <= visitor.weight <= validator.weight_range.max_amount
-        )
+        try:
+            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+        except ValueError:
+            return False
+        return True
