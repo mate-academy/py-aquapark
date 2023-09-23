@@ -1,25 +1,29 @@
-from abc import ABC, abstractmethod
-from typing import Any, Optional, Type
+from abc import ABC
+from typing import Type
 
 
 class IntegerRange:
     def __init__(
-        self,
-        min_amount: int,
-        max_amount: int
+            self,
+            min_amount: int,
+            max_amount: int
     ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: Optional[Any], owner: Type) -> int:
+    def __get__(self, instance: object, owner: Type) -> int:
         return getattr(instance, self.name)
 
-    def __set__(self, instance: Optional[Any], value: int) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.name, value)
+            setattr(instance, self.protected_name, value)
+        else:
+            raise ValueError(f"{self.protected_name} should be "
+                             f"between {self.min_amount} and "
+                             f"{self.max_amount}")
 
     def __set_name__(self, owner: Type, name: str) -> None:
-        self.name = name
+        self.protected_name = "_" + name
 
 
 class Visitor:
@@ -38,63 +42,42 @@ class Visitor:
 
 class SlideLimitationValidator(ABC):
     def __init__(
-        self,
-        age_range: IntegerRange,
-        weight_range: IntegerRange,
-        height_range: IntegerRange
+            self,
+            age: int,
+            weight: int,
+            height: int
     ) -> None:
-        self.age_range = age_range
-        self.weight_range = weight_range
-        self.height_range = height_range
-
-    @abstractmethod
-    def validate(self, visitor: Visitor) -> bool:
-        pass
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        age_range = IntegerRange(4, 14)
-        height_range = IntegerRange(80, 120)
-        weight_range = IntegerRange(20, 50)
-        super().__init__(age_range, weight_range, height_range)
-
-    def validate(self, visitor: Visitor) -> bool:
-        return (
-            self.age_range.min_amount <= visitor.age
-            <= self.age_range.max_amount and self.height_range.min_amount
-            <= visitor.height <= self.height_range.max_amount
-            and self.weight_range.min_amount <= visitor.weight
-            <= self.weight_range.max_amount
-        )
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        age_range = IntegerRange(14, 60)
-        height_range = IntegerRange(120, 220)
-        weight_range = IntegerRange(50, 120)
-        super().__init__(age_range, weight_range, height_range)
-
-    def validate(self, visitor: Visitor) -> bool:
-        return (
-            self.age_range.min_amount <= visitor.age
-            <= self.age_range.max_amount
-            and self.height_range.min_amount <= visitor.height
-            <= self.height_range.max_amount
-            and self.weight_range.min_amount <= visitor.weight
-            <= self.weight_range.max_amount
-        )
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: type
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
-        self.limitation_validator = limitation_class()
+        self.limitation_validator = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_validator.validate(visitor)
+        try:
+            self.limitation_validator(age=visitor.age,
+                                      height=visitor.height,
+                                      weight=visitor.weight)
+            return True
+        except ValueError:
+            return False
