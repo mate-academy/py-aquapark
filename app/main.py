@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Type
 
 
 class Visitor:
@@ -26,7 +27,7 @@ class IntegerRange:
 
     def __set_name__(
             self,
-            owner: type,
+            owner: Type,
             name: str
     ) -> None:
         self.protected_name = f"_{name}"
@@ -34,7 +35,7 @@ class IntegerRange:
     def __get__(
             self,
             instance: Visitor,
-            owner: type
+            owner: Type
     ) -> str:
         return getattr(instance, self.protected_name)
 
@@ -78,7 +79,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: type[SlideLimitationValidator]
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
