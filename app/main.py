@@ -7,11 +7,11 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.public_name = name
         self.private_name = "_" + name
 
-    def __get__(self, instance: Any, owner: type) -> int:
+    def __get__(self, instance: Any, owner: Any) -> int:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: Any, value: int) -> None:
