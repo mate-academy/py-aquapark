@@ -25,7 +25,6 @@ class IntegerRange:
     def __set_name__(self, owner: type, name: str) -> None:
         self.proteted_name = "_" + name
 
-
 class Visitor:
     def __init__(self,
                  name: str,
@@ -58,7 +57,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: type) -> None:
+    def __init__(self, name: str, limitation_class: SlideLimitationValidator) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
