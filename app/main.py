@@ -15,10 +15,9 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: Any) -> None:
-        if value in range(self.min_amount, self.max_amount + 1):
-            setattr(instance, self.protected_name, value)
-        else:
-            setattr(instance, self.protected_name, False)
+        if value not in range(self.min_amount, self.max_amount + 1):
+            raise ValueError
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -65,9 +64,10 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> Visitor:
-        validator = self.limitation_class(
-            visitor.age,
-            visitor.weight,
-            visitor.height
-        )
-        return all(field for field in validator.__dict__.values())
+        try:
+            self.limitation_class(visitor.age,
+                                  visitor.weight,
+                                  visitor.height)
+        except ValueError:
+            return False
+        return True
