@@ -15,7 +15,10 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: Any) -> None:
-        setattr(instance, self.protected_name, value)
+        if value in range(self.min_amount, self.max_amount + 1):
+            setattr(instance, self.protected_name, value)
+        else:
+            setattr(instance, self.protected_name, False)
 
 
 class Visitor:
@@ -38,53 +41,19 @@ class SlideLimitationValidator(ABC):
         self.height = height
         self.weight = weight
 
-    def validate_visitor(self, visitor: Visitor) -> bool:
-        if visitor.age not in range(self.age.min_amount,
-                                    self.age.max_amount + 1):
-            return False
-        if visitor.height not in range(self.height.min_amount,
-                                       self.height.max_amount + 1):
-            return False
-        if visitor.weight not in range(self.weight.min_amount,
-                                       self.weight.max_amount + 1):
-            return False
-        return True
-
-
-"""
-    def validate_visitor(self, visitor: Visitor) -> Visitor:
-        if visitor.age < self.age.min_amount:
-            raise TypeError(f"{visitor.name} is too young for this slide.")
-        if visitor.age > self.age.max_amount:
-            raise TypeError(f"{visitor.name} is too old for this slide.")
-        if visitor.height < self.height.min_amount:
-            raise TypeError(f"{visitor.name} is too short for this slide.")
-        if visitor.height > self.height.max_amount:
-            raise TypeError(f"{visitor.name} is too tall for this slide.")
-        if visitor.weight < self.weight.min_amount:
-            raise TypeError(f"{visitor.name} weight "
-                            "is too low for this slide.")
-        if visitor.weight > self.weight.max_amount:
-            raise TypeError(f"{visitor.name} weight is too "
-                            "high for this slide.")
-        return visitor
- """
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
-    def __init__(self) -> None:
-        self.age = IntegerRange(4, 14)
-        self.height = IntegerRange(80, 120)
-        self.weight = IntegerRange(20, 50)
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
 
-    def __init__(self) -> None:
-        self.age = IntegerRange(14, 60)
-        self.height = IntegerRange(120, 220)
-        self.weight = IntegerRange(50, 120)
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
@@ -93,7 +62,12 @@ class Slide:
                  name: str,
                  limitation_class : SlideLimitationValidator) -> None:
         self.name = name
-        self.limitation_class = limitation_class()
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> Visitor:
-        return self.limitation_class.validate_visitor(visitor)
+        validator = self.limitation_class(
+            visitor.age,
+            visitor.weight,
+            visitor.height
+        )
+        return all(field for field in validator.__dict__.values())
