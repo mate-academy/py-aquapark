@@ -21,9 +21,9 @@ class IntegerRange:
             raise ValueError
         getattr(instance, self.proteted_name, value)
 
-
     def __set_name__(self, owner: type, name: str) -> None:
         self.proteted_name = "_" + name
+
 
 class Visitor:
     def __init__(self,
@@ -63,8 +63,13 @@ class Slide:
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(visitor.age, visitor.weight,
+            self.limitation_class(visitor.age,
+                                  visitor.weight,
                                   visitor.height)
+        except ValueError:
+            return False
+        return True
+
         except ValueError:
             return False
         return True
