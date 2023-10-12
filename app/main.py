@@ -1,4 +1,3 @@
-from __future__ import annotations
 from abc import ABC
 
 
@@ -10,12 +9,12 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self,
-                instance: SlideLimitationValidator,
-                owner: type) -> SlideLimitationValidator:
+                instance: object,
+                owner: type) -> int | float:
         return getattr(instance, self.proteted_name)
 
     def __set__(self,
-                instance: SlideLimitationValidator,
+                instance: object,
                 value: int | float) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError
@@ -66,10 +65,6 @@ class Slide:
             self.limitation_class(visitor.age,
                                   visitor.weight,
                                   visitor.height)
-        except ValueError:
-            return False
-        return True
-
         except ValueError:
             return False
         return True
