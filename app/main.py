@@ -34,9 +34,6 @@ class IntegerRange:
         setattr(instance, self.private_name, value)
 
 
-
-
-
 class SlideLimitationValidator(ABC):
     def __init__(
             self,
