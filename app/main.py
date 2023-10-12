@@ -29,12 +29,11 @@ class IntegerRange:
 
     def __set__(self, instance: Visitor, value: int) -> None:
         if value != -1 and not self.min_amount <= value <= self.max_amount:
-            raise ValueError(f"Value {value} is out of range - "
-                             f"{self.min_amount} - {self.max_amount}")
+            raise ValueError(
+                f"Value {value} is out of range - "
+                f"{self.min_amount} - {self.max_amount}"
+            )
         setattr(instance, self.private_name, value)
-
-
-
 
 
 class SlideLimitationValidator(ABC):
