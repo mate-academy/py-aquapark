@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Union, Type
+from typing import Union, Type, Optional
 
 
 class IntegerRange:
@@ -12,7 +12,7 @@ class IntegerRange:
             self,
             instance: Visitor,
             owner: Type[Visitor]
-    ) -> Union[str, int]:
+    ) -> Optional[Union[str, int]]:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: Visitor, value: int) -> None:
