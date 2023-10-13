@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Any
 
 
 class IntegerRange:
@@ -8,13 +7,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Any, value: str) -> None:
+    def __set_name__(self, owner: type, value: str) -> None:
         self.protected_name = "_" + value
 
-    def __get__(self, instance: Any, owner: Any) -> Any:
+    def __get__(self, instance: type, owner: type) -> type:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any, value: Any) -> None:
+    def __set__(self, instance: object, value: type) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError
         setattr(instance, self.protected_name, value)
