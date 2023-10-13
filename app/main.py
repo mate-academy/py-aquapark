@@ -15,13 +15,13 @@ class IntegerRange:
     ) -> Union[str, int]:
         return getattr(instance, self.private_name)
 
-    def __set__(self, instance: Visitor, value: int):
+    def __set__(self, instance: Visitor, value: int) -> None:
         if not isinstance(value, int):
-            raise TypeError('Value must be an integer')
+            raise TypeError("Value must be an integer")
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
-                f'Value must be in range '
-                f'{self.min_amount}-{self.max_amount}'
+                f"Value must be in range "
+                f"{self.min_amount}-{self.max_amount}"
             )
         setattr(instance, self.private_name, value)
 
