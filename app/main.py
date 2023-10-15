@@ -5,20 +5,15 @@ class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
-        self.protected_name = None
 
-    def __get__(self, instance: str, owner: str) -> None:
-        return getattr(instance, self.protected_name)
+    def __get__(self, instance: int, owner: str) -> tuple:
+        return self.min_amount, self.max_amount
 
-    def __set__(self, instance: str, value: int) -> None:
-        if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError(f"{self.protected_name} "
-                             f"should be in range "
-                             f"({self.min_amount}-{self.max_amount})")
-        setattr(instance, self.protected_name, value)
+    def __set__(self, instance: int, value: int) -> None:
+        raise AttributeError("Cannot set value directly")
 
     def __set_name__(self, owner: str, name: str) -> None:
-        self.protected_name = f"_{name}"
+        self.name = name
 
 
 class Visitor:
@@ -32,57 +27,53 @@ class Visitor:
 class SlideLimitationValidator(ABC):
     def __init__(
             self,
-            age_range: IntegerRange,
-            height_range: IntegerRange,
-            weight_range: IntegerRange
+            age: IntegerRange,
+            weight: IntegerRange,
+            height: IntegerRange
     ) -> None:
-        self.age_range = age_range
-        self.height_range = height_range
-        self.weight_range = weight_range
+        self.age_range = age
+        self.weight_range = weight
+        self.height_range = height
 
     @abstractmethod
     def can_access(self, visitor: Visitor) -> bool:
         pass
 
-    def can_access(self, visitor: Visitor) -> bool:
-        age_min = self.age_range.min_amount
-        age_max = self.age_range.max_amount
-        height_min = self.height_range.min_amount
-        height_max = self.height_range.max_amount
-        weight_min = self.weight_range.min_amount
-        weight_max = self.weight_range.max_amount
 
-        age_condition = age_min <= visitor.age <= age_max
-        height_condition = height_min <= visitor.height <= height_max
-        weight_condition = weight_min <= visitor.weight <= weight_max
-
-        return age_condition and height_condition and weight_condition
+def can_access(self: SlideLimitationValidator, visitor: Visitor) -> bool:
+    return (
+        self.age_range.min_amount <= visitor.age
+        <= self.age_range.max_amount and self.height_range.min_amount
+        <= visitor.height
+        <= self.height_range.max_amount and self.weight_range.min_amount
+        <= visitor.weight <= self.weight_range.max_amount
+    )
 
 
-class ChildrenSlideLimitationValidator(SlideLimitationValidator, ABC):
+class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        age_range = IntegerRange(4, 14)
-        height_range = IntegerRange(80, 120)
-        weight_range = IntegerRange(20, 50)
-        super().__init__(age_range, height_range, weight_range)
+        age = IntegerRange(4, 14)
+        height = IntegerRange(80, 120)
+        weight = IntegerRange(20, 50)
+        super().__init__(age, weight, height)
+
+    can_access = can_access
 
 
-class AdultSlideLimitationValidator(SlideLimitationValidator, ABC):
+class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        age_range = IntegerRange(14, 60)
-        height_range = IntegerRange(120, 220)
-        weight_range = IntegerRange(50, 120)
-        super().__init__(age_range, height_range, weight_range)
+        age = IntegerRange(14, 60)
+        height = IntegerRange(120, 220)
+        weight = IntegerRange(50, 120)
+        super().__init__(age, weight, height)
+
+    can_access = can_access
 
 
 class Slide:
-    def __init__(
-            self,
-            name: str,
-            limitation_class: type[SlideLimitationValidator]
-    ) -> None:
+    def __init__(self, name: str, limitation_class: type) -> None:
         self.name = name
-        self.limitation = limitation_class()
+        self.limitation_validator = limitation_class()
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation.can_access(visitor)
+        return self.limitation_validator.can_access(visitor)
