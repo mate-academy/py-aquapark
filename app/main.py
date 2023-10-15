@@ -15,7 +15,7 @@ class IntegerRange:
 
     def __set__(self, instance: type, value: type) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
-            raise ValueError
+            raise ValueError("Visitor not allowed to used slide!")
         setattr(instance, self.protected_name, value)
 
 
