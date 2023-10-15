@@ -1,5 +1,5 @@
-from abc import ABC
 from __future__ import annotations
+from abc import ABC
 
 
 class IntegerRange:
