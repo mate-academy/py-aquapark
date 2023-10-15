@@ -1,4 +1,5 @@
 from abc import ABC
+ffrom __future__ import annotations
 
 
 class IntegerRange:
@@ -8,19 +9,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self,
-                instance: object,
-                owner: type) -> int | float:
+    def __get__(self, instance: Visitor, owner: type) -> int:
         return getattr(instance, self.proteted_name)
 
     def __set__(self,
-                instance: object,
-                value: int | float) -> None:
+                instance: Visitor,
+                value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError
         getattr(instance, self.proteted_name, value)
 
-    def __set_name__(self, owner: type, name: str) -> None:
+    def __set_name__(self, owner: Visitor, name: str) -> None:
         self.proteted_name = "_" + name
 
 
@@ -28,8 +27,8 @@ class Visitor:
     def __init__(self,
                  name: str,
                  age: int,
-                 weight: float,
-                 height: float) -> None:
+                 weight: int,
+                 height: int) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -37,7 +36,7 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: float, height: float) -> None:
+    def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
         self.height = height
