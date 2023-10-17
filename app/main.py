@@ -16,7 +16,7 @@ class IntegerRange:
     def __set__(self, instance: object, value: int) -> None:
 
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError(f"Value {value} not in range")
+            raise ValueError(f"Value {value} not in range for this slide")
         setattr(instance, self.protected_name, value)
 
 
