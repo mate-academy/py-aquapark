@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Type
+from typing import Type
 
 
 class IntegerRange:
@@ -7,19 +7,19 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Any, name: str) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.public_name = name
         self.private_name = "_" + name
 
-    def __get__(self, obj: Any, objtype: Any = None) -> int:
-        return getattr(obj, self.private_name)
+    def __get__(self, instance: object, owner: type) -> float:
+        return getattr(instance, self.private_name)
 
-    def __set__(self, obj: Any, value: int) -> None:
+    def __set__(self, instance: object, value: float) -> None:
         if not isinstance(value, int):
             raise TypeError("Value must be of type int")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError("Invalid value")
-        setattr(obj, self.private_name, value)
+        setattr(instance, self.private_name, value)
 
 
 class Visitor:
@@ -60,6 +60,6 @@ class Slide:
         result = True
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
-        except Exception:
+        except ValueError:
             result = False
         return result
