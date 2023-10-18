@@ -16,7 +16,7 @@ class IntegerRange:
                 instance: Visitor,
                 value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError
+            raise ValueError("Visitor can't use the slide")
         getattr(instance, self.proteted_name, value)
 
     def __set_name__(self, owner: Visitor, name: str) -> None:
@@ -64,6 +64,6 @@ class Slide:
             self.limitation_class(visitor.age,
                                   visitor.weight,
                                   visitor.height)
+            return True
         except ValueError:
             return False
-        return True
