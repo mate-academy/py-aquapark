@@ -18,7 +18,8 @@ class IntegerRange:
         if not isinstance(value, int):
             raise TypeError("Value must be of type int")
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError("Invalid value")
+            raise ValueError(f"Value must be between {self.min_amount} "
+                             f"and {self.max_amount}")
         setattr(instance, self.private_name, value)
 
 
@@ -57,9 +58,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        result = True
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
+            return True
         except ValueError:
-            result = False
-        return result
+            return False
