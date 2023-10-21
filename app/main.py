@@ -2,20 +2,6 @@ from abc import ABC
 
 
 class IntegerRange:
-    pass
-
-
-class Visitor:
-   pass
-
-
-class SlideLimitationValidator(ABC):
-    pass
-
-from abc import ABC
-
-
-class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
@@ -82,13 +68,3 @@ class Slide:
             return True
         except ValueError:
             return False
-class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    pass
-
-
-class AdultSlideLimitationValidator(SlideLimitationValidator):
-    pass
-
-
-class Slide:
-    pass
