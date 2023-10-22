@@ -13,7 +13,7 @@ class IntegerRange:
     def __get__(self, instance: Any, owner: Any) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any, value: Any) -> None:
+    def __set__(self, instance: Any, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError()
         if not (self.min_amount <= value <= self.max_amount):
@@ -52,27 +52,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(
-            self,
-            age: int,
-            height: int,
-            weight: int
-    ) -> None:
-        super().__init__(age, height, weight)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(
-            self,
-            age: int,
-            height: int,
-            weight: int
-    ) -> None:
-        super().__init__(age, height, weight)
 
 
 class Slide:
