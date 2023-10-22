@@ -24,8 +24,8 @@ class Visitor:
     def __init__(self,
                  name: str,
                  age: int,
-                 weight: float,
-                 height: float) -> None:
+                 weight: int,
+                 height: int) -> None:
         self.name = name
         self.age = age
         self. weight = weight
@@ -33,7 +33,7 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: float, height: float) -> None:
+    def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
         self.height = height
