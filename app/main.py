@@ -11,16 +11,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: Any, owner: Any) -> Any:
-        value = getattr(instance, self.protected_name)
-        return value
+    def __get__(self, instance: Any, owner: Any) -> int:
+        print(type(owner))
+        print(type(instance))
+        return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any, value: Any) -> Any:
+    def __set__(self, instance: Any, value: int) -> None:
         if value < self.min_amount or value > self.max_amount:
             raise ValueError
         setattr(instance, self.protected_name, value)
 
-    def __set_name__(self, owner: Any, name: str) -> Any:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
@@ -67,7 +68,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: type
+            limitation_class: type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
