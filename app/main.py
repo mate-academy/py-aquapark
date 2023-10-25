@@ -10,17 +10,11 @@ class IntegerRange:
 
     def __get__(self, instance: Any, owner: Any) -> int or None:
         if instance is not None:
-            value = getattr(instance, self.name)
+            value = getattr(instance, self.private_name)
             return value
         return self
 
     def __set__(self, instance: Any, value: Any) -> None:
-        if not isinstance(value, int):
-            raise TypeError(f"Value should be integer, not {type(value)}")
-        if not self.min_amount <= value <= self.max_amount:
-            raise ValueError(
-                f"Value not in range [{self.min_amount},{self.max_amount}]"
-            )
         setattr(instance, self.private_name, value)
 
     def __set_name__(self, owner: Any, name: Any) -> None:
@@ -50,31 +44,15 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(min_amount=4, max_amount=14)
-    height = IntegerRange(min_amount=80, max_amount=120)
-    weight = IntegerRange(min_amount=20, max_amount=50)
-
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(min_amount=14, max_amount=60)
-    height = IntegerRange(min_amount=120, max_amount=220)
-    weight = IntegerRange(min_amount=50, max_amount=120)
-
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
