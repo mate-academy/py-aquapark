@@ -28,8 +28,6 @@ class IntegerRange:
             instance: Any,
             owner: type[SlideLimitationValidator]
     ) -> int:
-        print(type(owner))
-        print(type(instance))
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
