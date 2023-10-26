@@ -16,7 +16,7 @@ class IntegerRange:
                 instance: Visitor,
                 value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError("Visitor can't use the slide")
+            raise ValueError(f"Value should be between {self.min_amount} and {self.max_amount}!")
         getattr(instance, self.proteted_name, value)
 
     def __set_name__(self, owner: Visitor, name: str) -> None:
