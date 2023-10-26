@@ -17,7 +17,8 @@ class IntegerRange:
                 value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
-                f"Value should be between {self.min_amount} and {self.max_amount}!"
+                f"Value should be between"
+                f"{self.min_amount} and {self.max_amount}!"
             )
         getattr(instance, self.proteted_name, value)
 
