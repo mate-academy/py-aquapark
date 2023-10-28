@@ -28,10 +28,6 @@ class Visitor:
         self.weight = weight
         self.height = height
 
-    age: IntegerRange = IntegerRange(0, 150)
-    weight: IntegerRange = IntegerRange(0, 300)
-    height: IntegerRange = IntegerRange(0, 300)
-
 
 class SlideLimitationValidator(ABC):
     @abstractmethod
@@ -47,8 +43,7 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
     def validate(self, visitor: Visitor) -> bool:
         return (
-            self.age.min_amount <= visitor.age
-            <= self.age.max_amount
+            self.age.min_amount <= visitor.age <= self.age.max_amount
             and self.height.min_amount <= visitor.height
             <= self.height.max_amount
             and self.weight.min_amount <= visitor.weight
@@ -64,8 +59,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
     def validate(self, visitor: Visitor) -> bool:
         return (
-            self.age.min_amount <= visitor.age
-            <= self.age.max_amount
+            self.age.min_amount <= visitor.age <= self.age.max_amount
             and self.height.min_amount <= visitor.height
             <= self.height.max_amount
             and self.weight.min_amount <= visitor.weight
