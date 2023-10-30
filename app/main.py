@@ -12,9 +12,11 @@ class IntegerRange:
 
     def __set__(self, instance: int, value: int) -> int:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError((f"{self.name} "
-                              f"must be between {self.min_amount} "
-                              f"and {self.max_amount}"))
+            raise ValueError(
+                f"{self.name} "
+                f"must be between {self.min_amount} "
+                f"and {self.max_amount}"
+            )
         instance.__dict__[self.name] = value
 
     def __set_name__(self, owner: str, name: str) -> str:
@@ -49,16 +51,16 @@ class SlideLimitationValidator(ABC):
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(IntegerRange(4, 14),
-                         IntegerRange(80, 120),
-                         IntegerRange(20, 50))
+        self.age = IntegerRange(4, 14)
+        self.height = IntegerRange(80, 120)
+        self.weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(IntegerRange(14, 60),
-                         IntegerRange(120, 220),
-                         IntegerRange(50, 120))
+        self.age = IntegerRange(14, 60)  # Updated age range for adults
+        self.height = IntegerRange(120, 220)
+        self.weight = IntegerRange(50, 120)
 
 
 class Slide:
