@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class IntegerRange:
@@ -11,7 +11,7 @@ class IntegerRange:
 
     def __set__(self, instance: int, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
-            instance.__dict__[self.name] = value
+            setattr(instance, self.name, value)
         else:
             raise ValueError(
                 f"{self.name} should be between "
@@ -35,7 +35,6 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    @abstractmethod
     def can_access(self, visitor: Visitor) -> bool:
         pass
 
@@ -63,4 +62,7 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_class().can_access(visitor)
+        return self.limitation_validator(
+            visitor.age,
+            visitor.weight, visitor.height
+        )
