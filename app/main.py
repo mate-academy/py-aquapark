@@ -19,7 +19,7 @@ class IntegerRange:
             )
 
     def __set_name__(self, owner: int, name: int) -> None:
-        self.name = name
+        self.name = f"_{name}"
 
 
 class Visitor:
@@ -62,7 +62,4 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_validator(
-            visitor.age,
-            visitor.weight, visitor.height
-        )
+        return self.limitation_class().can_access(visitor)
