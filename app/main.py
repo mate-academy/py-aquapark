@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class IntegerRange:
@@ -27,7 +27,7 @@ class IntegerRange:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
         else:
-            setattr(instance, self.protected_name, 0)
+            raise ValueError
 
 
 class Visitor:
@@ -44,27 +44,17 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    @abstractmethod
-    def validate(self) -> bool:
-        pass
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def validate(self) -> bool:
-        return True if self.age and self.height and self.weight else False
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def validate(self) -> bool:
-        return True if self.age and self.height and self.weight else False
 
 
 class Slide:
@@ -81,4 +71,8 @@ class Slide:
         age = visitor.age
         weight = visitor.weight
         height = visitor.height
-        return self.limitation_class(age, weight, height).validate()
+        try:
+            self.limitation_class(age, weight, height)
+        except ValueError:
+            return False
+        return True
