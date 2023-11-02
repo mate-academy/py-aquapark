@@ -7,7 +7,7 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: int, owner: int) -> None:
-        return instance.__dict__[self.name]
+        return getattr(instance, self.name)
 
     def __set__(self, instance: int, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
