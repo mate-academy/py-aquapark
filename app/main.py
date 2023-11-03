@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Type
 from abc import ABC
 
 
@@ -61,7 +62,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
 
         self.name = name
