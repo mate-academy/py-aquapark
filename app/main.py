@@ -1,6 +1,6 @@
 from __future__ import annotations
-from typing import Any
 from abc import ABC
+from typing import Any
 
 
 class IntegerRange:
@@ -11,10 +11,10 @@ class IntegerRange:
     def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Visitor, owner: Visitor) -> Visitor:
+    def __get__(self, instance: Any, owner: Any) -> Visitor:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Visitor, value: int) -> None:
+    def __set__(self, instance: Any, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
             return setattr(instance, self.protected_name, value)
         raise ValueError(f"{self.protected_name}"
