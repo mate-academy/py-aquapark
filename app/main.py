@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Any
 from abc import ABC
 
 
@@ -7,7 +8,7 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Visitor, name: str) -> None:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(self, instance: Visitor, owner: Visitor) -> Visitor:
