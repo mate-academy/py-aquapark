@@ -25,7 +25,8 @@ class IntegerRange:
 
     def __set__(self, instance: object, value: int) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
-            raise ValueError
+            raise ValueError(f"Please provide a value between "
+                             f"{self.min_amount} and {self.max_amount + 1}")
         setattr(instance, self.protected_name, value)
 
 
