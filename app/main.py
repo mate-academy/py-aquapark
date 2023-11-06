@@ -10,16 +10,18 @@ class IntegerRange:
     def __set_name__(self, owner: "IntegerRange", name: str) -> None:
         self.name = "_" + name
 
-    def __get__(self,
-                instance: "SlideLimitationValidator",
-                owner: "IntegerRange"
-                ) -> int:
+    def __get__(
+            self,
+            instance: "SlideLimitationValidator",
+            owner: "IntegerRange"
+            ) -> int:
         getattr(instance, self.name)
 
-    def __set__(self,
-                instance: "SlideLimitationValidator",
-                value: int
-                ) -> None:
+    def __set__(
+            self,
+            instance: "SlideLimitationValidator",
+            value: int
+            ) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"{self.name} must be between "
                              f"{self.min_amount} and {self.max_amount}!")
@@ -27,12 +29,13 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self,
-                 name: str,
-                 age: int,
-                 weight: int,
-                 height: int,
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int,
+            ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -40,11 +43,12 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self,
-                 age: int,
-                 weight: int,
-                 height: int
-                 ) -> None:
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int
+            ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -63,10 +67,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self,
-                 name: str,
-                 limitation_class: Type[SlideLimitationValidator]
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: Type[SlideLimitationValidator]
+            ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
