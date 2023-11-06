@@ -14,14 +14,14 @@ class IntegerRange:
             self,
             instance: "SlideLimitationValidator",
             owner: "IntegerRange"
-            ) -> int:
+    ) -> int:
         getattr(instance, self.name)
 
     def __set__(
             self,
             instance: "SlideLimitationValidator",
             value: int
-            ) -> None:
+    ) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"{self.name} must be between "
                              f"{self.min_amount} and {self.max_amount}!")
@@ -35,7 +35,7 @@ class Visitor:
             age: int,
             weight: int,
             height: int,
-            ) -> None:
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -48,7 +48,7 @@ class SlideLimitationValidator(ABC):
             age: int,
             weight: int,
             height: int
-            ) -> None:
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -71,7 +71,7 @@ class Slide:
             self,
             name: str,
             limitation_class: Type[SlideLimitationValidator]
-            ) -> None:
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
