@@ -6,15 +6,15 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner, name: str) -> None:
+    def __set_name__(self, owner: any, name: str) -> None:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, obj, objtype=None) -> any:
+    def __get__(self, obj: any, objtype: any = None) -> any:
         value = getattr(obj, self.protected_name)
         return value
 
-    def __set__(self, obj, value: int) -> None:
+    def __set__(self, obj: any, value: int) -> None:
         setattr(obj, self.protected_name, value)
 
 
