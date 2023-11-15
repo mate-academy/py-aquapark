@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Type
 
 
@@ -16,6 +16,11 @@ class IntegerRange:
     def __set__(self, obj: Any, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(obj, self.protected_name, value)
+        else:
+            raise ValueError(
+                f"The value must be in the range "
+                f"{self.min_amount} - {self.max_amount}"
+            )
 
 
 class Visitor:
@@ -32,23 +37,17 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    @abstractmethod
-    def validate(self) -> bool:
-        pass
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def validate(self) -> bool:
-        return (4 <= self.age <= 14
-                and 80 <= self.height <= 120
-                and 20 <= self.weight <= 50)
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def validate(self) -> bool:
-        return (14 <= self.age <= 60
-                and 120 <= self.height <= 220
-                and 50 <= self.weight <= 120)
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
@@ -61,9 +60,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        result = self.limitation_class(
-            age=visitor.age,
-            height=visitor.height,
-            weight=visitor.weight
-        ).validate()
-        return result
+        try:
+            if self.limitation_class(
+                age=visitor.age,
+                height=visitor.height,
+                weight=visitor.weight
+            ):
+                return True
+        except ValueError:
+            return False
