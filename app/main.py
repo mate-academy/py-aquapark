@@ -7,15 +7,15 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: "Visitor", oven: "Visitor") -> None:
+    def __get__(self, instance: Any, oven: Any) -> None:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: "Visitor", value: Any) -> None:
+    def __set__(self, instance: Any, value: Any) -> None:
         if value > self.max_amount or value < self.min_amount:
             raise ValueError()
         setattr(instance, self.protected_name, value)
 
-    def __set_name__(self, owner: "Visitor", name: str) -> None:
+    def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
 
 
