@@ -84,4 +84,3 @@ class Slide:
             return False
 
         return True
-
