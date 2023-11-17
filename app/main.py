@@ -50,7 +50,7 @@ class SlideLimitationValidator(ABC):
         self.weight_range = weight_range
         weight_range.__set_name__(self, "weight_range")
         self.height_range = height_range
-        height_range.__set_name__(self, "height_range")   
+        height_range.__set_name__(self, "height_range")
 
     def can_access(self, visitor: any) -> bool:
         try:
@@ -61,6 +61,7 @@ class SlideLimitationValidator(ABC):
             return False
 
         return True
+
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
@@ -83,5 +84,5 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class()
 
-def can_access(self, visitor: any) -> bool:
-    limitation_class.can_access(visitor)
+    def can_access(self: any, visitor: any) -> bool:
+        self.limitation_class.can_access(visitor)
