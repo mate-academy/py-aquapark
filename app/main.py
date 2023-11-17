@@ -45,9 +45,9 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(age_range=IntegerRange(15, 100),
-                         weight_range=IntegerRange(40, 120),
-                         height_range=IntegerRange(140, 200))
+        super().__init__(age_range=IntegerRange(14, 60),
+                         weight_range=IntegerRange(50, 120),
+                         height_range=IntegerRange(120, 200))
 
 
 class Visitor:
