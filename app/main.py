@@ -10,10 +10,10 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, obj, name) -> None:
+    def __set_name__(self, obj: any, name: str) -> None:
         self._name = "_" + name
 
-    def __get__(self, obj, owner) -> int:
+    def __get__(self, obj: any, owner: any) -> int:
         return getattr(obj, self._name)
 
     def __set__(self, obj: any, value: int) -> None:
@@ -83,7 +83,7 @@ class Slide:
             visitor.age = self.limitation_class._age
             visitor.weight = self.limitation_class._weight
             visitor.height = self.limitation_class._height
-        
+
         except ValueError:
             return False
 
