@@ -70,10 +70,9 @@ class Slide:
 
     def can_access(self, visitor: any) -> bool:
         try:
-            # Use setattr to set the values of the limitation_class attributes
-            setattr(self.limitation_class, "age_range", visitor.age)
-            setattr(self.limitation_class, "weight_range", visitor.weight)
-            setattr(self.limitation_class, "height_range", visitor.height)
+            self.limitation_class = visitor.age
+            self.limitation_class = visitor.weight
+            self.limitation_class = visitor.height
         except ValueError:
             return False
 
