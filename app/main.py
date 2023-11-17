@@ -2,19 +2,19 @@ from abc import ABC
 
 
 class IntegerRange:
-    def __init__(self, 
-                 min_amount: int, 
+    def __init__(self,
+                 min_amount: int,
                  max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, 
-                obj: any, 
+    def __get__(self,
+                obj: any,
                 instance: any) -> None:
         return getattr(obj, "_value")
 
-    def __set__(self, 
-                obj: any, 
+    def __set__(self,
+                obj: any,
                 value: any) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"Value {value} is not "
@@ -22,16 +22,16 @@ class IntegerRange:
                              f"-{self.max_amount}")
         setattr(obj, "_value", value)
 
-    def __set_name__(self, 
-                     owner: any, 
+    def __set_name__(self,
+                     owner: any,
                      name: str) -> None:
         setattr(owner, name, self)
 
 class Visitor:
-    def __init__(self, 
-                 name: str, 
+    def __init__(self,
+                 name: str,
                  age: int,
-                 weight: int, 
+                 weight: int,
                  height: int) -> None:
         self.name = name
         self.age = age
@@ -41,7 +41,7 @@ class Visitor:
 
 class SlideLimitationValidator(ABC):
     def __init__(self, age_range: IntegerRange,
-                 weight_range: IntegerRange, 
+                 weight_range: IntegerRange,
                  height_range: IntegerRange
                  ) -> None:
         self.age_range = age_range
