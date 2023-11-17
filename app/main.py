@@ -27,6 +27,7 @@ class IntegerRange:
                      name: str) -> None:
         setattr(owner, name, self)
 
+
 class Visitor:
     def __init__(self,
                  name: str,
@@ -51,6 +52,7 @@ class SlideLimitationValidator(ABC):
     def can_access(self, visitor: any) -> bool:
         pass
 
+
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
         super().__init__(IntegerRange(4, 14),
@@ -74,9 +76,9 @@ class Slide:
 
     def can_access(self, visitor: any) -> bool:
         try:
-            visitor.age = limitation_class.age_range
-            visitor.weight = limitation_class.weight_range
-            visitor.height = limitation_class.height_range
+            visitor.age = self.limitation_class.age_range
+            visitor.weight = self.limitation_class.weight_range
+            visitor.height = self.limitation_class.height_range
         except ValueError:
             return False
 
