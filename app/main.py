@@ -16,9 +16,7 @@ class IntegerRange:
     def __set__(self, 
                 obj: any, 
                 value: any) -> None:
-        if not self.min_amount 
-                    <= value 
-                    <= self.max_amount:
+        if not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"Value {value} is not "
                              f"within the range {self.min_amount}"
                              f"-{self.max_amount}")
