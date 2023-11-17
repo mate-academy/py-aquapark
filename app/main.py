@@ -1,4 +1,4 @@
-rom abc import ABC
+from abc import ABC
 
 
 class IntegerRange:
