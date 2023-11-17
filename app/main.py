@@ -26,7 +26,7 @@ class IntegerRange:
 
 class Visitor:
 
-    def __init(self,
+    def __init__(self,
                name: str,
                age: int,
                weight: int,
@@ -40,7 +40,7 @@ class Visitor:
 
 class SlideLimitationValidator(ABC):
 
-    def __int__(self,
+    def __init__(self,
                 age_integer: IntegerRange,
                 weight_integer: IntegerRange,
                 height_integer: IntegerRange
