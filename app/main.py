@@ -5,25 +5,25 @@ class IntegerRange:
     def __init__(self, min_value: int, max_value: int) -> None:
         if min_value > max_value:
             raise ValueError(
-                f"Minimum value ({min_value}) cannot be greater than maximum value ({max_value})"
+                f"Not in range"
             )
 
         self.min_value = min_value
         self.max_value = max_value
 
-    def __get__(self, obj, owner) -> int:
+    def __get__(self, obj: any, owner: any) -> int:
         return getattr(obj, self.__name__)
 
-    def __set__(self, obj, value: int) -> None:
+    def __set__(self, obj: any, value: int) -> None:
         instance_dict = getattr(obj, "__dict__")
 
         if value < self.min_value or value > self.max_value:
-            raise ValueError(f"Value ({value}) must be within the range [{self.min_value}, {self.max_value}]")
+            raise ValueError(f"Not in range")
 
         setattr(obj, self.__name__, value)
 
 
-class SlideLimitationValidator:
+class SlideLimitationValidator(ABC):
     def __init__(self, age_range: IntegerRange,
                  weight_range: IntegerRange,
                  height_range: IntegerRange
