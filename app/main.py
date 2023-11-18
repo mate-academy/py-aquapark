@@ -2,10 +2,7 @@ from abc import ABC
 
 
 class IntegerRange:
-    def __init__(self,
-                 min_amount: int,
-                 max_amount: int
-                 ) -> None:
+    def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
@@ -13,15 +10,10 @@ class IntegerRange:
         self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self,
-                instance: "SlideLimitationValidator",
-                owner: type
-                ) -> int:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self,
-                instance: "SlideLimitationValidator",
-                value: int) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
             if not hasattr(instance, "access"):
@@ -81,14 +73,17 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        access_validator = self.limitation_class(visitor.age,
-                                                 visitor.weight,
-                                                 visitor.height,
-                                                 self.name)
-        access = access_validator.access
-        if access:
-            print(f"""{self.name}
-                   Access granted!
-                   Enjoy Your Time!
-                   """)
-        return access
+        access_validator = self.limitation_class(
+            visitor.age,
+            visitor.weight,
+            visitor.height,
+            self.name
+        )
+
+        if access_validator.access:
+            print(f"{self.name} Access granted! Enjoy Your Time!")
+        return access_validator.access
+
+
+print(type(SlideLimitationValidator))
+print(type(Visitor))
