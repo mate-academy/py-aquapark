@@ -85,6 +85,6 @@ class Slide:
                 height=visitor.height,
                 weight=visitor.weight
             )
-        except (ValueError, TypeError):
+        except ValueError:
             return False
         return True
