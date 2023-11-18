@@ -7,33 +7,19 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(
-            self,
-            owner: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
-            name: str
-    ) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(
-            self,
-            instance: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
-            owner: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator
-    ) -> int:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(
-            self,
-            instance: ChildrenSlideLimitationValidator
-            | AdultSlideLimitationValidator,
-            value: int | str
-    ) -> None:
-        if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.protected_name, value)
-            return
-        raise ValueError(self.protected_name)
+    def __set__(self, instance: object, value: int | str) -> None:
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError(
+                f"Amount should not be less than "
+                f"{self.min_amount} and greater than {self.max_amount}."
+            )
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
