@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from typing import Type
+from abc import ABC, abstractmethod
 
 
 class IntegerRange:
@@ -21,10 +21,10 @@ class IntegerRange:
 
     def __set__(self, obj: any, value: int) -> None:
 
-        if self.min_amount <= value <= self.max_amount:
-            setattr(obj, self.protected_name, value)
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError("Not in range")
 
-        raise ValueError("Not in range")
+        setattr(obj, self.protected_name, value)
 
 
 class Visitor:
@@ -86,8 +86,14 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
 
         try:
-            self.limitation_class(age=visitor.age,  weight=visitor.weight, height=visitor.height)
+            self.limitation_class(age=visitor.age, weight=visitor.weight, height=visitor.height)
         except ValueError:
             return False
 
         return True
+#
+#
+# Ad = AdultSlideLimitationValidator
+# s = Slide("ad", Ad)
+# v = Visitor("me", age=13, height=160, weight=60)
+# print(s.can_access(v))
