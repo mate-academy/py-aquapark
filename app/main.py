@@ -1,5 +1,5 @@
+from __future__ import annotations
 from abc import ABC
-from typing import Callable
 
 
 class IntegerRange:
@@ -7,17 +7,29 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Callable, name: str) -> None:
+    def __set_name__(
+            self,
+            owner: ChildrenSlideLimitationValidator
+            | AdultSlideLimitationValidator,
+            name: str
+    ) -> None:
         self.protected_name = "_" + name
 
     def __get__(
             self,
-            instance: Callable,
-            owner: Callable
+            instance: ChildrenSlideLimitationValidator
+            | AdultSlideLimitationValidator,
+            owner: ChildrenSlideLimitationValidator
+            | AdultSlideLimitationValidator
     ) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Callable, value: int | str) -> None:
+    def __set__(
+            self,
+            instance: ChildrenSlideLimitationValidator
+            | AdultSlideLimitationValidator,
+            value: int | str
+    ) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
             return
@@ -55,7 +67,11 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: Callable
+            limitation_class:
+            callable(
+                [ChildrenSlideLimitationValidator
+                 | AdultSlideLimitationValidator]
+            )
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
@@ -67,7 +83,6 @@ class Slide:
                 instance.height,
                 instance.weight
             )
-        except ValueError as msg:
-            print(msg)
+        except ValueError:
             return False
         return True
