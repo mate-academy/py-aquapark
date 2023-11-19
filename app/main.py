@@ -86,10 +86,3 @@ class Slide:
         if access_validator.access:
             print(f"{self.name} Access granted! Enjoy Your Time!")
         return access_validator.access
-
-
-
-visitor = Visitor('den',14, 52,74)
-slide1 = Slide("slide1", AdultSlideLimitationValidator)
-slide2 = Slide("slide2", ChildrenSlideLimitationValidator)
-slide1.can_access(visitor)
