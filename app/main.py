@@ -86,7 +86,9 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
 
         try:
-            self.limitation_class(age=visitor.age, weight=visitor.weight, height=visitor.height)
+            self.limitation_class(age=visitor.age,
+                                  weight=visitor.weight,
+                                  height=visitor.height)
         except ValueError:
             return False
 
