@@ -32,7 +32,7 @@ class IntegerRange:
             value: int
     ) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError()
+            raise ValueError(f"Value {value} not in range {self.min_amount}-{self.max_amount}.")
         setattr(instance, self.protected_name, value)
 
 
