@@ -21,8 +21,8 @@ class IntegerRange:
 
     def __set__(self, obj: any, value: int) -> None:
 
-        if not self.min_amount <= value <= self.max_amount:
-            raise ValueError("Not in range")
+        if (self.min_amount > value) or (value > self.max_amount):
+            raise ValueError
 
         setattr(obj, self.protected_name, value)
 
@@ -58,8 +58,8 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(4, 14),
-    weigh = IntegerRange(20, 50),
+    age = IntegerRange(4, 14)
+    weigh = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
     def can_access(self) -> None:
@@ -67,8 +67,8 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(14, 60),
-    weigh = IntegerRange(50, 120),
+    age = IntegerRange(14, 60)
+    weigh = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
 
     def can_access(self) -> None:
@@ -93,7 +93,7 @@ class Slide:
         return True
 #
 #
-# Ad = AdultSlideLimitationValidator
-# s = Slide("ad", Ad)
-# v = Visitor("me", age=13, height=160, weight=60)
-# print(s.can_access(v))
+Ad = AdultSlideLimitationValidator
+s = Slide("ad", Ad)
+v = Visitor("me", age=25, height=150, weight=45)
+print(s.can_access(v))
