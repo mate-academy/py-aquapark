@@ -54,10 +54,7 @@ class Slide:
             self,
             name: str,
             limitation_class:
-            callable(
-                [ChildrenSlideLimitationValidator
-                 | AdultSlideLimitationValidator]
-            )
+            type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
