@@ -83,7 +83,3 @@ class Slide:
         if access_validator.access:
             print(f"{self.name} Access granted! Enjoy Your Time!")
         return access_validator.access
-
-
-print(type(SlideLimitationValidator))
-print(type(Visitor))

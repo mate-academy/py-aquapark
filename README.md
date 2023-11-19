@@ -40,6 +40,6 @@ Aqua-park has two types of slides: for adult and for children.
 #### 5. `Slide` class
 Its `__init__` method takes 2 arguments:
    - `name` - string value, slide's name
-   - `limitation_class` - type of `SlideLimitationValidator` class which sets restrictions on the use of the slide
+   - `limitation_class` - instance of `SlideLimitationValidator` class which sets restrictions on the use of the slide
 
 Create `can_access` method that takes instance of `Visitor` class and returns if the visitor can use the slide.
