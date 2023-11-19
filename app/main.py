@@ -58,8 +58,8 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(4, 14),
-    weigh = IntegerRange(20, 50),
+    age = IntegerRange(4, 14)
+    weigh = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
     def can_access(self) -> None:
@@ -67,8 +67,8 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(14, 60),
-    weigh = IntegerRange(50, 120),
+    age = IntegerRange(14, 60)
+    weigh = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
 
     def can_access(self) -> None:
