@@ -19,20 +19,21 @@ class IntegerRange:
             if not hasattr(instance, "access"):
                 instance.access = True
         else:
-            print(f"{instance.slide_name}: access is not granted"
-                  f" because of {self.public_name}({value}) "
-                  f"is not in range({self.min_amount}-{self.max_amount})")
+            print(f"{instance.slide_name}: access is not granted "
+                  f"because of {self.public_name}({value}) "
+                  f"is not in range({self.min_amount}-{self.max_amount}).")
             if not hasattr(instance, "access") or instance.access:
                 instance.access = False
 
 
 class Visitor:
-    def __init__(self,
-                 name: str,
-                 age: int,
-                 weight: int,
-                 height: int
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.height = height
@@ -40,12 +41,13 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self,
-                 age: int,
-                 weight: int,
-                 height: int,
-                 slide_name: str,
-                 ) -> None:
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int,
+            slide_name: str
+    ) -> None:
         self.slide_name = slide_name
         self.age = age
         self.weight = weight
@@ -65,10 +67,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self,
-                 name: str,
-                 limitation_class: type
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: type[SlideLimitationValidator]
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
@@ -83,3 +86,10 @@ class Slide:
         if access_validator.access:
             print(f"{self.name} Access granted! Enjoy Your Time!")
         return access_validator.access
+
+
+
+visitor = Visitor('den',14, 52,74)
+slide1 = Slide("slide1", AdultSlideLimitationValidator)
+slide2 = Slide("slide2", ChildrenSlideLimitationValidator)
+slide1.can_access(visitor)
