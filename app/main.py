@@ -92,11 +92,3 @@ class Slide:
             return False
 
         return True
-
-
-#
-#
-Ad = AdultSlideLimitationValidator
-s = Slide("ad", Ad)
-v = Visitor("me", age = 5, height = 90, weight = 15)
-print(s.can_access(v))
