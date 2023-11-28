@@ -24,8 +24,6 @@ class IntegerRange:
 
 
 class Visitor:
-    parameters = {}
-
     def __init__(
         self,
         name: str,
@@ -38,7 +36,6 @@ class Visitor:
         self.age = age
         self.height = height
         self.weight = weight
-        self.parameters[name] = self
 
 
 class SlideLimitationValidator(ABC):
@@ -67,15 +64,20 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: callable) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: type[SlideLimitationValidator]
+    ) -> None:
+
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        parametrs = self.limitation_class(
+        parameters = self.limitation_class(
             visitor.age,
             visitor.height,
             visitor.weight
         )
 
-        return len(parametrs.__dict__) == 3
+        return len(parameters.__dict__) == 3
