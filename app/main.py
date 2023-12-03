@@ -8,7 +8,11 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: Type[SlideLimitationValidator], name: str) -> None:
+    def __set_name__(
+            self,
+            owner: Type[SlideLimitationValidator],
+            name: str
+    ) -> None:
         self.protected_name = "_" + name
 
     def __get__(
