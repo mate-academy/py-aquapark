@@ -2,6 +2,10 @@ from abc import ABC
 from typing import Any
 
 
+class SlideLimitationError(ValueError):
+    pass
+
+
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
@@ -15,7 +19,7 @@ class IntegerRange:
 
     def __set__(self, instance: Any, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError
+            raise SlideLimitationError
         setattr(instance, self.protected_name, value)
 
 
@@ -62,7 +66,6 @@ class Slide:
                 height=visitor.height,
                 weight=visitor.weight
             )
-        except ValueError:
+        except SlideLimitationError:
             return False
-        else:
-            return True
+        return True
