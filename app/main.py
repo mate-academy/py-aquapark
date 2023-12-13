@@ -33,8 +33,10 @@ class IntegerRange:
         if value in range(self.min_amount, self.max_amount + 1):
             setattr(instance, self.protected_attr, value)
         else:
-            raise ValueError(f"Value {value} is not in range "
-                             f"{self.min_amount} - {self.max_amount}")
+            raise ValueError(
+                f"Value {value} is not in range "
+                f"{self.min_amount} - {self.max_amount}"
+            )
 
 
 class Visitor:
