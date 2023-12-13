@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class IntegerRange:
@@ -33,7 +33,8 @@ class IntegerRange:
         if value in range(self.min_amount, self.max_amount + 1):
             setattr(instance, self.protected_attr, value)
         else:
-            setattr(instance, self.protected_attr, None)
+            raise ValueError(f"Value {value} is not in range "
+                             f"{self.min_amount} - {self.max_amount}")
 
 
 class Visitor:
@@ -61,27 +62,17 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    @abstractmethod
-    def validate(self) -> bool:
-        pass
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     weight = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
-    def validate(self) -> bool:
-        return True if self.age and self.weight and self.height else False
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     weight = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
-
-    def validate(self) -> bool:
-        return True if self.age and self.weight and self.height else False
 
 
 class Slide:
@@ -97,12 +88,8 @@ class Slide:
             self,
             visitor: Visitor
     ) -> bool:
-        if self.limitation_class == AdultSlideLimitationValidator:
-            person = AdultSlideLimitationValidator(
-                visitor.age, visitor.weight, visitor.height
-            )
-            return person.validate()
-        person = ChildrenSlideLimitationValidator(
-            visitor.age, visitor.weight, visitor.height
-        )
-        return person.validate()
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+        except ValueError:
+            return False
+        return True
