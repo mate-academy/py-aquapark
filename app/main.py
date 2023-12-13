@@ -7,15 +7,14 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: type) -> None:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            return
+            raise ValueError("You can't go on this slide!!!")
         setattr(instance, self.protected_name, value)
 
 
@@ -67,10 +66,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        validate = self.limitation_class(visitor.age,
-                                         visitor.weight,
-                                         visitor.height)
-
-        if len(validate.__dict__) == 3:
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        return False
+        except ValueError:
+            return False
