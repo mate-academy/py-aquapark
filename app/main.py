@@ -22,7 +22,6 @@ class IntegerRange:
     ) -> None:
         self.name = f"_{name}"
 
-
     def __get__(
             self,
             instance: Type[IntegerRange],
