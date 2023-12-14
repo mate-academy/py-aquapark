@@ -23,7 +23,6 @@ class IntegerRange:
         self.name = f"_{name}"
 
 
-class Visitor:
     def __get__(
             self,
             instance: Type[IntegerRange],
