@@ -16,7 +16,7 @@ class IntegerRange:
         return setattr(instance, self._name, value)
 
     def __set_name__(self, owner: any, name: str) -> None:
-        self._name = name
+        self._name = "_" + name
 
 
 class Visitor:
@@ -83,8 +83,14 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 class Slide:
     def __init__(self, name: str, limitation_class: any) -> None:
-        self.name = name
+        self.age = None
+        self.weight = None
+        self.height = None
+        self._name = name
         self.limitation_validator = limitation_class()
 
     def can_access(self, visitor: Visitor) -> bool:
+        self.age = visitor.age
+        self.weight = visitor.weight
+        self.height = visitor.height
         return self.limitation_validator.validate(visitor)
