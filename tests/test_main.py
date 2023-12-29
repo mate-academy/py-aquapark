@@ -20,16 +20,14 @@ from app.main import (
         pytest.param(10, 120, 30, True, id="success"),
         pytest.param(4, 80, 20, True, id="success-for-min-accessible-values"),
         pytest.param(14, 120, 50, True, id="success-for-max-accessible-values"),
-    )
+    ),
 )
 def test_child_slide(age: int, height: int, weight: int, has_access: bool) -> None:
     baby_slide = Slide(
         name="Baby Slide", limitation_class=ChildrenSlideLimitationValidator
     )
     visitor = Visitor(name="User", age=age, height=height, weight=weight)
-    assert (
-        baby_slide.can_access(visitor) == has_access
-    ), (
+    assert baby_slide.can_access(visitor) == has_access, (
         f"Baby-slide 'can_access' method should return '{has_access}' for visitor with such parameters: (age: {age}, "
         f"weight: {weight}, height: {height}). But actual result is {baby_slide.can_access(visitor)}"
     )
@@ -47,16 +45,14 @@ def test_child_slide(age: int, height: int, weight: int, has_access: bool) -> No
         pytest.param(25, 160, 60, True, id="success"),
         pytest.param(14, 120, 50, True, id="success-for-min-accessible-values"),
         pytest.param(60, 220, 120, True, id="success-for-max-accessible-values"),
-    )
+    ),
 )
 def test_adult_slide(age: int, height: int, weight: int, has_access: bool) -> None:
     adult_slide = Slide(
         name="Adult Slide", limitation_class=AdultSlideLimitationValidator
     )
     visitor = Visitor(name="User", age=age, height=height, weight=weight)
-    assert (
-        adult_slide.can_access(visitor) == has_access
-    ), (
+    assert adult_slide.can_access(visitor) == has_access, (
         f"Adult-slide 'can_access' method should return '{has_access}' for visitor with such parameters: (age: {age}, "
         f"weight: {weight}, height: {height}). But actual result is {adult_slide.can_access(visitor)}"
     )
