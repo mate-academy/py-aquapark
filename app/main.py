@@ -9,7 +9,7 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: Any, name: str) -> None:
-        self.name = name
+        # self.name = name
         self.protected_name = "_" + name
 
     def __get__(self, instance: Visitor, owner: Any) -> int:
@@ -63,7 +63,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: SlideLimitationValidator
+            limitation_class: type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
@@ -74,12 +74,3 @@ class Slide:
             return True
         except ValueError:
             return False
-
-
-if __name__ == "__main__":
-    visitor = Visitor(name="John", age=14, height=120, weight=50)
-    adult_slide = Slide(name="Adult-slide",
-                        limitation_class=AdultSlideLimitationValidator)
-
-    # Now, test if the visitor can access the slide
-    print(adult_slide.can_access(visitor))
