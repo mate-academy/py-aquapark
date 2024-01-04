@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any
 
 
@@ -14,6 +14,10 @@ class IntegerRange:
         return getattr(obj, self.private_name)
 
     def __set__(self, obj: Any, value: int) -> None:
+        if not (self.min_amount <= value <= self.max_amount):
+            raise ValueError(f"Should not be less than "
+                             f"{self.min_amount} and greater than "
+                             f"{self.max_amount}")
         setattr(obj, self.private_name, value)
 
 
@@ -32,10 +36,6 @@ class SlideLimitationValidator(ABC):
         self.age = age
         self.weight = weight
         self.height = height
-
-    @abstractmethod
-    def validate(self, age: int, height: int, weight: int) -> bool:
-        pass
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
