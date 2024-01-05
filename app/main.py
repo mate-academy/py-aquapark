@@ -30,44 +30,36 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: tuple[int, int],
-                 weight: tuple[int, int],
-                 height: tuple[int, int]) -> None:
+    def __init__(self, age: int,
+                 weight: int,
+                 height: int) -> None:
         self.age = age
         self.weight = weight
         self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(age=(4, 14), weight=(20, 50), height=(80, 120))
-
-    def validate(self, age: int, height: int, weight: int) -> bool:
-        age_valid = self.age[0] <= age <= self.age[1]
-        height_valid = self.height[0] <= height <= self.height[1]
-        weight_valid = self.weight[0] <= weight <= self.weight[1]
-
-        return age_valid and height_valid and weight_valid
+    age = IntegerRange(4, 14)
+    weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(age=(14, 60), weight=(50, 120), height=(120, 220))
-
-    def validate(self, age: int, height: int, weight: int) -> bool:
-        age_valid = self.age[0] <= age <= self.age[1]
-        height_valid = self.height[0] <= height <= self.height[1]
-        weight_valid = self.weight[0] <= weight <= self.weight[1]
-
-        return age_valid and height_valid and weight_valid
+    age = IntegerRange(14, 60)
+    weight = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
 
 
 class Slide:
     def __init__(self, name: str,
-                 limitation_class: type[SlideLimitationValidator]) -> None:
+                 limitation_class:
+                 type[SlideLimitationValidator]) -> None:
         self.name = name
-        self.limitation_validator = limitation_class()
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_validator.validate(
-            visitor.age, visitor.height, visitor.weight)
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+            return True
+        except ValueError:
+            return False
