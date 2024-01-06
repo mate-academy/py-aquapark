@@ -15,7 +15,8 @@ class IntegerRange:
             self,
             instance:
             ChildrenSlideLimitationValidator | AdultSlideLimitationValidator,
-            owner: IntegerRange) -> int:
+            owner: IntegerRange
+    ) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(
