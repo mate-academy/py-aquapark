@@ -8,15 +8,15 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.var_name = "_" + name
+        self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> str:
-        return getattr(instance, self.var_name)
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError("Out of limit")
-        setattr(instance, self.var_name, value)
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -46,19 +46,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(self, age: int, weight: int | float,
-                 height: int | float) -> None:
-        super().__init__(age, weight, height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(self, age: int, weight: int | float,
-                 height: int | float) -> None:
-        super().__init__(age, weight, height)
 
 
 class Slide:
@@ -68,9 +60,9 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, other: Visitor) -> bool:
+    def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(other.age, other.weight, other.height)
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
         except ValueError:
             return False
