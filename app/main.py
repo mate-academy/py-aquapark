@@ -3,17 +3,20 @@ from abc import ABC
 
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
-        self.name = None
         self.min_amount = min_amount
         self.max_amount = max_amount
 
     def __get__(self, instance: object, owner: object) -> int:
-        return instance.name
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        instance.name = value
+        if not (self.min_amount <= value <= self.max_amount):
+            raise ValueError(f"Invalid value. It must be between {self.min_amount} and {self.max_amount}")
+        setattr(instance, self.protected_name, value)
 
     def __set_name__(self, owner: object, name: str) -> None:
+        self.protected_name = "_" + name
+        self.name = name
         self.name = name
 
 
@@ -31,36 +34,27 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    def validate(self, visitor: Visitor) -> bool:
-        if (self.age.min_amount <= visitor.age <= self.age.max_amount
-                and (self.weight.min_amount <= visitor.weight <= (
-                    self.weight.max_amount))
-                and (self.height.min_amount <= visitor.height <= (
-                    self.height.max_amount))):
-            return True
-        return False
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(
-            age=IntegerRange(4, 14),
-            weight=IntegerRange(20, 50),
-            height=IntegerRange(80, 120))
+    age = IntegerRange(4, 14)
+    weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(
-            age=IntegerRange(14, 60),
-            weight=IntegerRange(50, 120),
-            height=IntegerRange(120, 220))
+    age = IntegerRange(14, 60)
+    weight = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
 
 
 class Slide:
     def __init__(self, name: str, limitation_class: object) -> None:
         self.name = name
-        self.limitation_class = limitation_class()
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_class.validate(visitor)
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+            return True
+        except ValueError:
+            return False
