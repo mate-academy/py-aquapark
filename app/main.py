@@ -48,18 +48,12 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    # Descriptors that will be called
-    # from the __init__ method of a parent class,
-    # when we try to create a child class object
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    # Descriptors that will be called
-    # from the __init__ method of a parent class,
-    # when we try to create a child class object
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
