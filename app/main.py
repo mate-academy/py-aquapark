@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from typing import Type
 
@@ -12,14 +14,18 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: Type, name: str) -> None:
+        self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: int, owner: Type) -> int:
+    def __get__(self, instance: SlideLimitationValidator, owner: Type) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: int, value: int) -> None:
+    def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError
+            raise ValueError(
+                f"The {self.public_name} must be between "
+                f"{self.min_amount } and {self.max_amount}"
+            )
         setattr(instance, self.protected_name, value)
 
 
