@@ -7,7 +7,7 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, obj: Callable, objtype: object = None) -> int:
+    def __get__(self, obj: Callable, objtype: int = None) -> int:
         value = getattr(obj, self.private_name)
         return value
 
