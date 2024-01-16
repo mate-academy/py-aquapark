@@ -8,7 +8,7 @@ Let's create a system that determines whether a visitor can use the slide depend
 To implement it, create the following classes:
 
 #### 1. `IntegerRange` class - descriptor for parameters limitations
-Its constructor takes 2 values and stores them:
+Its `__init__` method takes 2 values and stores them:
    - `min_amount` - min integer accessible value of the visitor's parameter
    - `max_amount` - max integer accessible value of the visitor's parameter
 
@@ -16,11 +16,11 @@ Create `__get__()`, `__set__()` and `__set_name__()` methods.
 
 
 #### 2. `Visitor` class that is responsible for the user's personal data
-Its constructor takes `name`, `age`, `weight`, and `height`.
+Its `__init__` method takes `name`, `age`, `weight`, and `height`.
 
 
 #### 3. `SlideLimitationValidator` class, inherited from `ABC` class
-Its constructor takes `age`, `weight`, and `height`.
+Its `__init__` method takes `age`, `weight`, and `height`.
 
 
 #### 4. `ChildrenSlideLimitationValidator` and `AdultSlideLimitationValidator` classes, it's a limitation validators for slides 
@@ -38,8 +38,8 @@ Aqua-park has two types of slides: for adult and for children.
 
 
 #### 5. `Slide` class
-Its constructor takes 2 arguments:
+Its `__init__` method takes 2 arguments:
    - `name` - string value, slide's name
-   - `limitation_class` - instance of `SlideLimitationValidator` class which sets restrictions on the use of the slide
+   - `limitation_class` - type of `SlideLimitationValidator` class which sets restrictions on the use of the slide
 
 Create `can_access` method that takes instance of `Visitor` class and returns if the visitor can use the slide.
