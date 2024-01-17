@@ -20,6 +20,7 @@ class IntegerRange:
     def __set__(self, instance: Visitor, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
+
         setattr(instance, self.protected_name, value)
 
 
