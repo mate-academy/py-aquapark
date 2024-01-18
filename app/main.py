@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Type
 from abc import ABC
 
 
@@ -7,17 +9,17 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self,
-                     owner: "SlideLimitationValidator",
+                     owner: Type[SlideLimitationValidator],
                      name: str) -> None:
         self.protected_name = "_" + name
 
     def __get__(self,
-                instance: "SlideLimitationValidator",
-                owner: "SlideLimitationValidator") -> int:
+                instance: SlideLimitationValidator,
+                owner: Type[SlideLimitationValidator]) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self,
-                instance: "SlideLimitationValidator",
+                instance: SlideLimitationValidator,
                 value: int) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError("Given value is out of range")
@@ -61,7 +63,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: SlideLimitationValidator) -> None:
+                 limitation_class: Type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
