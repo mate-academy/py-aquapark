@@ -14,7 +14,8 @@ class IntegerRange:
         if not isinstance(value, int):
             raise TypeError
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError("Visitor parameters are not within the required range")
+            raise ValueError("Visitor's parameters are not "
+                             "within the specified range")
         setattr(instance, self._protected_name, value)
 
     def __set_name__(self, owner: Visitor, name: str) -> None:
