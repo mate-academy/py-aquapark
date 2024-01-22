@@ -12,10 +12,10 @@ class IntegerRange:
 
     def __set__(self, instance: Visitor, value: int) -> None:
         if not isinstance(value, int):
-            raise TypeError
+            raise TypeError("Parameter of invalid type is entered!")
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError("Visitor's parameters are not "
-                             "within the specified range")
+                             "within the specified range!")
         setattr(instance, self._protected_name, value)
 
     def __set_name__(self, owner: Visitor, name: str) -> None:
