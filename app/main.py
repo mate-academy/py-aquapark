@@ -58,5 +58,6 @@ class Slide:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        except ValueError("You can not use the slide :( "):
+        except ValueError:
+            print("You can not use the slide :( ")
             return False
