@@ -14,9 +14,7 @@ class IntegerRange:
 
     def __set__(self, owner: type, value: int | str) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError(f"Invalid value for {self.protected_name}."
-                             f"It must be between "
-                             f"{self.min_amount} and {self.max_amount}.")
+            raise ValueError
         setattr(owner, self.protected_name, value)
 
 
