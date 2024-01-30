@@ -44,7 +44,7 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(age=IntegerRange(4, 14),
                          weight=IntegerRange(20, 50),
                          height=IntegerRange(80, 120))
@@ -58,7 +58,7 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(age=IntegerRange(14, 60),
                          weight=IntegerRange(50, 120),
                          height=IntegerRange(120, 220))
