@@ -16,6 +16,9 @@ class IntegerRange:
     def __set__(self, instance: ABC, value: int) -> None:
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
+        else:
+            raise ValueError(f"The value should be between "
+                             f"{self.min_amount} and {self.max_amount}")
 
 
 class Visitor:
@@ -66,14 +69,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        access = self.limitation_class(
-            visitor.age,
-            visitor.height,
-            visitor.weight
-        )
-
-        return all(
-            [hasattr(access, "age"),
-             hasattr(access, "height"),
-             hasattr(access, "weight")]
-        )
+        try:
+            self.limitation_class(
+                visitor.age,
+                visitor.height,
+                visitor.weight
+            )
+            return True
+        except ValueError:
+            return False
