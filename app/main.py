@@ -32,7 +32,9 @@ class IntegerRange:
             value: int | float
     ) -> None:
         if value not in range(self.min_amount, self.max_amount + 1):
-            raise ValueError
+            raise ValueError(f"Value should not be "
+                             f"less than {self.min_amount} and "
+                             f"greater than {self.max_amount}.")
         setattr(instance, self.protected_name, value)
 
 
@@ -83,10 +85,7 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(
-            self,
-            visitor: Visitor
-    ) -> bool:
+    def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
