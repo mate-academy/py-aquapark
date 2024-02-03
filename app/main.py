@@ -19,7 +19,7 @@ class IntegerRange:
         if self.validate(value):
             setattr(instance, self.protected_name, value)
         else:
-            setattr(instance, self.protected_name, None)
+            raise ValueError("The value is not valid")
 
     def validate(self, value: int | str) -> bool:
         if value < self.min_amount or value > self.max_amount:
@@ -48,17 +48,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     weight = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
-    def __init__(self, age: int, height: int, weight: int) -> None:
-        super().__init__(age, height, weight)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(self, age: int, height: int, weight: int) -> None:
-        super().__init__(age, height, weight)
 
 
 class Slide:
@@ -68,11 +62,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        key_params = self.limitation_class(visitor.age, visitor.height,
-                                           visitor.weight)
-
-        for attr_name, attr_value in vars(key_params).items():
-            if attr_value is None:
-                return False
-
-        return True
+        try:
+            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            return True
+        except Exception:
+            return False
