@@ -58,5 +58,5 @@ class Slide:
         new_ride = self.limitation_class(rider.age, rider.weight, rider.height)
         if new_ride.age and new_ride.weight and new_ride.height:
             return True
-        else:
-            return False
+
+        return False
