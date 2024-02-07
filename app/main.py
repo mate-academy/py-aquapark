@@ -7,17 +7,17 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
+    def __set_name__(self, owner: object, name: str) -> None:
+        self.protected_name = "_" + name
+
     def __get__(self, instance: object, owner: object = None) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if self.min_amount <= value <= self.max_amount:
-            setattr(instance, self.protected_name, value)
-        else:
-            setattr(instance, self.protected_name, None)
-
-    def __set_name__(self, owner: object, name: str) -> None:
-        self.protected_name = "_" + name
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError(f"Value {value} is outside the range "
+                             " [{self.min_amount}, {self.max_amount}]")
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -68,11 +68,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        limitation = self.limitation_class(
-            age=visitor.age,
-            weight=visitor.weight,
-            height=visitor.height
-        )
-
-        return bool(limitation.age and limitation.weight
-                    and limitation.height)
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+        except ValueError:
+            return False
+        return True
