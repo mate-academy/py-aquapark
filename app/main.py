@@ -14,8 +14,15 @@ class IntegerRange:
     def __get__(self, instance: Any, owner: Any) -> Any:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: Any) -> None:
-        setattr(instance, self.protected_name)
+    def __set__(self, instance: Any, value: int) -> None:
+        if not isinstance(value, int):
+            raise TypeError("Grade should be integer")
+        if not self.min_amount <= value <= self.max_amount:
+            raise ValueError(
+                f"Grade should not be less than {self.min_amount} and greater "
+                f"than {self.max_amount}"
+            )
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
