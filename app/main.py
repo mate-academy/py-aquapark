@@ -6,14 +6,14 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner, name: str) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.private_name = "_" + name
         print(f"__set_name__ called: {self.private_name}")
 
-    def __get__(self, obj, objtype=None) -> int:
-        return getattr(obj, self.private_name, None)
+    def __get__(self, obj: object, objtype: type = None) -> int:
+        return getattr(obj, self.private_name)
 
-    def __set__(self, obj, value: int) -> None:
+    def __set__(self, obj: object, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"{value} is out of range "
                              f"({self.min_amount}, {self.max_amount})")
