@@ -8,7 +8,6 @@ class IntegerRange:
 
     def __set_name__(self, owner: type, name: str) -> None:
         self.private_name = "_" + name
-        print(f"__set_name__ called: {self.private_name}")
 
     def __get__(self, obj: object, objtype: type = None) -> int:
         return getattr(obj, self.private_name)
