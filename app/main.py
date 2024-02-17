@@ -34,9 +34,9 @@ class Visitor:
 
 class SlideLimitationValidator(ABC):
     def __init__(self,
-                 age: IntegerRange,
-                 weight: IntegerRange,
-                 height: IntegerRange
+                 age: int,
+                 weight: int,
+                 height: int,
                  ) -> None:
         self.age = age
         self.weight = weight
