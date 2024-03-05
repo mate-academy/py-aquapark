@@ -13,9 +13,10 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if not self.min_amount <= value <= self.max_amount:
-            raise ValueError("Nope")
-        setattr(instance, self.protected_name, value)
+        if not isinstance(value, int):
+            raise TypeError("value should be int")
+       if not self.min_amount <= value <= self.max_amount:
+            raise ValueError("value is out of range")
 
 
 class Visitor:
