@@ -2,10 +2,11 @@ from abc import ABC
 
 
 class IntegerRange:
-    def __init__(self,
-                 min_amount: int,
-                 max_amount: int
-                 ) -> None:
+    def __init__(
+            self,
+            min_amount: int,
+            max_amount: int
+    ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
@@ -17,7 +18,10 @@ class IntegerRange:
 
     def __set__(self, instance: object, value: int) -> None:
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError
+            raise ValueError(
+                f"The {self.protected_name} should not be less then "
+                f"{self.min_amount} and bigger then {self.max_amount}."
+            )
         setattr(instance, self.protected_name, value)
 
 
@@ -36,11 +40,12 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self,
-                 age: int,
-                 weight: int,
-                 height: int
-                 ) -> None:
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
