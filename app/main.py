@@ -23,7 +23,7 @@ class IntegerRange:
                 f"Value should not be less than {self.min_amount} "
                 f"and greater than {self.max_amount} "
             )
-        return setattr(instance, self.protected_name, value)
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
