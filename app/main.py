@@ -74,7 +74,3 @@ class Slide:
         except (TypeError, ValueError):
             return False
         return True
-
-# visitor1 = Visitor("Alice", 15, 25, 100)
-# children_slide = Slide("Children Slide", ChildrenSlideLimitationValidator)
-# print(children_slide.can_access(visitor1))
