@@ -48,7 +48,8 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def can_access(self, visitor: Visitor) -> bool:
+    @staticmethod
+    def can_access(visitor: Visitor) -> bool:
         age_range = 4 <= visitor.age <= 14
         height_range = 80 <= visitor.height <= 120
         weight_range = 20 <= visitor.weight <= 50
@@ -56,7 +57,8 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def can_access(self, visitor: Visitor) -> bool:
+    @staticmethod
+    def can_access(visitor: Visitor) -> bool:
         age_range = 14 <= visitor.age <= 60
         height_range = 120 <= visitor.height <= 220
         weight_range = 50 <= visitor.weight <= 120
