@@ -46,10 +46,6 @@ class SlideLimitationValidator(ABC):
         self.weight = weight
         self.height = height
 
-    @abstractmethod
-    def can_access(self, visitor: Visitor) -> None:
-        pass
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def can_access(self, visitor: Visitor) -> bool:
