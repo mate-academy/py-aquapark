@@ -59,7 +59,7 @@ class Slide:
 
     def __init__(self,
                  name: str,
-                 limitation_class: type(SlideLimitationValidator)
+                 limitation_class: type[SlideLimitationValidator]
                  ) -> None:
         self.name = name
         self.limitation_class = limitation_class
