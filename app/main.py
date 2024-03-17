@@ -21,6 +21,8 @@ class IntegerRange:
         setattr(instance, self.protected_name, value)
 
     def validate(self, value: Any) -> None:
+        if not isinstance(value, int):
+            raise TypeError(f"{value} is {type(value)}, not integer")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Quantity should not be less "
                              f"than {self.min_amount} "
@@ -65,5 +67,5 @@ class Slide:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             return False
