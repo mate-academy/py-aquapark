@@ -75,10 +75,7 @@ class Slide:
     def __init__(
             self,
             name: str,
-            limitation_class: [
-                ChildrenSlideLimitationValidator,
-                AdultSlideLimitationValidator
-            ]
+            limitation_class: type[SlideLimitationValidator]
     ) -> None:
 
         self.name = name
