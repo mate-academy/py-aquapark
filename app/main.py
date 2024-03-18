@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class IntegerRange:
@@ -6,7 +6,7 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __get__(self, instance: int, owner: object) -> None:
+    def __get__(self, instance: object, owner: object) -> int:
         return getattr(instance, self._name)
 
     def __set__(self, instance: object, value: int) -> None:
@@ -30,26 +30,26 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: "IntegerRange",
-                 weight: "IntegerRange",
-                 height: "IntegerRange"
-                 ) -> None:
+    def __init__(
+            self,
+            age: IntegerRange(int, int),
+            weight: IntegerRange(int, int),
+            height: IntegerRange(int, int)
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
 
-    @abstractmethod
-    def validate(self, visitor: "Visitor") -> bool:
-        pass
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(IntegerRange(4, 14),
-                         IntegerRange(20, 50),
-                         IntegerRange(80, 120))
+        super().__init__(
+            IntegerRange(4, 14),
+            IntegerRange(20, 50),
+            IntegerRange(80, 120)
+        )
 
-    def validate(self, visitor: "Visitor") -> bool:
+    def validate(self, visitor: Visitor) -> bool:
         return all([
             self.age.min_amount <= visitor.age <= self.age.max_amount,
             self.weight.min_amount <= visitor.weight <= self.weight.max_amount,
@@ -59,11 +59,13 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(IntegerRange(14, 60),
-                         IntegerRange(50, 120),
-                         IntegerRange(120, 220))
+        super().__init__(
+            IntegerRange(14, 60),
+            IntegerRange(50, 120),
+            IntegerRange(120, 220)
+        )
 
-    def validate(self, visitor: "Visitor") -> bool:
+    def validate(self, visitor: Visitor) -> bool:
         return all([
             self.age.min_amount <= visitor.age <= self.age.max_amount,
             self.weight.min_amount <= visitor.weight <= self.weight.max_amount,
@@ -72,11 +74,25 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str,
-                 limitation_class: "SlideLimitationValidator"
-                 ) -> None:
+    def __init__(
+            self,
+            name: str,
+            limitation_class: SlideLimitationValidator
+    ) -> None:
         self.name = name
-        self.limitation_validator = limitation_class()
+        self.limitation_validator = None
+        try:
+            self.limitation_validator = limitation_class()
+        except Exception as e:
+            print(f"Error initializing limitation validator: {e}")
 
-    def can_access(self, visitor: "Visitor") -> bool:
-        return self.limitation_validator.validate(visitor)
+    def can_access(self, visitor: Visitor) -> bool:
+        if self.limitation_validator:
+            try:
+                return self.limitation_validator.validate(visitor)
+            except Exception as e:
+                print(f"Error validating visitor: {e}")
+                return False
+        else:
+            print("Limitation validator not initialized.")
+            return False
