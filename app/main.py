@@ -55,11 +55,6 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, inst: Visitor) -> bool:
-        # if self.limitation_class.__dict__["age"].__dict__["min_amount"] <= inst.age <= self.limitation_class.__dict__["age"].__dict__["max_amount"]:
-        #     if self.limitation_class.__dict__["height"].__dict__["min_amount"] <= inst.height <= self.limitation_class.__dict__["height"].__dict__["max_amount"]:
-        #         if self.limitation_class.__dict__["weight"].__dict__["min_amount"] <= inst.weight <= self.limitation_class.__dict__["weight"].__dict__["max_amount"]:
-        #             return True
-        # return False
         try:
             self.limitation_class(inst.age, inst.height, inst.weight)
             return True
