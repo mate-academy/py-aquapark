@@ -88,11 +88,5 @@ class Slide:
 
     def can_access(self, visitor: Visitor) -> bool:
         if self.limitation_validator:
-            try:
-                return self.limitation_validator.validate(visitor)
-            except Exception as e:
-                print(f"Error validating visitor: {e}")
-                return False
-        else:
-            print("Limitation validator not initialized.")
-            return False
+            return self.limitation_validator.validate(visitor)
+        return False
