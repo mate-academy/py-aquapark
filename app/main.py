@@ -29,6 +29,7 @@ class Visitor:
                  weight: int,
                  height: int
                  ) -> None:
+
         self.name = name
         self.age = age
         self.weight = weight
