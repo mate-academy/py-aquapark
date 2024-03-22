@@ -13,21 +13,22 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __set_name__(self, owner: Any, name: str) -> None:
+        self.public_name = name
         self.protected_name = "_" + name
 
-    def __get__(self, instance: object, owner: Any) -> None:
+    def __get__(self, instance: object, owner: Any) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: object, value: Any) -> None:
+    def __set__(self, instance: object, value: Any) -> Any:
         if not isinstance(value, int):
             raise TypeError("Value must be an integer!")
 
-        if self.min_amount <= value <= self.max_amount:
-            return setattr(instance, self.protected_name, value)
-        else:
+        if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Value should not be less "
                              f"than {self.min_amount} "
                              f"and greater than {self.max_amount}.")
+
+        return setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -62,27 +63,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(
-        self,
-        age: int,
-        weight: int,
-        height: int
-    ) -> None:
-        super().__init__(age, weight, height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(
-        self,
-        age: int,
-        weight: int,
-        height: int
-    ) -> None:
-        super().__init__(age, weight, height)
 
 
 class Slide:
