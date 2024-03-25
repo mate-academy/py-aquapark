@@ -10,11 +10,11 @@ class IntegerRange:
         self.private_name = "_" + name
 
     def __get__(self,
-                instance: "IntegerRange",
-                owner: object) -> "IntegerRange":
+                instance: object,
+                owner: object) -> None:
         return getattr(instance, self.private_name)
 
-    def __set__(self, instance: "IntegerRange", value: int) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Value {value} out of "
                              f"range[{self.min_amount}, {self.max_amount}]")
@@ -30,10 +30,6 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    age = IntegerRange(0, 0)  # These values will be overridden
-    weight = IntegerRange(0, 0)
-    height = IntegerRange(0, 0)
-
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
