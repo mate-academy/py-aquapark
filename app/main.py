@@ -18,7 +18,7 @@ class IntegerRange:
                 value: int) -> None:
         if not isinstance(value, (int, float)):
             raise TypeError("Value can only be int or float")
-        if not self.min_amount <= value <= self.max_amount:
+        elif not self.min_amount <= value <= self.max_amount:
             raise ValueError(f"The value of *{self.protected_name[1:]}* "
                              f"should be in range({self.min_amount} - "
                              f"{self.max_amount}). Yours ({value})")
