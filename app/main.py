@@ -79,5 +79,4 @@ class Slide:
         except ValueError as e:
             print(e)
             return False
-        else:
-            return True
+        return True
