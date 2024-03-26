@@ -16,8 +16,12 @@ class IntegerRange:
     def __set__(self,
                 instance: type[SlideLimitationValidator],
                 value: int) -> None:
+        if not isinstance(value, (int, float)):
+            raise TypeError("Value can only be int or float")
         if not self.min_amount <= value <= self.max_amount:
-            return setattr(instance, self.protected_name, False)
+            raise ValueError(f"The value of *{self.protected_name[1:]}* "
+                             f"should be in range({self.min_amount} - "
+                             f"{self.max_amount}). Yours ({value})")
         setattr(instance, self.protected_name, value)
 
     def __set_name__(self,
@@ -68,8 +72,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        lim = self.limitation_class(age=visitor.age,
-                                    height=visitor.height,
-                                    weight=visitor.weight)
-
-        return (lim.age and lim.weight and lim.height) is not False
+        try:
+            self.limitation_class(age=visitor.age,
+                                  height=visitor.height,
+                                  weight=visitor.weight)
+        except ValueError as e:
+            print(e)
+            return False
+        else:
+            return True
