@@ -14,11 +14,11 @@ class IntegerRange:
 
     def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
-            raise TypeError("Value must be an integer")
+            raise ValueError("Value must be integer.")
         elif not (self.min_amount <= value <= self.max_amount):
             raise ValueError(
-                f"Value must be between {self.min_amount} "
-                f"and {self.max_amount}"
+                f"Value must be between {self.min_amount}"
+                f" and {self.max_amount}"
             )
         setattr(instance, self.protected_name, value)
 
@@ -43,28 +43,17 @@ class SlideLimitationValidator(ABC):
         self.height = height
         self.weight = weight
 
-    def can_use_slide(self, visitor: Visitor) -> bool:
-        return (
-            self.age.min_amount <= visitor.age <= self.age.max_amount
-            and self.height.min_amount
-            <= visitor.height <= self.height.max_amount
-            and self.weight.min_amount
-            <= visitor.weight <= self.weight.max_amount
-        )
-
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(IntegerRange(4, 14),
-                         IntegerRange(80, 120),
-                         IntegerRange(20, 50))
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self) -> None:
-        super().__init__(IntegerRange(14, 60),
-                         IntegerRange(120, 220),
-                         IntegerRange(50, 120))
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
@@ -72,7 +61,11 @@ class Slide:
                  name: str,
                  limitation_class: SlideLimitationValidator) -> None:
         self.name = name
-        self.limitation_class = limitation_class()
+        self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_class.can_use_slide(visitor)
+        try:
+            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            return True
+        except (ValueError, TypeError):
+            return False
