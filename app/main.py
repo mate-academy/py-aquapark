@@ -15,6 +15,13 @@ class IntegerRange:
         return value
 
     def __set__(self, obj: object, value: int) -> None:
+        if not isinstance(value, int):
+            raise ValueError("Value must be integer.")
+        elif not (self.min_amount <= value <= self.max_amount):
+            raise ValueError(
+                f"Value must be between {self.min_amount}"
+                f" and {self.max_amount}"
+            )
         setattr(obj, self.private_name, value)
 
 
@@ -46,11 +53,9 @@ class SlideLimitationValidator(ABC):
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self) -> None:
-        super().__init__(
-            age=IntegerRange(4, 14),
-            weight=IntegerRange(20, 50),
-            height=IntegerRange(80, 120)
-        )
+        self.age = IntegerRange(4, 14)
+        self.height = IntegerRange(80, 120)
+        self.weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
@@ -69,16 +74,16 @@ class Slide:
             limitation_class: SlideLimitationValidator
     ) -> None:
         self.name = name
-        self.limitation_validator = limitation_class()
+        self.limitation_class = limitation_class()
 
     def can_access(self, visitor: Visitor) -> bool:
         if not isinstance(visitor, Visitor):
             raise TypeError("Visitor must be an instance of Visitor class.")
         return all([
-            self.limitation_validator.age.min_amount
-            <= visitor.age <= self.limitation_validator.age.max_amount,
-            self.limitation_validator.height.min_amount
-            <= visitor.height <= self.limitation_validator.height.max_amount,
-            self.limitation_validator.weight.min_amount
-            <= visitor.weight <= self.limitation_validator.weight.max_amount
+            self.limitation_class.age.min_amount
+            <= visitor.age <= self.limitation_class.age.max_amount,
+            self.limitation_class.height.min_amount
+            <= visitor.height <= self.limitation_class.height.max_amount,
+            self.limitation_class.weight.min_amount
+            <= visitor.weight <= self.limitation_class.weight.max_amount
         ])
