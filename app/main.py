@@ -6,13 +6,13 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner, name) -> None:
+    def __set_name__(self, owner: type, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance, owner) -> int:
+    def __get__(self, instance: object, owner: type) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance, value) -> None:
+    def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError(f"{self.protected_name} must be an integer.")
         if not (self.min_amount <= value <= self.max_amount):
@@ -28,10 +28,9 @@ class Visitor:
         self.height = height
 
 
+
 class SlideLimitationValidator(ABC):
-    age = None
-    weight = None
-    height = None
+    pass
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -54,9 +53,11 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         try:
             validator = self.limitation_class()
+
             validator.age = visitor.age
             validator.weight = visitor.weight
             validator.height = visitor.height
+
             return True
         except (ValueError, TypeError):
             return False
