@@ -14,10 +14,10 @@ class IntegerRange:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: any) -> "object":
-        if value > self.max_amount or value < self.min_amount:
-            raise ValueError
-        elif not isinstance(value, int):
+        if not isinstance(value, int):
             raise TypeError("Incorrect data type!")
+        elif value > self.max_amount or value < self.min_amount:
+            raise ValueError
         return setattr(instance, self.protected_name, value)
 
 
