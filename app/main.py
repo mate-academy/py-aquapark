@@ -1,7 +1,6 @@
 from abc import ABC
 from typing import Type, TypeVar
 
-
 T = TypeVar("T", bound="SlideLimitationValidator")
 
 
