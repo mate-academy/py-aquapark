@@ -55,8 +55,8 @@ class SlideLimitationValidator(ABC):
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
-    height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
     def __init__(
             self,
@@ -69,8 +69,8 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
-    height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
 
     def __init__(
             self,
