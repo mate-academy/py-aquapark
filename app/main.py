@@ -1,6 +1,3 @@
-from abc import ABC
-
-
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
@@ -29,7 +26,7 @@ class Visitor:
         self.weight = weight
 
 
-class SlideLimitationValidator(ABC):
+class SlideLimitationValidator:
     def __init__(self, age: int, height: int, weight: int) -> None:
         self.age = age
         self.height = height
