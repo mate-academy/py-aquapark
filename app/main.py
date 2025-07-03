@@ -6,7 +6,6 @@ class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
-        self._name: str = ""
 
     def __set_name__(self, owner: type, name: str) -> None:
         self._name = f"_{name}"
@@ -19,7 +18,6 @@ class IntegerRange:
     def __set__(self, instance: Any, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError
-
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError
         setattr(instance, self._name, value)
@@ -34,10 +32,7 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        self.age = age
-        self.weight = weight
-        self.height = height
+    pass
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -46,7 +41,9 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     weight = IntegerRange(20, 50)
 
     def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
+        self.age = age        # agora passa pelo descritor!
+        self.weight = weight
+        self.height = height
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
@@ -55,7 +52,9 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
     weight = IntegerRange(50, 120)
 
     def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class Slide:
