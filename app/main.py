@@ -5,7 +5,7 @@ from typing import Any, Type
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
-        self. max_amount = max_amount
+        self.max_amount = max_amount
 
     def __set_name__(self, owner: Any, name: str) -> None:
         self.protected_name = "_" + name
