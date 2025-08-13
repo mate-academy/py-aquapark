@@ -23,6 +23,8 @@ class IntegerRange:
             instance: IntegerRange,
             value: int
     ) -> None:
+        if not isinstance(value, int):
+            raise TypeError("Value must be an integer")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"{value} must be in range "
                              f"{self.min_amount} and {self.max_amount}")
@@ -92,5 +94,5 @@ class Slide:
                 weight=visitor.weight
             )
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             return False
