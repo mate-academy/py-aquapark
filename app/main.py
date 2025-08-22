@@ -10,6 +10,8 @@ class IntegerRange:
         self.private_name = f"_{name}"
 
     def __get__(self, instance: object, owner: type) -> int:
+        if instance is None:
+            return self
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: int) -> None:
@@ -18,7 +20,6 @@ class IntegerRange:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError("Value out of allowed range")
         setattr(instance, self.private_name, value)
-        pass
 
 
 class Visitor:
@@ -27,7 +28,6 @@ class Visitor:
         self.age = age
         self.weight = weight
         self.height = height
-        pass
 
 
 class SlideLimitationValidator(ABC):
@@ -35,21 +35,18 @@ class SlideLimitationValidator(ABC):
         self.age = age
         self.weight = weight
         self.height = height
-        pass
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
-    pass
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-    pass
 
 
 class Slide:
@@ -62,12 +59,7 @@ class Slide:
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(
-                age=visitor.age,
-                weight=visitor.weight,
-                height=visitor.height
-            )
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
         except (TypeError, ValueError):
             return False
-        pass
