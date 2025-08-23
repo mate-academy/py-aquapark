@@ -24,7 +24,12 @@ class IntegerRange:
 
 
 class Visitor:
-   def __init__(self, name: str, age: int, weight: int | float, height: int | float) -> None:
+   def __init__(self,
+                name: str,
+                age: int,
+                weight: int | float,
+                height: int | float
+                ) -> None:
        self.name = name
        self.age = age
        self.weight = weight
@@ -32,7 +37,11 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int | float, height: int | float) -> None:
+    def __init__(self,
+                 age: int,
+                 weight: int | float,
+                 height: int | float
+                 ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -42,7 +51,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
-    def __init__(self, age: int, weight: int | float, height: int | float) -> None:
+    def __init__(self,
+                 age: int,
+                 weight: int | float,
+                 height: int | float
+                 ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -53,14 +66,21 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
 
-    def __init__(self, age: int, weight: int | float, height: int | float) -> None:
+    def __init__(self,
+                 age: int,
+                 weight: int | float,
+                 height: int | float
+                 ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
 
 
 class Slide:
-    def __init__(self, name: str, limitation_class: ChildrenSlideLimitationValidator | AdultSlideLimitationValidator) -> None:
+    def __init__(self,
+                 name: str,
+                 limitation_class: ChildrenSlideLimitationValidator | AdultSlideLimitationValidator
+                 ) -> None:
        self.name = name
        self.limitation_class = limitation_class
 
