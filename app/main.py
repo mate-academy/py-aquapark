@@ -2,7 +2,13 @@ from abc import ABC
 
 
 class IntegerRange:
-    pass
+    def __int__(self,
+                min_amount: int,
+                max_amount: int
+                ) -> None:
+        self.min_amount = min_amount
+        self.max_amount = max_amount
+
 
 
 class Visitor:
