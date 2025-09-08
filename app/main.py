@@ -7,7 +7,7 @@ class IntegerRange:
             self: IntegerRange,
             min_amount: int,
             max_amount: int
-            ) -> None:
+    ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
@@ -15,14 +15,14 @@ class IntegerRange:
             self: IntegerRange,
             owner: SlideLimitationValidator,
             name: str
-            ) -> None:
+    ) -> None:
         self.protected_name = "_" + name
 
     def __set__(
             self: IntegerRange,
             instance: SlideLimitationValidator,
             value: int
-            ) -> None:
+    ) -> None:
         if not isinstance(value, int):
             raise TypeError()
         if value < self.min_amount or value > self.max_amount:
@@ -32,12 +32,13 @@ class IntegerRange:
     def __get__(
             self: IntegerRange,
             instance: SlideLimitationValidator,
-            owner) -> int:
+            owner: SlideLimitationValidator
+    ) -> int:
         return getattr(instance, self.protected_name)
 
 
 class Visitor:
-    def __int__(
+    def __init__(
             self: Visitor,
             name: str,
             age: int,
@@ -63,9 +64,9 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    age = IntegerRange(4,14)
-    weight = IntegerRange(20,50)
-    height = IntegerRange(80,120)
+    age = IntegerRange(4, 14)
+    weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
     def __init__(
             self: ChildrenSlideLimitationValidator,
@@ -94,13 +95,17 @@ class Slide:
     def __init__(
             self: Slide,
             name: str,
-            limitation_class: ChildrenSlideLimitationValidator
-                              | AdultSlideLimitationValidator
+            limitation_class:
+            ChildrenSlideLimitationValidator | AdultSlideLimitationValidator
     ) -> None:
         self.name = name
+        self.limitation_class = limitation_class
 
     def can_access(self, person: Visitor) -> bool:
-
-
-
-
+        try:
+            self.limitation_class(age=person.age,
+                                  weight=person.weight,
+                                  height=person.height)
+            return True
+        except (TypeError, ValueError):
+            return False
