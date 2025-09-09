@@ -11,6 +11,8 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __get__(self, instance: Any, owner: type) -> int | None:
+        if instance is None:
+            return self
         return getattr(instance, self.protected_name, None)
 
     def __set__(self, instance: Any, value: Any) -> None:
@@ -57,10 +59,6 @@ class Slide:
     def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
-        except TypeError as e:
-            print(e)
-            return False
-        except ValueError as e:
-            print(e)
+        except Exception:
             return False
         return True
