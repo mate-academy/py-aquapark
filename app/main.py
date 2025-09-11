@@ -71,5 +71,5 @@ class Slide:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        except (ValueError, TypeError):
+        except Exception:
             return False
