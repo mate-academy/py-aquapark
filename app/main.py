@@ -64,7 +64,8 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(
             self,
-            name: str, limitation_class: Type[SlideLimitationValidator]
+            name: str,
+            limitation_class: Type[SlideLimitationValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
@@ -78,5 +79,5 @@ class Slide:
             limitations.weight = visitor.weight
             limitations.height = visitor.height
             return True
-        except (TypeError, ValueError):
+        except Exception:
             return False
