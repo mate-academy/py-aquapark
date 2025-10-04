@@ -10,10 +10,10 @@ class IntegerRange:
     def __set_name__(self, owner: type, name: str) -> None:
         self.protected_name = f"_{name}"
 
-    def __get__(self, instance: object, owner: type) -> int:
+    def __get__(self, instance: object, owner: type) -> int | None:
         if instance is None:
             return self
-        return getattr(instance, self.protected_name)
+        return getattr(instance, self.protected_name, None)
 
     def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
@@ -61,8 +61,11 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    def __init__(self, name: str,
-                 limitation_class: Type[SlideLimitationValidator]) -> None:
+    def __init__(
+        self,
+        name: str,
+        limitation_class: Type[SlideLimitationValidator]
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
@@ -73,6 +76,6 @@ class Slide:
                 weight=visitor.weight,
                 height=visitor.height
             )
-        except (TypeError, ValueError):
+        except Exception:
             return False
         return True
