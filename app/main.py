@@ -16,10 +16,13 @@ class IntegerRange:
 
     def __set__(self, instance: object, value: Any) -> None:
         if not isinstance(value, int):
-            raise TypeError
+            raise TypeError("Value must be an integer type!")
 
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError
+            raise ValueError(
+                f"Value must be between "
+                f"{self.min_amount} and {self.max_amount}"
+            )
 
         setattr(instance, self.protected_name, value)
 
