@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 
 
@@ -12,7 +14,7 @@ class IntegerRange:
         self.private_name = f"_{name}"
 
     def __get__(self, instance: object, owner: type) \
-            -> int | "IntegerRange":
+            -> int | IntegerRange:
         if instance is None:
             return self
         return getattr(instance, self.private_name)
