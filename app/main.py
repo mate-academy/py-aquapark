@@ -11,7 +11,9 @@ class IntegerRange:
         self.public_name = name
         self.private_name = f"_{name}"
 
-    def __get__(self, instance: object, owner: type) -> int:
+    def __get__(self, instance: object, owner: type) -> int | "IntegerRange":
+        if instance is None:
+            return self
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: int) -> None:
