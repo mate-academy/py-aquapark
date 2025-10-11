@@ -15,6 +15,7 @@ class IntegerRange:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: int) -> None:
+        if not isinstance(value, int): raise TypeError()
         if not self.min_value <= value <= self.max_value:
             raise ValueError(f"Value must be between "
                              f"{self.min_value} and {self.max_value}")
@@ -23,9 +24,9 @@ class IntegerRange:
 
 class Visitor:
 
-    def __init__(self, age: int, name: str, weight: int, height: int) -> None:
-        self.age = age
+    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
         self.name = name
+        self.age = age
         self.weight = weight
         self.height = height
 
@@ -67,6 +68,6 @@ class Slide:
         try:
             self.limitation_class(
                 visitor.age, visitor.weight, visitor.height)
-        except ValueError:
+        except (ValueError, TypeError):
             return False
         return True
