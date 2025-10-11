@@ -15,7 +15,8 @@ class IntegerRange:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if not isinstance(value, int): raise TypeError()
+        if not isinstance(value, int):
+            raise TypeError()
         if not self.min_value <= value <= self.max_value:
             raise ValueError(f"Value must be between "
                              f"{self.min_value} and {self.max_value}")
