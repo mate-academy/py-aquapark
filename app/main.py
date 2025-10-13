@@ -30,7 +30,7 @@ class Visitor:
             age: int,
             weight: int,
             height: int
-    ):
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -48,23 +48,34 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
         if not (4 <= age <= 14):
-            raise ValueError("Age must be between 4 and 14 for children slide.")
+            raise ValueError(
+                "Age must be between 4 and 14 for children slide."
+            )
         if not (80 <= height <= 120):
-            raise ValueError("Height must be between 80 and 120 cm for children slide.")
+            raise ValueError(
+                "Height must be between 80 and 120 cm for children slide."
+            )
         if not (20 <= weight <= 50):
-            raise ValueError("Weight must be between 20 and 50 kg for children slide.")
+            raise ValueError(
+                "Weight must be between 20 and 50 kg for children slide."
+            )
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
         if not (14 <= age <= 60):
-            raise ValueError("Age must be between 14 and 60 for adult slide.")
+            raise ValueError(
+                "Age must be between 14 and 60 for adult slide."
+            )
         if not (120 <= height <= 220):
-            raise ValueError("Height must be between 120 and 220 cm for adult slide.")
+            raise ValueError(
+                "Height must be between 120 and 220 cm for adult slide."
+            )
         if not (50 <= weight <= 120):
-            raise ValueError("Weight must be between 50 and 120 kg for adult slide.")
-
+            raise ValueError(
+                "Weight must be between 50 and 120 kg for adult slide."
+            )
 
 
 class Slide:
