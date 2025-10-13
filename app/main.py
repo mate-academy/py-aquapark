@@ -45,37 +45,15 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-        if not (4 <= age <= 14):
-            raise ValueError(
-                "Age must be between 4 and 14 for children slide."
-            )
-        if not (80 <= height <= 120):
-            raise ValueError(
-                "Height must be between 80 and 120 cm for children slide."
-            )
-        if not (20 <= weight <= 50):
-            raise ValueError(
-                "Weight must be between 20 and 50 kg for children slide."
-            )
+    age = IntegerRange(4, 14)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    def __init__(self, age: int, weight: int, height: int) -> None:
-        super().__init__(age, weight, height)
-        if not (14 <= age <= 60):
-            raise ValueError(
-                "Age must be between 14 and 60 for adult slide."
-            )
-        if not (120 <= height <= 220):
-            raise ValueError(
-                "Height must be between 120 and 220 cm for adult slide."
-            )
-        if not (50 <= weight <= 120):
-            raise ValueError(
-                "Weight must be between 50 and 120 kg for adult slide."
-            )
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
@@ -87,5 +65,5 @@ class Slide:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        except ValueError:
+        except Exception:
             return False
