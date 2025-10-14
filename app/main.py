@@ -18,8 +18,9 @@ class IntegerRange:
 
 
     def __get__(self, instance, owner):
+        if instance is None:
+            return self
         return instance.__dict__.get(self.protected_name)
-
 
 class Visitor:
     def __init__(self, name: str, age: int, weight: int, height: int) -> None:
@@ -31,7 +32,9 @@ class Visitor:
 
 class SlideLimitationValidator(ABC):
     def __init__(self, age: int, weight: float, height: float) -> None:
-        pass
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -41,10 +44,6 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
     def __init__(self, age: int, weight: int, height: int):
         super().__init__(age, weight, height)
-        self.age = age
-        self.weight = weight
-        self.height = height
-
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
@@ -54,10 +53,6 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
     def __init__(self, age: int, weight: int, height: int):
         super().__init__(age, weight, height)
-        self.age = age
-        self.weight = weight
-        self.height = height
-
 
 
 class Slide:
