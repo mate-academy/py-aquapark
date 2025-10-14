@@ -22,6 +22,7 @@ class IntegerRange:
             return self
         return instance.__dict__.get(self.protected_name)
 
+
 class Visitor:
     def __init__(self, name: str, age: int, weight: int, height: int) -> None:
         self.name = name
