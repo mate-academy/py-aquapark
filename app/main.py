@@ -22,6 +22,7 @@ class IntegerRange:
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError(f"Value should be greater than \
 {self.min_amount} and lower than {self.max_amount}")
+        setattr(obj, self.protected_name, value)
 
 
 class Visitor:
