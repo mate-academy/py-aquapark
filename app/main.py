@@ -77,4 +77,4 @@ class Slide:
         except Exception:
             return False
         else:
-            return True
+            return slide_instance is not None
