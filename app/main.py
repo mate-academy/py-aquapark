@@ -3,7 +3,11 @@ from typing import Any
 
 
 class IntegerRange:
-    def __init__(self, min_amount: int, max_amount: int) -> None:
+    def __init__(
+            self,
+            min_amount: int,
+            max_amount: int
+    ) -> None:
         self.min_value = min_amount
         self.max_value = max_amount
 
@@ -25,7 +29,13 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -33,7 +43,12 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: int, height: int) -> None:
+    def __init__(
+            self,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
