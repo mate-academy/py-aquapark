@@ -22,7 +22,11 @@ from app.main import (
         pytest.param(14, 120, 50, True, id="success-for-max-accessible-values"),
     )
 )
-def test_child_slide(age: int, height: int, weight: int, has_access: bool) -> None:
+def test_child_slide(
+        age: int,
+        height: int,
+        weight: int,
+        has_access: bool) -> None:
     baby_slide = Slide(
         name="Baby Slide", limitation_class=ChildrenSlideLimitationValidator
     )
@@ -49,7 +53,10 @@ def test_child_slide(age: int, height: int, weight: int, has_access: bool) -> No
         pytest.param(60, 220, 120, True, id="success-for-max-accessible-values"),
     )
 )
-def test_adult_slide(age: int, height: int, weight: int, has_access: bool) -> None:
+def test_adult_slide(age: int,
+                     height: int,
+                     weight: int,
+                     has_access: bool) -> None:
     adult_slide = Slide(
         name="Adult Slide", limitation_class=AdultSlideLimitationValidator
     )
