@@ -31,53 +31,53 @@ class Visitor:
             self,
             name: str,
             age: int,
-            weight: int,
-            height: int
+            height: int,
+            weight: int
     ) -> None:
         self.name = name
         self.age = age
-        self.weight = weight
         self.height = height
+        self.weight = weight
 
 
 class SlideLimitationValidator(ABC):
     def __init__(
             self,
             age: int,
-            weight: int,
-            height: int
+            height: int,
+            weight: int
     ) -> None:
         self.age = age
-        self.weight = weight
         self.height = height
+        self.weight = weight
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
-    weight = IntegerRange(80, 120)
-    height = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
     def __init__(
             self,
             age: int,
-            weight: int,
-            height: int
+            height: int,
+            weight: int
     ) -> None:
-        super().__init__(age, weight, height)
+        super().__init__(age, height, weight)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
-    weight = IntegerRange(120, 220)
-    height = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
     def __init__(
             self,
             age: int,
-            weight: int,
-            height: int
+            height: int,
+            weight: int
     ) -> None:
-        super().__init__(age, weight, height)
+        super().__init__(age, height, weight)
 
 
 class Slide:
