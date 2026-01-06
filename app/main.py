@@ -10,6 +10,8 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> int:
+        if not isinstance(instance, (int, float)):
+            raise TypeError("Value must be an integer or float")
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int | float) -> None:
