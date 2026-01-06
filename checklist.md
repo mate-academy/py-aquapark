@@ -1,19 +1,19 @@
-# Check Your Code Against the Following Points
+# Verifique Seu Código Contra os Seguintes Pontos
 
-1. If the function definition line is too long, place each parameter on a new line.
+1. Se a linha de definição da função for muito longa, coloque cada parâmetro em uma nova linha.
 
-**Good example:**
+**Bom exemplo:**
 ```python
-def long_function_name(
-        var_one,
-        var_two,
-        var_three,
-        var_four
+def nome_funcao_longa(
+        var_um,
+        var_dois,
+        var_tres,
+        var_quatro
 ) -> None:
 ```
 
-**Bad example:**
+**Mau exemplo:**
 ```python
-def long_function_name(var_one, var_two,
-                       var_three,var_four) -> None:
+def nome_funcao_longa(var_um, var_dois,
+                      var_tres,var_quatro) -> None:
 ```
