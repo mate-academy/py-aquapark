@@ -10,11 +10,11 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> int:
-        if not isinstance(instance, (int, float)):
-            raise TypeError("Value must be an integer or float")
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: int | float) -> None:
+        if not isinstance(value, (int, float)):
+            raise ValueError("Value must be an integer or float")
         if not self.min_amount <= value <= self.max_amount:
             raise TypeError(f"Value must be between "
                             f"{self.min_amount} and {self.max_amount}")
