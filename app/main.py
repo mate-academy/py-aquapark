@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Any, Type
 
 
 class IntegerRange:
@@ -6,31 +7,31 @@ class IntegerRange:
         self,
         min_amount: int,
         max_amount: int,
-    ):
+    ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
-        self.private_name = None
+        self.private_name: str | None = None
 
     def __set_name__(
         self,
-        owner,
-        name,
-    ):
+        owner: Type[Any],
+        name: str,
+    ) -> None:
         self.private_name = f"_{name}"
 
     def __get__(
         self,
-        instance,
-        owner,
-    ):
+        instance: Any,
+        owner: Type[Any],
+    ) -> Any:
         if instance is None:
             return self
         return getattr(instance, self.private_name)
 
     def validate(
         self,
-        value,
-    ):
+        value: int,
+    ) -> None:
         if not isinstance(value, int):
             raise TypeError
 
@@ -39,9 +40,9 @@ class IntegerRange:
 
     def __set__(
         self,
-        instance,
-        value,
-    ):
+        instance: Any,
+        value: int,
+    ) -> None:
         self.validate(value)
         setattr(instance, self.private_name, value)
 
@@ -53,7 +54,7 @@ class Visitor:
         age: int,
         weight: int,
         height: int,
-    ):
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -66,7 +67,7 @@ class SlideLimitationValidator(ABC):
         age: int,
         weight: int,
         height: int,
-    ):
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -88,8 +89,8 @@ class Slide:
     def __init__(
         self,
         name: str,
-        limitation_class,
-    ):
+        limitation_class: Type[SlideLimitationValidator],
+    ) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
