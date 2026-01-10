@@ -18,7 +18,7 @@ class IntegerRange:
                 value: int | float
                 ) -> None:
         if not isinstance(value, int)\
-                or not isinstance(value, float):
+                and not isinstance(value, float):
             raise TypeError()
         elif value < self.min_amount or value > self.max_amount:
             raise ValueError()
