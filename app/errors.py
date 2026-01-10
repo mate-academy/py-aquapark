@@ -1,0 +1,2 @@
+class VisitorChararacteristicError(Exception):
+    pass
