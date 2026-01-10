@@ -15,9 +15,10 @@ class IntegerRange:
 
     def __set__(self,
                 instance: object,
-                value: int | float | str
+                value: int | float
                 ) -> None:
-        if not isinstance(value, int):
+        if not isinstance(value, int)\
+                or isinstance(value, float):
             raise TypeError()
         elif value < self.min_amount or value > self.max_amount:
             raise ValueError()
@@ -29,8 +30,8 @@ class Visitor:
     def __init__(self,
                  name: str,
                  age: int,
-                 height: int,
-                 weight: int
+                 height: int | float,
+                 weight: int | float
                  ) -> None:
         self.name = name
         self.age = age
@@ -41,8 +42,8 @@ class Visitor:
 class SlideLimitationValidator(ABC):
     def __init__(self,
                  age: int,
-                 height: int,
-                 weight: int
+                 height: int | float,
+                 weight: int | float
                  ) -> None:
         self.age = age
         self.weight = weight
