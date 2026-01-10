@@ -3,7 +3,7 @@
 **Read** [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
 
 You are a visitor of aqua-park. There are several slides with different limitations of height, weight and age. 
-Let's create a system that determines whether a visitor can use the slide depending on the own parameters.
+Let's create a system that determines whether a visitor can use the c on the own parameters.
 
 To implement it, create the following classes:
 
