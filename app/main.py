@@ -29,8 +29,8 @@ class Visitor:
     def __init__(self,
                  name: str,
                  age: int,
-                 height: float,
-                 weight: float
+                 height: int,
+                 weight: int
                  ) -> None:
         self.name = name
         self.age = age
@@ -41,8 +41,8 @@ class Visitor:
 class SlideLimitationValidator(ABC):
     def __init__(self,
                  age: int,
-                 height: float,
-                 weight: float
+                 height: int,
+                 weight: int
                  ) -> None:
         self.age = age
         self.weight = weight
@@ -75,8 +75,7 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        if issubclass(self.limitation_class, SlideLimitationValidator) \
-                or issubclass(self.limitation_class, SlideLimitationValidator):
+        if issubclass(self.limitation_class, SlideLimitationValidator):
             try:
                 self.limitation_class(visitor.age,
                                       visitor.height,
