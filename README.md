@@ -13,7 +13,8 @@ Its `__init__` method takes 2 values and stores them:
    - `max_amount` - max integer accessible value of the visitor's parameter
 
 Create `__get__()`, `__set__()` and `__set_name__()` methods.
-The `__set__()` method needs to have a logic to validate that the value is between `min_amount` and `max_amount` and will be used in Validator classes.
+The `__set__()` method needs to have a logic to validate that the value is between `min_amount` and `max_amount` 
+and will be used in Validator classes.
 Do not forget to check the type of value before setting it. You can raise TypeError or ValueError
 during validation. Error messages can be skipped.
 
