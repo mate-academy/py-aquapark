@@ -10,7 +10,7 @@ class IntegerRange:
     def __set_name__(self, owner: str, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Any, owner: str) -> str:
+    def __get__(self, instance: Any, owner: str) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
@@ -22,7 +22,13 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            weight: int,
+            height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
