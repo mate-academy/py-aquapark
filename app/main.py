@@ -20,6 +20,7 @@ class IntegerRange:
             raise TypeError()
         if value < self.min_amount or value > self.max_amount:
             raise ValueError()
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
@@ -69,3 +70,18 @@ class Slide:
         except (TypeError, ValueError):
             # Якщо будь-який параметр не пройшов валідацію
             return False
+
+
+
+# Створюємо відвідувачів
+child = Visitor(name="Богдан", age=10, weight=35, height=100)
+adult = Visitor(name="Андрій", age=30, weight=80, height=180)
+
+# Створюємо гірки
+kids_slide = Slide("Жабеня", ChildrenSlideLimitationValidator)
+kamikaze = Slide("Камікадзе", AdultSlideLimitationValidator)
+
+# Перевірка доступу
+print(f"Дитина на дитячу гірку: {kids_slide.can_access(child)}")  # True
+print(f"Дитина на дорослу гірку: {kamikaze.can_access(child)}")    # False
+print(f"Дорослий на дитячу гірку: {kids_slide.can_access(adult)}") # False
