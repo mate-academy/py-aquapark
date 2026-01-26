@@ -15,7 +15,7 @@ class IntegerRange:
             self,
             instance: SlideLimitationValidator,
             owner: SlideLimitationValidator
-    ) -> None:
+    ) -> int:
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: SlideLimitationValidator, value: int) -> None:
