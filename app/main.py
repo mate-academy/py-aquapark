@@ -167,4 +167,45 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 
 
 class Slide:
-    pass
+    """
+    Represents a slide with its name and rules of use.
+
+    Attributes:
+        name (str): The name of the slide.
+        limitation_class (Type[SlideLimitationValidator]): The class used
+            to validate if a visitor can access the slide.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        limitation_class: Type[SlideLimitationValidator]
+    ) -> None:
+        """
+        Initializes the slide.
+
+        Args:
+            name: The name of the slide.
+            limitation_class: The class (not instance) used for validation.
+        """
+        self.name = name
+        self.limitation_class = limitation_class
+
+    def can_access(
+        self,
+        user: Visitor
+    ) -> bool:
+        """
+        Checks if a visitor meets the slide's requirements.
+
+        Args:
+            user: visitor who want to slide.
+
+        Returns:
+            True if the visitor meets all requirements, False otherwise
+        """
+        try:
+            self.limitation_class(user.age, user.weight, user.height)
+            return True
+        except (TypeError, ValueError):
+            return False
