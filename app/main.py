@@ -79,7 +79,38 @@ class IntegerRange:
 
 
 class Visitor:
-    pass
+    """
+    Keep the personal data of each visitor.
+
+    Attributes:
+        age (int): The age of the visitor.
+        weight (int): The weight of the visitor in kg.
+        height (int): The height of the visitor in cm.
+    """
+    age = IntegerRange(1, 300)
+    weight = IntegerRange(1, 300)
+    height = IntegerRange(1, 300)
+
+    def __init__(
+        self,
+        name: str,
+        age: int,
+        weight: int,
+        height: int
+    ) -> None:
+        """
+        Initializes the information of the visitor.
+
+        Args:
+            name: the name of the visitor.
+            age: how old they are.
+            weight: weight rounded to integers.
+            height: height rounded to integers.
+        """
+        self.name = name
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class SlideLimitationValidator(ABC):
