@@ -114,7 +114,30 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    pass
+    """
+    Base class for slide limitation validators.
+
+    This class serves as a container for age, weight, and height
+        constraints that a visitor must meet to use a slide.
+    """
+
+    def __init__(
+        self,
+        age: int,
+        weight: int,
+        height: int
+    ) -> None:
+        """
+        Initializes the limitation validator with specific constraints.
+
+        Args:
+            age: The required age value or range validator.
+            weight: The required weight value or range validator.
+            height: The required height value or range validator.
+        """
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
