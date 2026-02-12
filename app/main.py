@@ -133,7 +133,20 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
-    pass
+    """
+    Validator for children's slides.
+
+    Uses IntegerRange descriptors to enforce specific constraints 
+        for younger visitors.
+
+    Attributes:
+        age (IntegerRange): Restricted to 4-14 years.
+        weight (IntegerRange): Restricted to 20-50 kg.
+        height (IntegerRange): Restricted to 80-120 cm.
+    """
+    age = IntegerRange(4, 14)
+    weight = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
