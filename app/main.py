@@ -81,15 +81,7 @@ class IntegerRange:
 class Visitor:
     """
     Keep the personal data of each visitor.
-
-    Attributes:
-        age (int): The age of the visitor.
-        weight (int): The weight of the visitor in kg.
-        height (int): The height of the visitor in cm.
     """
-    age = IntegerRange(1, 300)
-    weight = IntegerRange(1, 300)
-    height = IntegerRange(1, 300)
 
     def __init__(
         self,
