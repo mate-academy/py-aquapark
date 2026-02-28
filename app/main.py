@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC
+from typing import Any
 
 
 class IntegerRange:
@@ -11,15 +12,19 @@ class IntegerRange:
         self.protected_name = "_" + name
 
     def __get__(self,
-                instance: SlideLimitationValidator,
-                owner: SlideLimitationValidator,
+                instance: Any,
+                owner: type | None = None,
                 ) -> int:
+        if instance is None:
+            return self
         return getattr(instance, self.protected_name)
 
     def __set__(self,
-                instance: SlideLimitationValidator,
+                instance: Any,
                 value: int,
                 ) -> None:
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise TypeError("Value must be an integer")
         if not (self.min_amount <= value <= self.max_amount):
             raise ValueError(f"Value must be in range "
                              f"[{self.min_amount}, {self.max_amount}]")
@@ -70,5 +75,5 @@ class Slide:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             return False
