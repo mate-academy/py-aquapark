@@ -14,7 +14,7 @@ class IntegerRange:
     def __set_name__(self, owner: type, name: str) -> None:
         self.slide_name = "_" + name
 
-    def __get__(self, instance: Any, owner: type) -> None:
+    def __get__(self, instance: Any, owner: type) -> Any:
         if instance is None:
             return self
         return getattr(instance, self.slide_name)
@@ -24,7 +24,7 @@ class IntegerRange:
             raise TypeError("Type error")
         if value not in range(self.min_amount, self.max_amount + 1):
             raise ValueError("Value error")
-        return setattr(instance, self.slide_name, value)
+        setattr(instance, self.slide_name, value)
 
 
 class Visitor:
@@ -58,27 +58,11 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
-
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
-
-    def __init__(
-            self,
-            age: int,
-            weight: int,
-            height: int
-    ) -> None:
-        super().__init__(age, weight, height)
 
 
 class Slide:
