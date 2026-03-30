@@ -1,10 +1,9 @@
-from __future__ import annotations
-from typing import Any
 from abc import ABC
+from typing import Any, Type
 
 
 class IntegerRange:
-    def __init__(self, min_amount, max_amount) -> None:
+    def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
@@ -21,12 +20,21 @@ class IntegerRange:
             raise TypeError("Value must be an integer")
 
         if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError(f"Value must be between {self.min_amount} and {self.max_amount}")
+            raise ValueError(
+                "Value must be between "
+                f"{self.min_amount} and {self.max_amount}"
+            )
         setattr(instance, self.protected_name, value)
 
 
 class Visitor:
-    def __init__(self, name: str, age: int, weight:int, height: int) -> None:
+    def __init__(
+        self,
+        name: str,
+        age: int,
+        weight: int,
+        height: int
+    ) -> None:
         self.name = name
         self.age = age
         self.weight = weight
@@ -47,13 +55,13 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age= IntegerRange(14, 60)
+    age = IntegerRange(14, 60)
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
 
 
 class Slide:
-    def __init__(self, name:str, limitation_class: Any) -> None:
+    def __init__(self, name: str, limitation_class: Type) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
