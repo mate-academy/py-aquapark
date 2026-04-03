@@ -55,22 +55,13 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: SlideLimitationValidator) -> None:
+                 limitation_class: type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        if not (self.limitation_class.__dict__["age"].max_amount
-                >= visitor.age
-                >= self.limitation_class.__dict__["age"].min_amount):
+        try:
+            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+        except TypeError, ValueError:
             return False
-        if not (self.limitation_class.__dict__["height"].max_amount
-                >= visitor.height
-                >= self.limitation_class.__dict__["height"].min_amount):
-            return False
-        if not (self.limitation_class.__dict__["weight"].max_amount
-                >= visitor.weight
-                >= self.limitation_class.__dict__["weight"].min_amount):
-            return False
-        self.limitation_class(visitor.age, visitor.height, visitor.weight)
         return True
