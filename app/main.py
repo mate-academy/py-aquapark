@@ -12,7 +12,7 @@ class IntegerRange:
 
     def __get__(self,
                 instance: "SlideLimitationValidator",
-                owner: type) -> str:
+                owner: type) -> int:
         return instance.__dict__[self.protected_name]
 
     def __set__(self,
