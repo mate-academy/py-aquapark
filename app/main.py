@@ -15,7 +15,7 @@ class IntegerRange:
             return self
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance, value):
+    def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError("Value must be integral")
         if not self.min_amount <= value <= self.max_amount:
