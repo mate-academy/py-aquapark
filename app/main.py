@@ -25,8 +25,15 @@ class IntegerRange:
             value: int
     ) -> None:
         setattr(instance, self.protected_name, None)
+        if not isinstance(value, int):
+            raise TypeError("The value type must be int")
         if self.min_amount <= value <= self.max_amount:
             setattr(instance, self.protected_name, value)
+        else:
+            raise ValueError(
+                f"The value must be in the range "
+                f"{self.min_amount} - {self.max_amount}"
+            )
 
 
 class Visitor:
@@ -70,29 +77,12 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        obj = self.limitation_class(
-            age=visitor.age,
-            height=visitor.height,
-            weight=visitor.weight
-        )
-        return all([obj.age, obj.height, obj.weight])
-
-
-if __name__ == "__main__":
-
-    adult_slide = Slide("adult", AdultSlideLimitationValidator)
-    baby_slide = Slide("baby", ChildrenSlideLimitationValidator)
-
-    anna = Visitor(
-        name="Anna",
-        age=11,
-        weight=50,
-        height=165
-    )
-
-    print(adult_slide.limitation_class.age)
-
-    print(adult_slide.name)
-    print(baby_slide.name)
-    print(anna.name, "\n", anna.age, "\n", anna.height, "\n", anna.weight)
-    print(adult_slide.can_access(anna))
+        try:
+            self.limitation_class(
+                age=visitor.age,
+                height=visitor.height,
+                weight=visitor.weight
+            )
+        except (ValueError, TypeError):
+            return False
+        return True
