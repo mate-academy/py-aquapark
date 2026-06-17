@@ -1,6 +1,3 @@
-from abc import ABC
-
-
 from typing import Type
 
 
