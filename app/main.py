@@ -19,8 +19,8 @@ class IntegerRange:
         return value
 
     def __set__(self, instance: Any, value: Any) -> None:
-        if not isinstance(value, int | float):
-            raise TypeError("Quantity should be integer or float.")
+        if not isinstance(value, int):
+            raise TypeError("Quantity should be integer.")
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError("Value out of range")
         setattr(instance, self.protected_name, value)
@@ -31,8 +31,8 @@ class Visitor:
         self,
         name: str,
         age: int,
-        weight: int | float,
-        height: int | float
+        weight: int,
+        height: int
     ) -> None:
         self.name = name
         self.age = age
@@ -44,8 +44,8 @@ class SlideLimitationValidator(ABC):
     def __init__(
         self,
         age: int,
-        weight: int | float,
-        height: int | float
+        weight: int,
+        height: int
     ) -> None:
         self.age = age
         self.weight = weight
