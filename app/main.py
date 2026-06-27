@@ -7,13 +7,15 @@ class IntegerRange:
         self.max_amount = max_amount
 
     def __get__(self, instance: type, owner: type) -> int:
+        if instance is None:
+            return self
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: type, value: int) -> None:
         if not isinstance(value, int):
-            TypeError("Must be integer.")
+            raise TypeError("Must be integer.")
         if value not in range(self.min_amount, self.max_amount + 1):
-            ValueError("Out of bounds.")
+            raise ValueError("Out of bounds.")
         setattr(instance, self.protected_name, value)
 
     def __set_name__(self, owner: type, value: str) -> None:
@@ -57,4 +59,8 @@ class Slide:
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
-        return self.limitation_class(visitor.age, visitor.weight, visitor.height)
+        try:
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
+            return True
+        except (ValueError, TypeError):
+            return False
