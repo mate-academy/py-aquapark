@@ -3,9 +3,9 @@ from typing import Any
 
 
 class IntegerRange:
-    def __init__(self, min_value: int, max_value: int) -> None:
-        self.min_value = min_value
-        self.max_value = max_value
+    def __init__(self, min_amount: int, max_amount: int) -> None:
+        self.min_amount = min_amount
+        self.max_amount = max_amount
 
     def __set_name__(self, owner: Any, name: str) -> None:
         self.public_name = name
@@ -16,7 +16,7 @@ class IntegerRange:
     def __set__(self, instance: Any, value: int | float) -> None:
         if not isinstance(value, (int, float)):
             raise TypeError
-        if not (self.min_value <= value <= self.max_value):
+        if not (self.min_amount <= value <= self.max_amount):
             raise ValueError
         instance.__dict__[self.public_name] = value
 
