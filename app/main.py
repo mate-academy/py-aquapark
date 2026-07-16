@@ -28,6 +28,7 @@ class IntegerRange:
             )
         setattr(instance, self.protected_name, value)
 
+
 class Visitor:
     """Class representing a visitor with personal parameters."""
 
