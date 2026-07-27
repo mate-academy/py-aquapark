@@ -1,21 +1,30 @@
 from abc import ABC
 from typing import Type
 
+type ClassValidator = (
+    ChildrenSlideLimitationValidator
+    | AdultSlideLimitationValidator
+)
+
 
 class IntegerRange:
-    def __init__(self, min_amount, max_amount) -> None:
+    def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self.protected_name = '_' + name
+        self.protected_name = "_" + name
 
-    def __get__(self, instance, owner: type) -> int:
-        return  getattr(instance, self.protected_name)
+    def __get__(
+        self,
+        instance: ClassValidator,
+        owner: type,
+    ) -> int:
+        return getattr(instance, self.protected_name)
 
     def __set__(
         self,
-        instance: ChildrenSlideLimitationValidator | AdultSlideLimitationValidator,
+        instance: ClassValidator,
         value: int
     ) -> None:
         if not isinstance(value, int):
@@ -41,7 +50,6 @@ class Visitor:
         self.height = height
 
 
-
 class SlideLimitationValidator(ABC):
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
@@ -60,11 +68,12 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
     weight = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
 
+
 class Slide:
     def __init__(
         self,
         name: str,
-        limitation_class: Type[ChildrenSlideLimitationValidator, AdultSlideLimitationValidator]
+        limitation_class: Type[ClassValidator]
     ) -> None:
         self.name = name
         self.limitation_class = limitation_class
