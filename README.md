@@ -53,3 +53,4 @@ To validate the Visitor's attributes, create an instance of `limitation_class`. 
 The `can_access` method should handle all possible errors that may be raised by the `limitation_class`.
 
 ### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
+
