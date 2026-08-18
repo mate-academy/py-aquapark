@@ -14,28 +14,27 @@ class IntegerRange:
             return self
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: object, value: int) -> None: 
-        if not isinstance(value, int): 
-            raise TypeError 
-        if value > self.max_amount or value < self.min_amount: 
-            raise ValueError 
+    def __set__(self, instance: object, value: int) -> None:
+        if not isinstance(value, int):
+            raise TypeError
+        if value > self.max_amount or value < self.min_amount:
+            raise ValueError
         setattr(instance, self.protected_name, value)
 
 
-
 class Visitor:
-   def __init__(self, name: str, age: int, weight: int, height: int) -> None:
-       self.name = name
-       self.age = age
-       self.weight = weight
-       self.height = height
+    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
+        self.name = name
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class SlideLimitationValidator(ABC):
     def __init__(self, age: int, weight: int, height: int) -> None:
-           self.age = age
-           self.weight = weight
-           self.height = height
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -45,8 +44,8 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age =  IntegerRange(14, 60) 
-    height = IntegerRange(120, 220) 
+    age =  IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
     weight = IntegerRange(50,120)
 
 
@@ -58,11 +57,10 @@ class Slide:
     def can_access(self, visitor: object) -> bool:
         try:
             validator = self.limitation_class(
-            visitor.age,
-            visitor.weight,
-            visitor.height
-        )
-        except:
+                visitor.age,
+                visitor.weight,
+                visitor.height
+            )
+        except(TypeError, ValueError):
             return False
         return True
-    
