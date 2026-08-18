@@ -5,25 +5,24 @@ from typing import Any
 class IntegerRange:
     def __init__(self,
                  min_amount: int,
-                 max_amount: int) -> None:
+                 max_amount: int
+                 ) -> None:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
     def __set_name__(self,
                      owner: Any,
                      name: Any) -> None:
-        self.name = name
-        self.private_name = "_" + name
+        self.protected_name = "_" + name
 
     def __get__(self, instance: Any, owner: Any) -> Any:
-        return getattr(instance, self.private_name)
+        return getattr(instance, self.protected_name)
 
     def __set__(self, instance: Any, value: int) -> None:
-        if type(value) is not int:
+        if (type(value) is not int
+                or not self.min_amount <= value <= self.max_amount):
             raise TypeError
-        if not self.min_amount <= value <= self.max_amount:
-            raise TypeError
-        setattr(instance, self.private_name, value)
+        setattr(instance, self.protected_name, value)
 
 
 class Visitor:
