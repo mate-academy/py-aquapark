@@ -43,9 +43,9 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
-    age=IntegerRange(14, 60)
-    height=IntegerRange(120, 220)
-    weight=IntegerRange(50, 120)
+    age = IntegerRange(14, 60)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
