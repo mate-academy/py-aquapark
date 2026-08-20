@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Type, Any
+from typing import Type, Any, Optional
 
 
 class IntegerRange:
@@ -24,6 +24,10 @@ class IntegerRange:
             )
         setattr(instance, self.protected_name, value)
 
+    def __get__(self, instance: Optional[Any], owner: Type[Any]) -> Any:
+        if instance is None:
+            return self
+        return getattr(instance, self.protected_name)
 
 class Visitor:
     def __init__(
