@@ -29,6 +29,7 @@ class IntegerRange:
             return self
         return getattr(instance, self.protected_name)
 
+
 class Visitor:
     def __init__(
             self,
