@@ -31,7 +31,10 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    pass
+    def __init__(self, age: int, weight: int, height: int) -> None:
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
