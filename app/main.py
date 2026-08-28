@@ -10,24 +10,27 @@ class IntegerRange:
         self.private_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> object:
+        if instance is None:
+            return self
+
         return getattr(instance, self.private_name)
 
     def __set__(self, instance: object, value: int) -> None:
-        if not (self.min_amount <= value <= self.max_amount):
-            raise ValueError
-
         if not isinstance(value, int):
             raise TypeError
+
+        if not (self.min_amount <= value <= self.max_amount):
+            raise ValueError
 
         setattr(instance, self.private_name, value)
 
 
 class Visitor:
-   def __init__(self, name: str, age: int, weight: int, height: int) -> None:
-       self.name = name
-       self.age = age
-       self.weight = weight
-       self.height = height
+    def __init__(self, name: str, age: int, weight: int, height: int) -> None:
+        self.name = name
+        self.age = age
+        self.weight = weight
+        self.height = height
 
 
 class SlideLimitationValidator(ABC):
@@ -39,15 +42,28 @@ class SlideLimitationValidator(ABC):
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(4, 14)
-    weight = IntegerRange(80, 120)
-    height = IntegerRange(20, 50)
+    height = IntegerRange(80, 120)
+    weight = IntegerRange(20, 50)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
     age = IntegerRange(14, 60)
-    weight = IntegerRange(120, 220)
-    height = IntegerRange(50, 120)
+    height = IntegerRange(120, 220)
+    weight = IntegerRange(50, 120)
 
 
 class Slide:
-    pass
+    def __init__(self, name: str, limitation_class: type) -> None:
+        self.name = name
+        self.limitation_class = limitation_class
+
+    def can_access(self, visitor: Visitor) -> bool:
+        try:
+            self.limitation_class(
+                visitor.age,
+                visitor.weight,
+                visitor.height
+            )
+            return True
+        except (ValueError, TypeError):
+            return False
