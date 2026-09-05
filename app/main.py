@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC
+from typing import Any
 
 
 class IntegerRange:
@@ -10,13 +11,15 @@ class IntegerRange:
     def __set_name__(self, owner: object, name: str) -> None:
         self.private_name = "_" + name
 
-    def __get__(self, instance: ChildrenSlideLimitationValidator,
-                owner: ChildrenSlideLimitationValidator
-                ) -> ChildrenSlideLimitationValidator:
-        value = getattr(instance, self.private_name)
+    def __get__(self, instance: Any,
+                owner: type
+                ) -> int:
+        if instance is None:
+            return owner
+        value = getattr(instance, self.private_name, None)
         return value
 
-    def __set__(self, instance: ChildrenSlideLimitationValidator,
+    def __set__(self, instance: Any,
                 value: int) -> None:
         if not type(value) is int:
             raise TypeError
@@ -34,10 +37,10 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, height: int, weight: int) -> None:
+    def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
-        self.height = height
         self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
@@ -55,13 +58,13 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: AdultSlideLimitationValidator) -> None:
+                 limitation_class: type[SlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
     def can_access(self, visitor: Visitor) -> bool:
         try:
-            self.limitation_class(visitor.age, visitor.height, visitor.weight)
+            self.limitation_class(visitor.age, visitor.weight, visitor.height)
         except ValueError:
             return False
         except TypeError:
