@@ -6,13 +6,21 @@ class IntegerRange:
         self.min_amount = min_amount
         self.max_amount = max_amount
 
-    def __set_name__(self, owner: any, name: str) -> None:
-        self.protected_name = "_" + name
+    def __set_name__(self, owner: type, name: str) -> None:
+        self.protected_name = f"_{name}"
 
-    def __get__(self, instance: any, owner: any) -> int:
+    def __get__(
+            self,
+            instance: object | None,
+            owner: type | None = None
+    ) -> int:
         return getattr(instance, self.protected_name)
 
-    def __set__(self, instance: any, value: int) -> None:
+    def __set__(
+            self,
+            instance: object | None,
+            value: int
+    ) -> None:
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
                 f"The value must be in the range "
@@ -22,7 +30,14 @@ class IntegerRange:
 
 
 class Visitor:
-    def __init__(self, name: str, age: int, height: int, weight: int) -> None:
+    def __init__(
+            self,
+            name: str,
+            age: int,
+            height: int,
+            weight: int
+    ) -> None:
+
         self.name = name
         self.age = age
         self.weight = weight
@@ -30,10 +45,16 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, height: int, weight: int) -> None:
+    def __init__(
+            self,
+            age: int,
+            height: int,
+            weight: int
+    ) -> None:
+
         self.age = age
-        self.height = height
         self.weight = weight
+        self.height = height
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
