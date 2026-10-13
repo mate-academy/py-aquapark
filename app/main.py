@@ -63,7 +63,7 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, guest: Visitor):
+    def can_access(self, guest: Visitor) -> bool:
         try:
             self.limitation_class(guest.age, guest.weight, guest.height)
             return True
