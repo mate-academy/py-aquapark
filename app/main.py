@@ -42,7 +42,7 @@ class ChildrenSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(80, 120)
     weight = IntegerRange(20, 50)
 
-    def __init__(self, age: int, weight: int, height: int):
+    def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
 
 
@@ -51,7 +51,7 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
     height = IntegerRange(120, 220)
     weight = IntegerRange(50, 120)
 
-    def __init__(self, age: int, weight: int, height: int):
+    def __init__(self, age: int, weight: int, height: int) -> None:
         super().__init__(age, weight, height)
 
 
