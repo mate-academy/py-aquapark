@@ -9,12 +9,12 @@ class IntegerRange:
     def __set_name__(self, owner: object, name: str) -> None:
         self.protected_name = "_" + name
 
-    def __get__(self, instance: Any, owner) -> Any:
+    def __get__(self, instance: Any, owner: type) -> Any:
         if instance is None:
             return self
         return instance.__dict__.get(self.protected_name)
 
-    def __set__(self, instance, value):
+    def __set__(self, instance: Any, value: int) -> None:
         if not isinstance(value, int):
             raise TypeError
         if value < self.min_amount or value > self.max_amount:
