@@ -40,7 +40,12 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
-    def __init__(self, age: int, weight: float , height: float) -> None:
+    def __init__(
+        self,
+        age: int,
+        weight: float ,
+        height: float
+    ) -> None:
         self.age = age
         self.weight = weight
         self.height = height
@@ -74,7 +79,7 @@ class Slide:
                 weight=visitor.weight,
                 height=visitor.height
             )
-        except (TypeError, ValueError):
+        except Exception:
             return False
 
         return True
