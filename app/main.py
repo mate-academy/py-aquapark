@@ -26,7 +26,6 @@ class IntegerRange:
                              f"and {self.max_amount}.")
 
 
-
 class Visitor:
    def __init__(self,
                 name: str,
@@ -78,9 +77,12 @@ class AdultSlideLimitationValidator(SlideLimitationValidator):
 class Slide:
     def __init__(self,
                  name: str,
-                 limitation_class: bool):
+                 limitation_class: SlideLimitationValidator):
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self) -> bool:
-        return self.limitation_class
+    def can_access(self,
+                   visitor: Visitor) -> bool:
+        return self.limitation_class(visitor.age,
+                                     visitor.weight,
+                                     visitor.height)
