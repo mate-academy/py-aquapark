@@ -6,7 +6,7 @@ class IntegerRange:
 
 
 class Visitor:
-   pass
+    pass
 
 
 class SlideLimitationValidator(ABC):
