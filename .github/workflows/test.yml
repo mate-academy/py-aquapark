@@ -14,10 +14,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Set Up Python 3.14
+      - name: Set Up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: "3.14"
+          python-version: "3.10"
 
       - name: Install requirements
         run: |
@@ -30,4 +30,3 @@ jobs:
       - name: Run tests
         timeout-minutes: 5
         run: pytest tests/
-
