@@ -1,6 +1,3 @@
-from abc import ABC
-
-
 class IntegerRange:
     def __init__(self, min_amount: int, max_amount: int) -> None:
         self.min_amount = min_amount
@@ -14,9 +11,12 @@ class IntegerRange:
 
     def __set__(self, instance: object, value: int) -> None:
         if not isinstance(value, int):
-            raise TypeError
+            raise TypeError("Quantity should be integer.")
         if not self.min_amount <= value <= self.max_amount:
-            raise ValueError
+            raise ValueError(
+                f"Quantity should not be less than {self.max_amount} "
+                f"and greater than {self.min_amount}."
+            )
         setattr(instance, self.protected_name, value)
 
 
@@ -28,7 +28,7 @@ class Visitor:
         self.height = height
 
 
-class SlideLimitationValidator(ABC):
+class SlideLimitationValidator:
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
