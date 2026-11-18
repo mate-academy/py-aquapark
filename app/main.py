@@ -14,8 +14,8 @@ class IntegerRange:
             raise TypeError("Quantity should be integer.")
         if not self.min_amount <= value <= self.max_amount:
             raise ValueError(
-                f"Quantity should not be less than {self.max_amount} "
-                f"and greater than {self.min_amount}."
+                f"Quantity should not be less than {self.min_amount} "
+                f"and greater than {self.max_amount}."
             )
         setattr(instance, self.protected_name, value)
 
@@ -52,7 +52,7 @@ class Slide:
         self.name = name
         self.limitation_class = limitation_class
 
-    def can_access(self, visitor: object) -> bool:
+    def can_access(self, visitor: Visitor) -> bool:
         try:
             self.limitation_class(visitor.age, visitor.weight, visitor.height)
             return True
