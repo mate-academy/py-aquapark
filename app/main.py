@@ -11,7 +11,7 @@ class IntegerRange:
 
     def __get__(
         self, instance: object | None, owner: type
-    ) -> IntegerRange | int | None:
+    ) -> "IntegerRange | int | None":
         if instance is None:
             return self
         return getattr(instance, self.name, None)
